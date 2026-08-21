@@ -1,0 +1,167 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2nd Semester All Resource By Tanjuu At ISTT</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #222;
+      background-image: url("neno chip.png"); /* path ঠিক করা হয়েছে */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;  
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      overflow: scroll;
+    }
+
+    .slide {
+      position: absolute;
+      text-align: center;
+      transition: all 1s ease-in-out;
+    }
+
+    .slide h1 {
+      font-size: 100px;
+      margin-top: 10px;
+      color: #dee94b;
+    }
+
+    .slide p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .hidden { opacity: 0; }
+    .move-up { transform: translateY(-200px); opacity: 0; }
+    .new-text { opacity: 0; transition: opacity 1s ease-in-out; }
+    .show { opacity: 1; }
+
+    .folders {
+      display: flex;
+      flex-direction: column;
+      margin-left: 15px;
+      width: 60%;
+      gap: 12px;
+      margin-top: 130px;
+      padding: 10px;
+    }
+
+    .folders a {
+      padding: 20px;
+      background: #979494be;
+      color: whitesmoke;
+      text-decoration: none;
+      text-align: left;
+      border-radius: 15px;
+      font-size: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .folders a:hover {
+      background-color: #181817;
+      color: #dee94b;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+      z-index: 1000;
+    }
+
+    .footer-legal {
+      margin-top: 5px;
+    }
+
+    .copy a {
+      color: #ffcc00;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    .copy a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Welcome Slide -->
+  <div id="welcome" class="slide">
+    <h1>WELCOME</h1>
+    <p>ENJOY EXPLORING!</p>
+  </div>
+
+  <div id="next" class="slide new-text">
+    <h1>CSE-27 2ND SEMESTER AT ISTT</h1>
+  </div>
+
+  <script>
+    // 2 সেকেন্ড পর ওয়েলকাম টেক্সট উপরে চলে যাবে
+    setTimeout(() => {
+      document.getElementById("welcome").classList.add("move-up");
+      // ওয়েলকাম চলে যাওয়ার পর নতুন টেক্সট আসবে
+      setTimeout(() => {
+        document.getElementById("next").classList.add("show");
+      }, 1000);
+    }, 2000);
+  </script>
+
+  <!-- Folder Section -->
+  <div class="folders">
+    <a href="Digital System Design.html">📁 Digital System Design</a>
+    <a href="Digital System Lab.html">📁 Digital System Lab</a>
+    <a href="Discrete Mathematics.html">📁 Discrete Mathematics</a>
+    <a href="Linear Algebra.html">📁 Linear Algebra</a>
+    <a href="Statistics and Probability.html">📁 Statistics and Probability</a>
+    <a href="History of the Emergence of Independent Bangladesh.html">📁 History of the Emergence of Independent Bangladesh</a>
+    <a href="Syllabus_CSE_1st_Year_Nu.pdf" target="_blank">📁 Syllabus 1st year 2nd Semester</a>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h3>Connect With Us</h3>
+        <div class="social-link">
+          <a href="https://www.facebook.com/shahoria.tanjid/">Facebook</a>
+          <a href="https://www.youtube.com/@shahriartanjuu">YouTube</a>
+          <a href="https://www.instagram.com/shahoria_tanjid/">Instagram</a>
+          <a href="https://www.linkedin.com/in/shahoriatanjid/">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <button type="button" onclick="document.getElementById('demo').innerHTML=Date()">BD live time now</button>
+    <p id="demo"></p>
+
+    <div class="footer-legal">
+      <p>© 2026 STZ It Company, Founder & CEO <b>Shahoria Tanjid Jihad</b></p>
+      <p>Z-Salut Networks LTD</p>
+      <p>Sponsor <a href="https://zamanpolytech.com/">Zaman Polytech Ltd</a></p>
+      <div class="copy">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
