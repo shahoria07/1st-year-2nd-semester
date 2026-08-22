@@ -39,9 +39,12 @@
       transition: all 2s ease-in-out;
     }
     .slide h1 {
-      font-size: 100px;
+      font-size: 45px;
       margin: 0;
       color: #dee94b;
+    }
+    .slide .new-text{
+      font-size: 70px;
     }
     .slide p {
       font-size: 20px;
@@ -67,7 +70,15 @@
 
 
 
-
+<nav class="side-menu">
+    <a href="./index.html">🏠 Home</a>
+    <a href="./Digital System Design.html">Dgtl Sytm D</a>
+    <a href="./Digital System Lab.html">Dgtl Sytm L</a>
+    <a href="./Discrete Mathematics.html">Discrete Math</a>
+    <a href="./Linear Algebra.html">Linear Algebra</a>
+    <a href="./Statistics and Probability.html">Statistics P</a>
+    <a href="./History of the Emergence of Independent Bangladesh.html">History of BD</a>
+  </nav>
 
 
 
@@ -80,9 +91,11 @@
     <p>ENJOY EXPLORING!</p>
   </div>
 
-  <div id="next" class="slide new-text">
+   <div id="next" class="slide new-text">
     <h1>Logic, sets, graphs, and mathematical structures.</h1>
   </div>
+
+ 
 
   <script>
     // 2 সেকেন্ড পর ওয়েলকাম টেক্সট উপরে চলে যাবে
@@ -101,7 +114,7 @@
 
 
 <div class="folders">
-  <a href="">📁 Book</a>
+  <a href="/Discrete Mathematics/Discrete Mathematics and Its Applications (Kenneth H. Rosen)[8th_Edition].pdf">📁 Book</a>
   <a href="Folder-2/">📁 Class Notes/Slide</a>
   <a href="Folder-3/">📁 Previous Question Bank</a>
   <a href="Folder-4/">📁 Suggetion</a>
@@ -109,26 +122,49 @@
 
 <style>
 .folders {
-  display: flex;
-  flex-direction: column;
-  margin-left: 15px;
-  width: 60%;
-  gap: 15px;
-  margin-top: 250px;
-  padding: 10px;
-}
 
-.folders a {
-  padding: 20px;
+  display: flex;              /* Flexbox layout চালু করো */
 
-  background: rgba(240, 240, 241, 0.2);
-  color: white;
-  text-decoration: none;
-  text-align: left;
-  border-radius: 15px;
-  font-size: 20px;
-  
-}
+  flex-direction: column;     /* ফোল্ডারগুলো একটার নিচে একটা থাকবে */
+
+  align-items: flex-start;        /* সবগুলোকে মাঝখানে আনবে horizontally */
+
+  justify-content: flex-start;    /* vertically মাঝখানে আনবে (যদি height নির্ধারিত থাকে) */
+
+  height: 100vh;
+
+  margin-left: 8rem;
+
+  margin-right: 5px;
+
+  gap: 10px;
+
+  margin-top: 160px;
+
+  width: 90%;
+
+  }
+
+
+
+  .folders a {
+
+    width: 90%;
+
+    box-sizing: border-box;
+
+    padding: 25px;
+
+    font-size: 16px;
+
+    border-radius: 12px;
+
+    margin: 0px;
+
+    text-align: left;
+
+  }
+
 </style>
 
 
