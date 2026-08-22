@@ -140,6 +140,7 @@ footer {
   text-align: center;
   transition: all 1s ease-in-out;
   width: 100%;
+  margin: 20px;
 }
 
 
@@ -190,14 +191,19 @@ footer {
 
 
 .slide h1 {
-      font-size: 40px; /* লেখাটা ছোট হবে */
-      margin-top: 20px; /* উপরের ফাঁকা জায়গা */
+      font-size: 100px; /* লেখাটা ছোট হবে */
+      margin-top: 5px;
+      margin-bottom: 5px; /* উপরের ফাঁকা জায়গা */
       color: #dee94b;
       text-align: center;
   }
 
   .slide p {
-    font-size: 16px;
+    font-size: 24px;
+    margin-top: 0;
+    color: aquamarine;
+    line-height: 1.2;
+    
   }
 
 
@@ -208,17 +214,19 @@ footer {
   align-items: flex-start;        /* সবগুলোকে মাঝখানে আনবে horizontally */
   justify-content: flex-start;    /* vertically মাঝখানে আনবে (যদি height নির্ধারিত থাকে) */
   height: 100vh;
-  margin-left: 2px;
- margin-top: 14px;
+  margin: 0 auto;
+  gap: 10px;
+  margin-top: 14px;
+  width: 80%;
   }
 
   .folders a {
     width: 100%;
     box-sizing: border-box;
-    padding: 30px;
+    padding: 25px;
     font-size: 17px;
-    margin-top: 2px;
-    margin-left: 6px;
+    border-radius: 12px;
+    margin: 0;
   }
 
 
