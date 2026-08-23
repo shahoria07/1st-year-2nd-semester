@@ -1,361 +1,196 @@
- /* Body base style */
+ /* Base Body Style */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: #222 url("brean.png") no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding-bottom: 120px; /* footer এর নিচে জায়গা রাখার জন্য */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #222 url("brean.png") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  min-height: 100vh;
+  padding-bottom: 150px;
 }
 
-/* Side Menu (বাঁ পাশে ছোট বাটন) */
-.side-menu {
-    position: fixed;
-    top: 185px;
-    left: 10px; /* বাঁ দিকে মার্জিন */
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 0;
-
-    width: 100px;
+/* Main Container to center all content */
+.main-container {
+  width: 60%;
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
 }
 
-.side-menu a {
-    width: auto; /* ফিক্সড প্রস্থ বাদ দিয়ে কন্টেন্ট অনুযায়ী সাইজ */
-    padding: 8px 12px; /* প্যাডিং কমিয়ে বাটন ছোট করা হয়েছে */
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 13px; /* ফন্ট সাইজ ছোট করা হয়েছে */
-    white-space: nowrap;
-    transition: background 0.3s ease;
-}
-
-.side-menu a:hover {
-    background: #00aaff;
-}
-
-/* Slide Header Text */
+/* Header Slide Section */
 .slide {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    transition: all 1s ease-in-out;
+  text-align: center;
+  transition: all 1s ease-in-out;
+  margin-bottom: 10px;
 }
 
 .slide h1 {
-    font-size: 45px;
-    margin: 0;
-    color: #dee94b;
+  font-size: 38px;
+  margin: 0;
+  color: #dee94b;
 }
 
 .slide p {
-    font-size: 18px;
-    margin-top: 5px;
+  font-size: 18px;
+  margin-top: 5px;
 }
 
 /* Slide Animations */
-.move-up { transform: translate(-50%, -100px); opacity: 0; }
-.new-text { opacity: 0; transition: opacity 1s ease-in-out; }
-.show { opacity: 1; }
+.move-up {
+  display: none; /* Animation sesh hole screen theke soranor jonno */
+}
+.new-text {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.show {
+  opacity: 1;
+}
 
-/* Folders Section (ডান পাশে নিয়ে যাওয়া) */
+/* Notice Bar (Centered below heading) */
+.notice {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background: rgba(11, 102, 3, 0.85);
+  color: white;
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.notice span {
+  background: red;
+  padding: 6px 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.notice marquee {
+  flex: 1;
+  margin-left: 10px;
+}
+
+/* Resource Folders (Centered) */
 .folders {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    gap: 10px;
-    margin-top: 150px;
-    margin-left: 150px; /* সাইড মেনু থেকে ডান দিকে সরাতে মার্জিন বাড়ানো হয়েছে */
-    margin-right: 10px;
-    margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+  margin: 0;
 }
 
 .folders a {
-    padding: 15px 20px;
-    background: rgba(151, 148, 148, 0.75);
-    color: whitesmoke;
-    text-decoration: none;
-    text-align: left;
-    border-radius: 12px;
-    font-size: 18px;
-    transition: all 0.3s ease;
+  padding: 14px 20px;
+  background: rgba(151, 148, 148, 0.75);
+  color: whitesmoke;
+  text-decoration: none;
+  text-align: left;
+  border-radius: 12px;
+  font-size: 18px;
+  transition: all 0.3s ease;
 }
 
 .folders a:hover {
-    background-color: #181817;
-    color: #dee94b;
+  background-color: #181817;
+  color: #dee94b;
 }
 
-/* Footer Section Fix */
+/* Side Menu (Left Fixed) */
+.side-menu {
+  position: fixed;
+  top: 150px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+  width: 110px;
+}
+
+.side-menu a {
+  padding: 8px 12px;
+  background: rgba(9, 219, 79, 0.8);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.side-menu a:hover {
+  background: #00aaff;
+}
+
+/* Footer Section */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 13px;
-    z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 13px;
+  z-index: 1000;
 }
 
 .social-link {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 5px;
 }
 
 .social-link a {
-    color: #dee94b;
-    text-decoration: none;
+  color: #dee94b;
+  text-decoration: none;
 }
 
 .footer-legal p {
-    margin: 3px 0;
+  margin: 3px 0;
 }
 
 .copy a {
-    color: #ffcc00;
-    margin: 0 8px;
-    text-decoration: none;
+  color: #ffcc00;
+  margin: 0 8px;
+  text-decoration: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Mobile Responsive */
-
+/* Responsive Fix for Mobile */
 @media (max-width: 768px) {
-
-
-
-  body {
-
-  flex-direction: row;
-
-    align-items: center;
-
-    overflow: auto;
-
-  }
-
-
-
- .slide {
-
-  position: absolute;
-
-  text-align: center;
-
-  transition: all 1s ease-in-out;
-
-  width: 100%;
-
-  margin: 0px;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Welcome text */
-
-#welcome h1 {
-
-  font-size: 45px;
-
-  margin-top: 0px;
-
-  color: #dee94b;
-
-}
-
-
-
-/* New text after welcome */
-
-#next h1 {
-
-  font-size: 40px;        /* ছোট সাইজ */
-
-  margin-top: 1px;       /* উপরের ফাঁকা জায়গা */
-
-  color: #dee94b;
-
-  text-align: center;
-
-}
-
-
-
-/* Animation classes */
-
-.move-up {
-
-  transform: translateY(-200px);
-
-  opacity: 0;
-
-}
-
-.new-text {
-
-  opacity: 0;
-
-  transition: opacity 1s ease-in-out;
-
-}
-
-.show {
-
-  opacity: 1;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.slide h1 {
-
-      font-size: 100px; /* লেখাটা ছোট হবে */
-
-      margin-top: 5px;
-
-      margin-bottom: 5px; /* উপরের ফাঁকা জায়গা */
-
-      color: #dee94b;
-
-      text-align: center;
-
-  }
-
-
-
-  .slide p {
-
-    font-size: 24px;
-
-    margin-top: 0;
-
-    color: aquamarine;
-
-    line-height: 1.2;
-
-    
-
-  }
-
-
-
-
-
-
-
-  .folders {
-
-  display: flex;              /* Flexbox layout চালু করো */
-
-  flex-direction: column;     /* ফোল্ডারগুলো একটার নিচে একটা থাকবে */
-
-  align-items: flex-start;        /* সবগুলোকে মাঝখানে আনবে horizontally */
-
-  justify-content: flex-start;    /* vertically মাঝখানে আনবে (যদি height নির্ধারিত থাকে) */
-
-  height: 100vh;
-
-  margin-left: 8rem;
-
-  margin-right: 5px;
-
-  gap: 10px;
-
-  margin-top: 160px;
-
-  width: 90%;
-
-  }
-
-
-
-  .folders a {
-
+  .main-container {
     width: 90%;
+    padding-top: 15px;
+  }
 
-    box-sizing: border-box;
-
-    padding: 25px;
-
-    font-size: 16px;
-
-    border-radius: 12px;
-
-    margin: 0px;
-
-    text-align: left;
-
+  .side-menu {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px;
   }
 
 
 
+
+
+
+
+
+}
