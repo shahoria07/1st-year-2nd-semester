@@ -7,7 +7,7 @@ body {
   background-size: cover;
   color: white;
   min-height: 100vh;
-  padding-bottom: 150px;
+  padding-bottom: 120px;
 }
 
 /* Main Container to center all content */
@@ -67,7 +67,7 @@ body {
 }
 
 .notice span {
-  background: red;
+  background: rgb(252, 2, 2);
   padding: 6px 10px;
   font-weight: bold;
   border-radius: 4px;
@@ -90,7 +90,7 @@ body {
 
 .folders a {
   padding: 14px 20px;
-  background: rgba(151, 148, 148, 0.75);
+  background: rgba(56, 63, 49, 0.75);
   color: whitesmoke;
   text-decoration: none;
   text-align: left;
@@ -111,7 +111,7 @@ body {
   left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   z-index: 100;
   width: 110px;
 }
@@ -124,7 +124,7 @@ body {
   border-radius: 6px;
   font-size: 13px;
   white-space: nowrap;
-  margin-top: 10px;
+  margin-top: 8px;
   transition: background 0.3s ease;
 }
 
@@ -141,16 +141,16 @@ footer {
   background-color: #000000;
   color: #fff;
   text-align: center;
-  padding: 10px 0;
-  font-size: 13px;
+  padding: 6px 0;
+  font-size: 11px;
   z-index: 1000;
 }
 
 .social-link {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 5px;
+  gap: 10px;
+  margin-bottom: 1px;
 }
 
 .social-link a {
@@ -183,13 +183,38 @@ footer {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: -20px;
   }
 
 
 
 
+/* Mobile View Adjustment */
+@media (max-width: 768px) {
 
+  .side-menu {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    /* লাইনের ফাঁকা কমানোর কোড */
+    row-gap: 3px;     /* ওপরের লাইন ও নিচের লাইনের মাঝের গ্যাপ */
+    column-gap: 6px;  /* পাশাপাশি বাটনগুলোর মাঝের গ্যাপ */
+    margin-bottom: 10px; /* নিচের টেক্সটের সাথে গ্যাপ */
+  }
+
+  .side-menu a {
+    font-size: 14px;
+    padding: 5px 8px; /* ওপর-নিচে পেডিং একটু কমিয়ে দেওয়া হয়েছে */
+    border-radius: 6px;
+  }
+
+}
 
 
 
