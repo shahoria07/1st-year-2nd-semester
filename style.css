@@ -1,4 +1,4 @@
- /* Base Body Style */
+/* Base Body Style */
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +9,34 @@ body {
   min-height: 100vh;
   padding-bottom: 120px;
 }
+
+/* Chrome, Edge, Safari, Opera */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617; /* ডার্ক ব্যাকগ্রাউন্ড */
+}
+
+/* স্ক্রলবার বাটনে RGB / Multi-color Gradient */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ff88 0%, #00aaff 50%, #7000ff 100%);
+  border-radius: 10px;
+}
+
+/* মাউস নিলে কালার আরও উজ্জ্বল হওয়ার জন্য */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #33ff99 0%, #33bbff 50%, #8c33ff 100%);
+}
+
+/* Firefox-এর জন্য (Firefox সরাসরি Gradient সাপোর্ট করে না, তাই একটাই উজ্জ্বল কালার দেখাবে) */
+html {
+  scrollbar-color: #00ff88 #020617;
+  scrollbar-width: auto;
+}
+/* ========================================================= */
+/* ========================================================================= */
 
 /* Main Container to center all content */
 .main-container {
@@ -41,7 +69,7 @@ body {
 
 /* Slide Animations */
 .move-up {
-  display: none; /* Animation sesh hole screen theke soranor jonno */
+  display: none;
 }
 .new-text {
   opacity: 0;
@@ -125,7 +153,7 @@ body {
   font-size: 13px;
   white-space: nowrap;
   margin-top: 8px;
-  transition: background 0.4s ease;
+  transition: background 0.2s ease;
 }
 
 .side-menu a:hover {
@@ -180,42 +208,18 @@ footer {
     top: auto;
     left: auto;
     width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: -20px;
-  }
-
-
-
-
-/* Mobile View Adjustment */
-@media (max-width: 768px) {
-
-  .side-menu {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    
-    /* লাইনের ফাঁকা কমানোর কোড */
-    row-gap: 3px;     /* ওপরের লাইন ও নিচের লাইনের মাঝের গ্যাপ */
-    column-gap: 6px;  /* পাশাপাশি বাটনগুলোর মাঝের গ্যাপ */
-    margin-bottom: 10px; /* নিচের টেক্সটের সাথে গ্যাপ */
+    row-gap: 3px;
+    column-gap: 6px;
+    margin-bottom: 10px;
   }
 
   .side-menu a {
     font-size: 14px;
-    padding: 5px 8px; /* ওপর-নিচে পেডিং একটু কমিয়ে দেওয়া হয়েছে */
+    padding: 5px 8px;
     border-radius: 6px;
   }
-
-}
-
-
-
 }
