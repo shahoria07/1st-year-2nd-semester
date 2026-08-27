@@ -6,29 +6,42 @@
   <title>2nd Semester All Resource By Jihad At ISTT</title>
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
 
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZJRWW8016"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZJRWW8016"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-PZJRWW8016');
-</script>
+    gtag('config', 'G-PZJRWW8016');
+  </script>
 
+  <style>
+    /* Random Image Slider Smooth Animation CSS */
+    .random-banner-img {
+      width: 100%;
+      max-width: 450px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 10px auto;
+      display: block;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      animation: slideInFromLeft 0.7s ease-in-out forwards;
+    }
 
-
-
-
-
-
-
+    @keyframes slideInFromLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -47,21 +60,22 @@
   <!-- Main Center Wrapper -->
   <div class="main-container">
 
-    <!-- Header Animation Text -->
-    <div id="welcome" class="slide">
-      <h1>WELCOME</h1>
-      <p>ENJOY EXPLORING!</p>
-    </div>
+    <!-- Header Animation Text & Random Image Container -->
+    <div id="header-slider-container">
+      <div id="welcome" class="slide">
+        <h1>WELCOME</h1>
+        <p>ENJOY EXPLORING!</p>
+      </div>
 
-    <div id="next" class="slide new-text">
-      <h1>CSE-27 2ND SEMESTER AT ISTT</h1>
+      <div id="next" class="slide new-text">
+        <h1>CSE-27 2ND SEMESTER AT ISTT</h1>
+      </div>
     </div>
 
     <!-- Notice Bar (CSE-27 লেখার নিচে) -->
     <div class="notice">
       <span>📢 NOTICE:</span>
-      <marquee>স্টুডেন্ট মেইলের জন্য মামুন স্যারের কাছে আগে অ্যাপ্লিকেশন জমা দিতে হবে, স্যার অ্যাপরুভ করলে তখন রাইসুল স্যার স্টুডেন্ট মেইল দিবে। সবাইকে আবেদন করার জন্য অনুরোধ করা হচ্ছে।
-</marquee>
+      <marquee>স্টুডেন্ট মেইলের জন্য মামুন স্যারের কাছে আগে অ্যাপ্লিকেশন জমা দিতে হবে, স্যার অ্যাপরুভ করলে তখন রাইসুল স্যার স্টুডেন্ট মেইল দিবে। সবাইকে আবেদন করার জন্য অনুরোধ করা হচ্ছে।</marquee>
     </div>
 
     <!-- Folders List -->
@@ -73,22 +87,18 @@
       <a href="Statistics and Probability.html">📁 Statistics and Probability</a>
       <a href="History of the Emergence of Independent Bangladesh.html">📁 History of the Emergence of Independent Bangladesh</a>
       <a href="Syllabus_CSE_1st_Year_Nu.pdf" target="_blank">📁 Syllabus 1st year 2nd Semester</a>
-       <a href="./class-routine.pdf" target="_blank">📁 Class Routine 2nd Semester</a>
+      <a href="./class-routine.pdf" target="_blank">📁 Class Routine 2nd Semester</a>
     </div>
 
   </div>
 
   <!-- Footer -->
-   <footer>
-
-
-<!-- Visitor Counter Badge -->
-<div style="text-align: center; margin-top: 15px; margin-bottom: 15px;">
-  <p style="font-weight: bold; color: #ffffff; margin-bottom: 5px;">Total Visitors</p>
-  <img src="https://komarev.com/ghpvc/?username=shahoria07-2nd-semester&color=263759&style=flat" alt="Visitor Count" />
-</div>
-
-
+  <footer>
+    <!-- Visitor Counter Badge -->
+    <div style="text-align: center; margin-top: 15px; margin-bottom: 15px;">
+      <p style="font-weight: bold; color: #ffffff; margin-bottom: 5px;">Total Visitors</p>
+      <img src="https://komarev.com/ghpvc/?username=shahoria07-2nd-semester&color=263759&style=flat" alt="Visitor Count" />
+    </div>
 
     <div class="footer-content">
       <div class="footer-col">
@@ -120,11 +130,37 @@
     </div>
   </footer>
 
+  <!-- Animation & Random Image Script -->
   <script>
+    // ১. আপনার তৈরি করা ছবিগুলোর সঠিক নাম ও এক্সটেনশন (যেমন: .jpg / .png) এখানে দিন
+    const images = [
+      './unii.jpg',
+      './uni.jpg',
+      './uniii.png',
+      './my-uni-pp.jpg',
+      './versity.jpg',
+      
+    ];
+
+    // ২. আগের অ্যানিমেশন টাইমলাইন নিয়ন্ত্রণ
     setTimeout(() => {
       document.getElementById("welcome").classList.add("move-up");
+      
       setTimeout(() => {
         document.getElementById("next").classList.add("show");
+
+        // ৩. CSE-27 লেখাটি ২.৫ সেকেন্ড দেখানোর পর সেটি সরিয়ে র্যান্ডম ইমেজ আনা হবে
+        setTimeout(() => {
+          const container = document.getElementById("header-slider-container");
+          
+          // যেকোনো একটি ছবি এলোমেলোভাবে সিলেক্ট করা
+          const randomIndex = Math.floor(Math.random() * images.length);
+          const selectedImage = images[randomIndex];
+
+          // বাম থেকে ডানে স্লাইড হয়ে আসা র্যান্ডম ছবি যুক্ত করা
+          container.innerHTML = `<img src="${selectedImage}" class="random-banner-img" alt="Random ISTT Banner">`;
+        }, 2500);
+
       }, 800);
     }, 2000);
   </script>

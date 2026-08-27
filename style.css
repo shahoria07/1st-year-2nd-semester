@@ -10,33 +10,45 @@ body {
   padding-bottom: 20px;
 }
 
+ 
+
 /* Chrome, Edge, Safari, Opera */
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 16px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617; /* ডার্ক ব্যাকগ্রাউন্ড */
+  background: #020617; /* পেছনের ডার্ক ব্যাকগ্রাউন্ড */
 }
 
-/* স্ক্রলবার বাটনে RGB / Multi-color Gradient */
+/* মাউস নেওয়ার আগে (সাধারণ অবস্থা) */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00ff88 0%, #00aaff 50%, #7000ff 100%);
+  background: #1e293b;
   border-radius: 10px;
 }
 
-/* মাউস নিলে কালার আরও উজ্জ্বল হওয়ার জন্য */
+/* মাউস নিলে (Hover) আগুনের উজ্জ্বল গ্র্যাডিয়েন্ট ও বর্ডার ইফেক্ট */
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #33ff99 0%, #33bbff 50%, #8c33ff 100%);
+  /* ওপর থেকে নিচে: হালকা হলুদ -> উজ্জ্বল কমলা -> গাঢ় লাল (আগুনের শিখা) */
+  background: linear-gradient(180deg, #f0c404 0%, #ff6600 50%, #d90429 100%);
+  
+  /* গ্লো বা ফ্লেম ফিল আনার জন্য আউটার বর্ডার */
+  border: 2px solid #ffea00;
+  border-radius: 10px;
 }
 
-/* Firefox-এর জন্য (Firefox সরাসরি Gradient সাপোর্ট করে না, তাই একটাই উজ্জ্বল কালার দেখাবে) */
+/* Firefox-এর জন্য (ফালব্যাক কালার) */
 html {
-  scrollbar-color: #00ff88 #020617;
+  scrollbar-color: #0ef306 #020617;
   scrollbar-width: auto;
 }
-/* ========================================================= */
-/* ========================================================================= */
+
+
+
+
+
+
+
 
 /* Main Container to center all content */
 .main-container {
