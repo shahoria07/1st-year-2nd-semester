@@ -1,4 +1,4 @@
-/* Base Body Style */
+/* Base Body Style - Flexbox প্রয়োগ করা হয়েছে */
 body {
   margin: 0;
   padding: 0;
@@ -6,13 +6,14 @@ body {
   background: #222 url("brean.png") no-repeat center center fixed;
   background-size: cover;
   color: white;
+
+  /* Sticky Footer এর জন্য Flexbox সেটআপ */
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 20px;
 }
 
- 
-
-/* Chrome, Edge, Safari, Opera */
+/* Chrome, Edge, Safari, Opera Scrollbar */
 ::-webkit-scrollbar {
   width: 16px;
 }
@@ -21,18 +22,15 @@ body {
   background: #020617; /* পেছনের ডার্ক ব্যাকগ্রাউন্ড */
 }
 
-/* মাউস নেওয়ার আগে (সাধারণ অবস্থা) */
+/* মাউস নেওয়ার আগে (সাধারণ অবস্থা) */
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
   border-radius: 10px;
 }
 
-/* মাউস নিলে (Hover) আগুনের উজ্জ্বল গ্র্যাডিয়েন্ট ও বর্ডার ইফেক্ট */
+/* মাউস নিলে (Hover) আগুনের উজ্জ্বল গ্র্যাডিয়েন্ট ও বর্ডার ইফেক্ট */
 ::-webkit-scrollbar-thumb:hover {
-  /* ওপর থেকে নিচে: হালকা হলুদ -> উজ্জ্বল কমলা -> গাঢ় লাল (আগুনের শিখা) */
   background: linear-gradient(180deg, #f0c404 0%, #ff6600 50%, #d90429 100%);
-  
-  /* গ্লো বা ফ্লেম ফিল আনার জন্য আউটার বর্ডার */
   border: 2px solid #ffea00;
   border-radius: 10px;
 }
@@ -43,13 +41,6 @@ html {
   scrollbar-width: auto;
 }
 
-
-
-
-
-
-
-
 /* Main Container to center all content */
 .main-container {
   width: 60%;
@@ -59,6 +50,9 @@ html {
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
+
+  /* ফুটারকে ঠেলে স্ক্রিনের একদম নিচে রাখার মূল নিয়ম */
+  flex: 1;
 }
 
 /* Header Slide Section */
@@ -169,21 +163,18 @@ html {
 }
 
 .side-menu a:hover {
-  background: #00aaff;
+  background: #011018;
 }
 
-/* Footer Section */
+/* Footer Section - Flexbox Friendly Footer */
 footer {
-  position: relative;
-  bottom: 0;
-  left: 0;
   width: 100%;
   background-color: #000000;
   color: #fff;
   text-align: center;
   padding: 15px 0;
   font-size: 11px;
-  margin-top: 50px;
+  margin-top: auto; /* কন্টেন্ট কম বা বেশি যাই হোক, ফুটার নিচে অবস্থান করবে */
 }
 
 .social-link {
