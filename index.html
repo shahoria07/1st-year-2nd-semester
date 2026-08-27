@@ -18,29 +18,54 @@
   </script>
 
   <style>
-    /* Random Image Slider Smooth Animation CSS */
-    .random-banner-img {
-      width: 100%;
-      max-width: 450px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin: 10px auto;
-      display: block;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      animation: slideInFromLeft 0.7s ease-in-out forwards;
-    }
+    
+    
+    /* Random Image Slider - Full Width for Mobile */
+  .random-banner-img {
+    width: 100vw; /* স্ক্রিনের সম্পূর্ণ প্রস্থ (Viewport Width) */
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw; /* কন্টেইনারের বাইরে ছবিকে টেনে নেওয়ার ট্রিক */
+    margin-right: -50vw;
+    height: 220px; /* উচ্চতা আপনার পছন্দমতো সেট করুন */
+    object-fit: cover; /* ছবি যেন ফেটে বা চ্যাপ্টা না হয়ে যায় */
+    display: block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    animation: slideInFromLeft 0.7s ease-in-out forwards;
+    
+    /* বর্ডার রেডিয়াস মোবাইল ফুল উইডথে সাধারণত ভালো লাগে না, চাইলে রাখতে পারেন */
+    /* border-radius: 0; */
+  }
 
-    @keyframes slideInFromLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-100%);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
     }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* বড় স্ক্রিনের (ডেস্কটপ) জন্য ছবির সাইজ ঠিক করা */
+  @media (min-width: 768px) {
+    .random-banner-img {
+      width: 90%;
+      max-width: 600px;
+      margin: 15px auto;
+      border-radius: 12px;
+      left: auto;
+      right: auto;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+
+
+
   </style>
 </head>
 <body>
