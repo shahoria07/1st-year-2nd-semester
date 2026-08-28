@@ -19,39 +19,70 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617; /* পেছনের ডার্ক ব্যাকগ্রাউন্ড */
+  background: #020617;
 }
 
-/* মাউস নেওয়ার আগে (সাধারণ অবস্থা) */
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
   border-radius: 10px;
 }
 
-/* মাউস নিলে (Hover) আগুনের উজ্জ্বল গ্র্যাডিয়েন্ট ও বর্ডার ইফেক্ট */
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #f0c404 0%, #ff6600 50%, #d90429 100%);
   border: 2px solid #ffea00;
   border-radius: 10px;
 }
 
-/* Firefox-এর জন্য (ফালব্যাক কালার) */
+/* Firefox-এর জন্য */
 html {
   scrollbar-color: #0ef306 #020617;
   scrollbar-width: auto;
 }
 
-/* Main Container to center all content */
+/* Navigation Bar - PC View (পিসিতে চওড়া জায়গা নিয়ে ১ লাইনে থাকবে) */
+.side-menu {
+  width: 95%;
+  max-width: 1200px; /* কন্টেইনারের চেয়ে বড় চওড়া জায়গা দেওয়া হয়েছে */
+  margin: 25px auto 10px auto; /* ওপর থেকে ২৫ পিক্সেল নিচে নামানো হয়েছে */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; /* পিসিতে ১ লাইনে থাকবে */
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+}
+
+.side-menu a {
+  padding: 8px 12px;
+  background: rgba(9, 219, 79, 0.8);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.side-menu a:hover {
+  color: #dee94b; 
+  background-color: black;
+  
+  box-shadow: 0 0 10px white; /* চারপাশ দিয়ে হালকা সাদা আভা */
+}
+
+/* Main Container to center center content */
 .main-container {
-  width: 60%;
+  width: 90%;
   max-width: 850px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 10px;
 
-  /* ফুটারকে ঠেলে স্ক্রিনের একদম নিচে রাখার মূল নিয়ম */
+  /* ফুটারকে নিচে রাখার জন্য */
   flex: 1;
 }
 
@@ -85,7 +116,7 @@ html {
   opacity: 1;
 }
 
-/* Notice Bar (Centered below heading) */
+/* Notice Bar */
 .notice {
   width: 100%;
   box-sizing: border-box;
@@ -113,7 +144,7 @@ html {
   margin-left: 10px;
 }
 
-/* Resource Folders (Centered) */
+/* Resource Folders */
 .folders {
   display: flex;
   flex-direction: column;
@@ -136,37 +167,10 @@ html {
 .folders a:hover {
   background-color: #181817;
   color: #dee94b;
+  box-shadow: 0 0 10px white;
 }
 
-/* Side Menu (Left Fixed) */
-.side-menu {
-  position: fixed;
-  top: 150px;
-  left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  z-index: 100;
-  width: 110px;
-}
-
-.side-menu a {
-  padding: 8px 5px;
-  background: rgba(9, 219, 79, 0.8);
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 13px;
-  white-space: nowrap;
-  margin-top: 8px;
-  transition: background 0.2s ease;
-}
-
-.side-menu a:hover {
-  background: #011018;
-}
-
-/* Footer Section - Flexbox Friendly Footer */
+/* Footer Section */
 footer {
   width: 100%;
   background-color: #000000;
@@ -174,7 +178,7 @@ footer {
   text-align: center;
   padding: 15px 0;
   font-size: 11px;
-  margin-top: auto; /* কন্টেন্ট কম বা বেশি যাই হোক, ফুটার নিচে অবস্থান করবে */
+  margin-top: auto;
 }
 
 .social-link {
@@ -199,30 +203,18 @@ footer {
   text-decoration: none;
 }
 
-/* Responsive Fix for Mobile */
+/* Mobile View Adjustments (মোবাইলে ২ লাইনে ভেঙে সাজানো হবে) */
 @media (max-width: 768px) {
-  .main-container {
-    width: 90%;
-    padding-top: 15px;
-  }
-
   .side-menu {
-    position: relative;
-    top: auto;
-    left: auto;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 3px;
-    column-gap: 6px;
-    margin-bottom: 10px;
+    flex-wrap: wrap; /* মোবাইলে ২ লাইনে ভাঙবে */
+    gap: 6px;
+    margin-top: 15px;
   }
 
   .side-menu a {
-    font-size: 14px;
-    padding: 5px 8px;
-    border-radius: 6px;
+    font-size: 12px;
+    padding: 6px 9px;
+    font-weight: normal;
   }
 }
