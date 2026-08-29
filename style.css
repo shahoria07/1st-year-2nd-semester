@@ -39,14 +39,14 @@ html {
   scrollbar-width: auto;
 }
 
-/* Navigation Bar - PC View (পিসিতে চওড়া জায়গা নিয়ে ১ লাইনে থাকবে) */
+/* Navigation Bar - PC View (পিসিতে চওড়া জায়গা নিয়ে ১ লাইনে থাকবে) */
 .side-menu {
   width: 95%;
-  max-width: 1200px; /* কন্টেইনারের চেয়ে বড় চওড়া জায়গা দেওয়া হয়েছে */
-  margin: 25px auto 10px auto; /* ওপর থেকে ২৫ পিক্সেল নিচে নামানো হয়েছে */
+  max-width: 1200px;
+  margin: 25px auto 10px auto;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap; /* পিসিতে ১ লাইনে থাকবে */
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -59,20 +59,22 @@ html {
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 17px; /* ফন্ট সাইজ ১৩ পিক্সেল করা হলো যাতে পিসিতে ১ লাইনে আঁটে */
   font-weight: bold;
   white-space: nowrap;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .side-menu a:hover {
   color: #dee94b; 
   background-color: black;
+ 
   
-  box-shadow: 0 0 10px white; /* চারপাশ দিয়ে হালকা সাদা আভা */
+  box-shadow: 0 0 18px white; /* চারপাশ দিয়ে হালকা সাদা আভা */
 }
 
-/* Main Container to center center content */
+/* Main Container to center content */
 .main-container {
   width: 90%;
   max-width: 850px;
@@ -162,12 +164,15 @@ html {
   border-radius: 12px;
   font-size: 18px;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .folders a:hover {
-  background-color: #181817;
+  background-color: black;
   color: #dee94b;
-  box-shadow: 0 0 10px white;
+ 
+  
+  box-shadow: 0 0 20px white;
 }
 
 /* Footer Section */
