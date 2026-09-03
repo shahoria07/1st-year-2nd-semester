@@ -26,6 +26,7 @@
       right: 50%;
       margin-left: -50vw;
       margin-right: -50vw;
+      margin-top: 15px; /* ছবি নিচে নামানোর জন্য মার্জিন দেওয়া হলো */
       height: 220px;
       object-fit: cover;
       display: block;
@@ -44,13 +45,13 @@
       }
     }
 
-    /* বড় স্ক্রিনের (ডেস্কটপ) জন্য ছবির সাইজ */
+    /* বড় স্ক্রিনের (ডেস্কটপ) জন্য ছবির সাইজ */
     @media (min-width: 768px) {
       .random-banner-img {
         width: 100%;
         max-width: 850px;
         height: 380px;
-        margin: 15px auto;
+        margin: 25px auto 15px auto; /* ছবি আরেকটু নিচে রাখার জন্য top margin ২৫ পিক্সেল */
         border-radius: 12px;
         left: auto;
         right: auto;
@@ -62,23 +63,50 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar (সবগুলোতে target="_blank" যোগ করা হলো) -->
+  <!-- Hamburger Dropdown (Top Left Corner) -->
+  <div class="hamburger-dropdown">
+    <button class="hamburger-btn" onclick="toggleMenu(event)">☰</button>
+    <div class="dropdown-content" id="myDropdown">
+      <a href="./profile.html">👤 My Profile</a>
+
+      <a href="./NOTICE.html" target="_blank">📢 Notice</a>
+      <a href="">💬 Our Chat</a>
+      
+     
+      <a href="">⬇️ Download</a>
+      
+      <a href="">📄 Assignment</a>
+      <a href="">📝 Complain Box</a>
+      <a href="./HELP-LINE.html" target="_blank">☎️ Helpline</a>
+      <a href="">💬 Feedback</a>
+      <a href="">⚙️ Setting</a>
+     <a href="">ℹ️ About Us</a>
+      
+    </div>
+  </div>
+
+  <!-- Top Navigation Bar -->
   <nav class="side-menu">
-    <a href="./index.html">🏠 HOME</a>
-    <a href="./Digital%20System%20Design.html" target="_blank">💻 D.S.D</a>
-    <a href="./Digital%20System%20Lab.html" target="_blank">🔬 D.S.L</a>
-    <a href="./Discrete%20Mathematics.html" target="_blank">📐 D.M.</a>
-    <a href="./Linear%20Algebra.html" target="_blank">📊 L.A.</a>
-    <a href="./Statistics%20and%20Probability.html" target="_blank">📈 S.P.</a>
-    <a href="./History%20of%20the%20Emergence%20of%20Independent%20Bangladesh.html" target="_blank">📜 H.B.</a>
-    <a href="./class-routine.pdf" target="_blank">⏰ CLSRTN</a>
-    <a href="./NOTICE.html" target="_blank">📢 NOTICE</a>
-    <a href="./HELP-LINE.html" target="_blank">☎️ HELP-LINE</a>
-    <a href="./complain.html" target="_blank">🗳️Complain Box</a>
+    <a href="./index.html">🏠</a>
+    <a href="./Digital%20System%20Design.html" target="_blank">💻</a>
+    <a href="./Digital%20System%20Lab.html" target="_blank">🔬</a>
+    <a href="./Discrete%20Mathematics.html" target="_blank">📐</a>
+    <a href="./Linear%20Algebra.html" target="_blank">📊</a>
+    <a href="./Statistics%20and%20Probability.html" target="_blank">📈</a>
+    <a href="./History%20of%20the%20Emergence%20of%20Independent%20Bangladesh.html" target="_blank">📜</a>
+    <a href="./class-routine.pdf" target="_blank">⏰</a>
+    
   </nav>
 
   <!-- Main Center Wrapper -->
   <div class="main-container">
+
+    <!-- Notice Bar (এখন এটি ছবির উপরে প্রদর্শিত হবে) -->
+    <div class="notice">
+      <span>📢 Breaking News:</span>
+      <marquee> “Due to some unavoidable circumstances your classes are postponed on next Sunday (06/09/26).
+From next day classes will be held accordingly. আগামী রবিবারের ক্লাস হবে না। তবে তার পরের দিন থেকে নিয়মিত ক্লাস চলবে।”</marquee>
+    </div>
 
     <!-- Header Animation Text & Random Image Container --> 
     <div id="header-slider-container">
@@ -92,14 +120,7 @@
       </div>
     </div>
 
-    <!-- Notice Bar -->
-    <div class="notice">
-      <span>📢 BrkN:</span>
-      <marquee> “Due to some unavoidable circumstances your classes are postponed on next Sunday (06/09/26).
-From next day classes will be held accordingly. আগামী রবিবারের ক্লাস হবে না। তবে তার পরের দিন থেকে নিয়মিত ক্লাস চলবে।”</marquee>
-    </div>
-
-    <!-- Folders List (সবগুলোতে target="_blank" যোগ করা হলো) -->
+    <!-- Folders List -->
     <div class="folders">
       <a href="Digital System Design.html" target="_blank">📁 Digital System Design</a>
       <a href="Digital System Lab.html" target="_blank">📁 Digital System Lab</a>
@@ -127,17 +148,11 @@ From next day classes will be held accordingly. আগামী রবিবা�
         </div>
       </div>
     </div>
-
-    <br>
-    <button type="button" class="buttonss" onclick="document.getElementById('demo').innerHTML=Date()">
-      BD live time now
-    </button>
     <p id="demo"></p>
-
     <div class="footer-legal">
       <p>© 2026 STZ It Company, Founder & CEO <b>Shahoria Tanjid Jihad</b></p>
       <p>Z-Saluute Networks LTD</p>
-      <p>Sponsor <a href="https://zamanpolytech.com/" target="_blank">Zaman Polytech Ltd</a></p>
+      <p class="spn">Sponsor <a href="https://zamanpolytech.com/" target="_blank">Zaman Polytech Ltd</a></p>
       <div class="copy">
         <a href="#" target="_blank">Terms of Use</a>
         <a href="#" target="_blank">Privacy Policy</a>
@@ -146,8 +161,24 @@ From next day classes will be held accordingly. আগামী রবিবা�
     </div>
   </footer>
 
-  <!-- Animation & Random Image Script -->
+  <!-- Animation & Toggle Scripts -->
   <script>
+    // Hamburger Dropdown Click Toggle Logic
+    function toggleMenu(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById("myDropdown");
+      dropdown.classList.toggle("show-menu");
+    }
+
+    // স্ক্রিনের অন্য যেকোনো জায়গায় ক্লিক করলে ড্রপডাউন বন্ধ হয়ে যাবে
+    window.onclick = function(event) {
+      const dropdown = document.getElementById("myDropdown");
+      if (dropdown && dropdown.classList.contains('show-menu')) {
+        dropdown.classList.remove('show-menu');
+      }
+    }
+
+    // Animation & Random Image Script
     const images = [
       './cse27.jpg',  
       './versity.jpg',

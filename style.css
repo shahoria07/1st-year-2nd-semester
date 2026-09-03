@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background: #222 url("./ai-img.png") no-repeat center center fixed;
+  background: #222 url("./brean.png") no-repeat center center fixed;
   background-size: cover;
   color: white;
 
@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
 }
 
-/* Chrome, Edge, Safari, Opera Scrollbar */
+/* Scrollbar Style */
 ::-webkit-scrollbar {
   width: 16px;
 }
@@ -33,48 +33,122 @@ body {
   border-radius: 10px;
 }
 
-/* Firefox-এর জন্য */
 html {
   scrollbar-color: #0ef306 #020617;
   scrollbar-width: auto;
 }
 
-/* Navigation Bar - PC View (পিসিতে চওড়া জায়গা নিয়ে ১ লাইনে থাকবে) */
+/* === Hamburger Dropdown (Top Left Corner) === */
+.hamburger-dropdown {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001; /* Navigation Bar এর উপরে থাকবে */
+}
+
+.hamburger-btn {
+  background: #2f302f;
+  color: white;
+  border: 1px solid rgb(76, 77, 76);
+  font-size: 22px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+  background: #000;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-content {
+  display: none; /* ডিফল্টভাবে লুকিয়ে থাকবে */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background-color: rgba(30, 30, 30, 0.95);
+  min-width: 150px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+/* JavaScript ক্লিকে যে ক্লাস যুক্ত হবে */
+.dropdown-content.show-menu {
+  display: block;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  transition: background 0.2s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #dee94b;
+  color: black;
+  font-weight: bold;
+}
+
+/* Navigation Bar - PC View */
 .side-menu {
-  width: 95%;
-  max-width: 1200px;
-  margin: 25px auto 10px auto;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1100px;
+  margin: 0;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  z-index: 100;
+  border: 1px solid rgba(255,255,255,0.3);
+  gap: 70px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .side-menu a {
-  padding: 8px 12px;
-  background: rgba(9, 219, 79, 0.8);
+  padding: 5px 10px;
   color: white;
+  background-color: #2f302f;
   text-decoration: none;
-  border-radius: 6px;
-  font-size: 17px; /* ফন্ট সাইজ ১৩ পিক্সেল করা হলো যাতে পিসিতে ১ লাইনে আঁটে */
+  border: 0.1px solid rgb(76, 77, 76);
+  border-radius: 8px;
+  font-size: 22px;
   font-weight: bold;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .side-menu a:hover {
-  color: #dee94b; 
-  background-color: black;
- 
-  
-  box-shadow: 0 0 18px white; /* চারপাশ দিয়ে হালকা সাদা আভা */
+  color: #dee94b;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  transform: scale(1.01);
 }
 
-/* Main Container to center content */
+.side-menu a:hover img {
+  transform: scale(1.15);
+}
+
+/* Main Container */
 .main-container {
   width: 90%;
   max-width: 850px;
@@ -82,9 +156,7 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10px;
-
-  /* ফুটারকে নিচে রাখার জন্য */
+  padding-top: 90px;
   flex: 1;
 }
 
@@ -96,7 +168,7 @@ html {
 }
 
 .slide h1 {
-  font-size: 38px;
+  font-size: 45px;
   margin: 0;
   color: #dee94b;
 }
@@ -106,7 +178,6 @@ html {
   margin-top: 5px;
 }
 
-/* Slide Animations */
 .move-up {
   display: none;
 }
@@ -120,7 +191,7 @@ html {
 
 /* Notice Bar */
 .notice {
-  width: 100%;
+  width: 115%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -129,8 +200,8 @@ html {
   padding: 6px 12px;
   font-size: 16px;
   border-radius: 8px;
-  margin-top: 15px;
-  margin-bottom: 25px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .notice span {
@@ -152,7 +223,7 @@ html {
   flex-direction: column;
   width: 100%;
   gap: 12px;
-  margin: 0;
+  margin: 20px 0 0 0;
 }
 
 .folders a {
@@ -170,8 +241,6 @@ html {
 .folders a:hover {
   background-color: black;
   color: #dee94b;
- 
-  
   box-shadow: 0 0 20px white;
 }
 
@@ -183,7 +252,7 @@ footer {
   text-align: center;
   padding: 15px 0;
   font-size: 11px;
-  margin-top: auto;
+  margin-top: 30px;
 }
 
 .social-link {
@@ -208,18 +277,49 @@ footer {
   text-decoration: none;
 }
 
-/* Mobile View Adjustments (মোবাইলে ২ লাইনে ভেঙে সাজানো হবে) */
+.spn {
+  color: white;
+}
+.spn:hover {
+  color: green;
+}
+
+/* Mobile View Adjustments */
 @media (max-width: 768px) {
+  .hamburger-dropdown {
+    top: 14px;
+    left: 8px;
+  }
+
+  .hamburger-btn {
+    font-size: 18px;
+    padding: 4px 8px;
+  }
+
   .side-menu {
-    width: 100%;
-    flex-wrap: wrap; /* মোবাইলে ২ লাইনে ভাঙবে */
-    gap: 6px;
-    margin-top: 15px;
+    top: 3px;
+    margin-top: 8px;
+    width: 82%;
+    left: 53%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 5px;
   }
 
   .side-menu a {
     font-size: 12px;
-    padding: 6px 9px;
+    margin-top: 3px;
+    padding: 5px 8px;
     font-weight: normal;
+    
+  }
+
+  .main-container {
+    padding-top: 55px;
+  }
+
+  .notice {
+    margin-top: 5px;
+    margin-bottom: 10px;
   }
 }
