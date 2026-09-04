@@ -14,9 +14,8 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Full Screen Dark Layout (Using dvh for Mobile Compatibility) */
     body, html {
-      height: 100dvh; /* Mobile browser URL bar fix */
+      height: 100dvh;
       width: 100vw;
       background-color: #0c141a;
       color: #e9edef;
@@ -25,14 +24,13 @@
       flex-direction: column;
     }
 
-    /* 1. TOP FIXED HEADER */
     .chat-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 60px;
-      background: #27411c;
+      background: #111b21;
       border-bottom: 1px solid #222d34;
       display: flex;
       justify-content: space-between;
@@ -47,7 +45,6 @@
       height: auto;
     }
 
-    /* Call Action Buttons */
     .call-actions {
       display: flex;
       gap: 10px;
@@ -69,20 +66,18 @@
       color: white;
     }
 
-    /* 2. MIDDLE SCROLLABLE CHAT AREA */
     .chat-body {
       flex: 1;
-      margin-top: 60px;    /* Header height */
-      margin-bottom: 70px; /* Footer space */
+      margin-top: 60px;
+      margin-bottom: 70px;
       padding: 15px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Message Bubbles */
     .message {
       max-width: 80%;
       padding: 10px 14px;
@@ -118,7 +113,6 @@
       font-weight: bold;
     }
 
-    /* 3. FIXED BOTTOM MULTIMEDIA INPUT BAR (Responsive Fix) */
     .chat-footer {
       position: fixed;
       bottom: 0;
@@ -167,7 +161,7 @@
     }
 
     .send-btn {
-      background: #038f71;
+      background: #00a884;
       border: none;
       outline: none;
       color: white;
@@ -184,7 +178,6 @@
       background: #029071;
     }
 
-    /* Hidden File Inputs */
     input[type="file"] {
       display: none;
     }
@@ -192,7 +185,6 @@
 </head>
 <body>
 
-  <!-- 1. FIXED TOP HEADER WITH LOGO & CALL OPTIONS -->
   <header class="chat-header">
     <div style="width: 40px;"></div>
     
@@ -226,81 +218,111 @@
       </text>
     </svg>
 
-    <!-- Calling Buttons -->
     <div class="call-actions">
       <button class="header-btn" onclick="startVoiceCall()" title="Voice Call">📞</button>
       <button class="header-btn" onclick="startVideoCall()" title="Video Call">📹</button>
     </div>
   </header>
 
-  <!-- 2. SCROLLABLE CHAT MESSAGES CONTAINER -->
   <main class="chat-body" id="chatContainer">
     <div class="message received">
       Welcome to ChatVerse Community! 🚀
     </div>
   </main>
 
-  <!-- 3. FIXED BOTTOM MESSAGE & ATTACHMENT INPUT BAR -->
   <footer class="chat-footer">
-    <!-- Image Button -->
     <label for="imageInput" class="attach-btn" title="Send Image">📷</label>
     <input type="file" id="imageInput" accept="image/*" onchange="sendImage(this)">
 
-    <!-- PDF/File Button -->
     <label for="pdfInput" class="attach-btn" title="Send PDF / File">📄</label>
     <input type="file" id="pdfInput" accept="application/pdf" onchange="sendPDF(this)">
 
-    <!-- Voice Note Button -->
     <button class="attach-btn" id="recordBtn" onclick="toggleVoiceRecord()" title="Record Audio">🎤</button>
-
-    <!-- Location Button -->
     <button class="attach-btn" onclick="requestUserLocation()" title="Share Location">📍</button>
 
-    <!-- Text Input & Send -->
     <input type="text" id="messageInput" class="chat-input" placeholder="Type a message..." autocomplete="off">
     <button class="send-btn" onclick="sendMessage()">➤</button>
   </footer>
 
-  <script>
+  <!-- Firebase JavaScript SDK (Modular Setup) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // আপনার স্ক্রিনশট অনুযায়ী আসল ক্রেডেনশিয়ালস
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsA-3A0pd8Vn6u4MbZr56uF80MBst7fTA",
+      authDomain: "chatverse-5905d.firebaseapp.com",
+      databaseURL: "https://chatverse-5905d-default-rtdb.firebaseio.com", // লিঙ্ক পরিবর্তন হলে বদলে নেবেন
+      projectId: "chatverse-5905d",
+      storageBucket: "chatverse-5905d.firebasestorage.app",
+      messagingSenderId: "692B37148566",
+      appId: "1:592037148565:web:b4cee7044d055591ea89c",
+      measurementId: "G-VXVCV8R5JP"
+    };
+
+    // Firebase ইনিশিয়ালাইজ করা
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const messagesRef = ref(db, "messages");
+
+    // ডিভাইসের জন্য আইডি জেনারেট
+    let myUserId = localStorage.getItem("chatVerseUserId");
+    if (!myUserId) {
+      myUserId = "user_" + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem("chatVerseUserId", myUserId);
+    }
+
     const chatContainer = document.getElementById("chatContainer");
 
-    // 1. Text Message Send
-    function sendMessage() {
+    // ১. টেক্সট মেসেজ পাঠানো
+    window.sendMessage = function() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
 
       if (text !== "") {
-        appendMessage(text, 'sent');
+        push(messagesRef, {
+          senderId: myUserId,
+          content: text,
+          timestamp: Date.now()
+        });
         input.value = "";
       }
     }
 
-    // 2. Image Attach & Send
-    function sendImage(input) {
+    // ২. রিয়েল-টাইমে মেসেজ রিসিভ করা (অন্য যেকোনো মোবাইল বা ডিভাইস থেকে)
+    onChildAdded(messagesRef, (snapshot) => {
+      const data = snapshot.val();
+      const messageType = data.senderId === myUserId ? "sent" : "received";
+      appendMessage(data.content, messageType);
+    });
+
+    // ৩. ছবি পাঠানো
+    window.sendImage = function(input) {
       if (input.files && input.files[0]) {
         const file = input.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
-          const imgHTML = `📷 <b>Image Sent:</b><br><img src="${e.target.result}" class="chat-img" />`;
-          appendMessage(imgHTML, 'sent');
+          const imgHTML = `📷 <b>Image:</b><br><img src="${e.target.result}" class="chat-img" />`;
+          push(messagesRef, { senderId: myUserId, content: imgHTML, timestamp: Date.now() });
         }
         reader.readAsDataURL(file);
       }
     }
 
-    // 3. PDF Attach & Send
-    function sendPDF(input) {
+    // ৪. পিডিএফ পাঠানো
+    window.sendPDF = function(input) {
       if (input.files && input.files[0]) {
         const file = input.files[0];
         const fileURL = URL.createObjectURL(file);
         const pdfHTML = `📄 <b>File:</b> ${file.name}<br><a href="${fileURL}" target="_blank" class="chat-file-link">📥 View / Download PDF</a>`;
-        appendMessage(pdfHTML, 'sent');
+        push(messagesRef, { senderId: myUserId, content: pdfHTML, timestamp: Date.now() });
       }
     }
 
-    // 4. Voice Note Logic
+    // ৫. ভয়েস নোট
     let isRecording = false;
-    function toggleVoiceRecord() {
+    window.toggleVoiceRecord = function() {
       const recBtn = document.getElementById("recordBtn");
       if (!isRecording) {
         isRecording = true;
@@ -309,41 +331,29 @@
       } else {
         isRecording = false;
         recBtn.style.color = "#8696a0";
-        appendMessage("🎙️ <i>Voice Note (0:05)</i>", 'sent');
+        push(messagesRef, { senderId: myUserId, content: "🎙️ <i>Voice Note (0:05)</i>", timestamp: Date.now() });
       }
     }
 
-    // 5. GPS Location Sharing
-    function requestUserLocation() {
+    // ৬. লাইভ লোকেশন
+    window.requestUserLocation = function() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-            const locHTML = `📍 <b>My Live Location:</b><br><a href="${mapUrl}" target="_blank" class="chat-file-link">🗺️ Open in Google Maps</a>`;
-            appendMessage(locHTML, 'sent');
+            const locHTML = `📍 <b>Live Location:</b><br><a href="${mapUrl}" target="_blank" class="chat-file-link">🗺️ Open in Google Maps</a>`;
+            push(messagesRef, { senderId: myUserId, content: locHTML, timestamp: Date.now() });
           },
-          (error) => {
-            alert("Location access denied or unavailable.");
-          },
-          { enableHighAccuracy: true }
+          () => alert("Location access denied or unavailable.")
         );
-      } else {
-        alert("Geolocation is not supported by your browser.");
       }
     }
 
-    // 6. Calling Function Triggers
-    function startVoiceCall() {
-      alert("📞 Voice Call initiated!");
-    }
+    window.startVoiceCall = () => alert("📞 Voice Call initiated!");
+    window.startVideoCall = () => alert("📹 Video Call initiated!");
 
-    function startVideoCall() {
-      alert("📹 Video Call initiated!");
-    }
-
-    // Common Message Builder Helper
     function appendMessage(content, type) {
       const msgDiv = document.createElement("div");
       msgDiv.className = `message ${type}`;
@@ -352,18 +362,10 @@
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    // Enter Key Send Event
     document.getElementById("messageInput").addEventListener("keypress", function(event) {
       if (event.key === "Enter") {
         sendMessage();
       }
-    });
-
-    // Auto scroll on mobile input focus
-    document.getElementById("messageInput").addEventListener("focus", function() {
-      setTimeout(() => {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 300);
     });
   </script>
 
