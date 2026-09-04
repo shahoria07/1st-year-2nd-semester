@@ -372,7 +372,7 @@ footer {
     width: 70%;
     left: 49%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
     flex-wrap: wrap;
-    gap: 9px;
+    gap: 7px;
     padding: 5px;
     z-index: 9999; ;
   }
