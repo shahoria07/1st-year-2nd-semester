@@ -35,10 +35,11 @@
   <div class="hamburger-dropdown">
     <button class="hamburger-btn" onclick="toggleMenu(event)">☰</button>
     <div class="dropdown-content" id="myDropdown">
+      <a href="./index.html">🏠 Home</a>
       <a href="./profile.html">👤 My Profile</a>
 
       <a href="./NOTICE.html" target="_blank">📢 Notice</a>
-      <a href="">💬 Our Chat</a>
+      <a href="./chat.html">💬 Our Chat</a>
       
      
       <a href="">⬇️ Download</a>
@@ -55,7 +56,7 @@
 
   <!-- Top Navigation Bar -->
   <nav class="side-menu">
-    <a href="./index.html">🏠</a>
+     
     <a href="./Digital%20System%20Design.html" target="_blank">💻</a>
     <a href="./Digital%20System%20Lab.html" target="_blank">🔬</a>
     <a href="./Discrete%20Mathematics.html" target="_blank">📐</a>
@@ -140,5 +141,26 @@
       }, 800);
     }, 2000);
   </script>
+
+
+
+<script>
+  // Hamburger Dropdown Toggle Logic
+  function toggleMenu(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById("myDropdown");
+    dropdown.classList.toggle("show-menu");
+  }
+
+  // স্ক্রিনের বাইরে ক্লিক করলে মেনু বন্ধ হওয়ার লজিক
+  window.onclick = function(event) {
+    const dropdown = document.getElementById("myDropdown");
+    if (dropdown && dropdown.classList.contains('show-menu')) {
+      dropdown.classList.remove('show-menu');
+    }
+  }
+</script>
+
+
 </body>
 </html>

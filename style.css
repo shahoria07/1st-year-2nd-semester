@@ -41,8 +41,8 @@ html {
 /* === Hamburger Dropdown (Top Left Corner) === */
 .hamburger-dropdown {
   position: fixed;
-  top: 15px;
-  left: 15px;
+  top: 25px;
+  left: 25px;
   z-index: 1001; /* Navigation Bar এর উপরে থাকবে */
 }
 
@@ -112,7 +112,7 @@ html {
   justify-content: center;
   align-items: center;
   border: 1px solid rgba(255,255,255,0.3);
-  gap: 70px;
+  gap: 90px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
@@ -288,7 +288,7 @@ footer {
 @media (max-width: 768px) {
   .hamburger-dropdown {
     top: 14px;
-    left: 8px;
+    left: 5px;
   }
 
   .hamburger-btn {
@@ -300,10 +300,11 @@ footer {
     top: 3px;
     margin-top: 8px;
     width: 82%;
-    left: 53%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
+    left: 54%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
     flex-wrap: wrap;
-    gap: 18px;
+    gap: 16px;
     padding: 5px;
+    z-index: 9999; ;
   }
 
   .side-menu a {

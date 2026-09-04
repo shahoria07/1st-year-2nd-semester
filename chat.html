@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Chat Room</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Firebase SDK Modules -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // TODO: আপনার Firebase কনফিগারেশন এখানে বসাবেন
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Firebase ইনিশিয়ালাইজ করা
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const messagesRef = ref(db, 'chat_messages');
+
+    // স্টুডেন্টের তথ্য লোকাল স্টোরেজ থেকে সংগ্রহ করা
+    let studentData = JSON.parse(localStorage.getItem('studentProfile')) || { name: 'Anonymous Student' };
+
+    window.sendMessage = function() {
+      const msgInput = document.getElementById('messageInput');
+      const text = msgInput.value.trim();
+
+      if (text !== "") {
+        push(messagesRef, {
+          sender: studentData.name || 'Student',
+          message: text,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        msgInput.value = "";
+      }
+    };
+
+    // রিয়েল-টাইমে মেসেজ রিসিভ করা
+    onChildAdded(messagesRef, (snapshot) => {
+      const data = snapshot.val();
+      const chatContainer = document.getElementById('chatContainer');
+      
+      const isMe = data.sender === (studentData.name || 'Student');
+      const msgHTML = `
+        <div class="msg-card ${isMe ? 'my-msg' : 'other-msg'}">
+          <small class="sender-name">${data.sender}</small>
+          <div class="msg-bubble">${data.message}</div>
+          <span class="msg-time">${data.time}</span>
+        </div>
+      `;
+
+      chatContainer.innerHTML += msgHTML;
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+  </script>
+
+  <style>
+    .chat-box {
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 550px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+    .chat-header {
+      background: #1e293b;
+      padding: 15px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      color: #dee94b;
+      font-weight: bold;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg-card {
+      display: flex;
+      flex-direction: column;
+      max-width: 75%;
+    }
+    .my-msg {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+    .other-msg {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+    .sender-name {
+      font-size: 11px;
+      color: #aaa;
+      margin-bottom: 2px;
+    }
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 15px;
+      font-size: 14px;
+      word-break: break-word;
+    }
+    .my-msg .msg-bubble {
+      background: #dee94b;
+      color: black;
+      border-bottom-right-radius: 2px;
+    }
+    .other-msg .msg-bubble {
+      background: #2f302f;
+      color: white;
+      border-bottom-left-radius: 2px;
+    }
+    .msg-time {
+      font-size: 9px;
+      color: #777;
+      margin-top: 2px;
+    }
+    .chat-input-area {
+      padding: 10px;
+      background: #111;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: white;
+    }
+    .chat-input-area button {
+      background: #dee94b;
+      color: black;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="chat-box">
+      <div class="chat-header">
+        💬 Student Community Chat
+      </div>
+
+      <div class="chat-messages" id="chatContainer">
+        <!-- মেসেজগুলো এখানে লাইভ প্রদর্শন হবে -->
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="messageInput" placeholder="মেসেজ লিখুন..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 15px;">
+      <a href="./index.html" style="color: #ffcc00; text-decoration: none;">🏠 Back to Home</a>
+    </div>
+  </div>
+
+</body>
+</html>

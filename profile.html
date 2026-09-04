@@ -1,11 +1,192 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
- </head>
- <body>
-    This Page Are Updated Very Soon Thanks From <b><i>STZ IT Co.</i></b>
- </body>
- </html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile Setup</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-box {
+      background: rgba(30, 30, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 450px;
+      margin: 30px auto;
+      color: white;
+    }
+    .profile-img-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #dee94b;
+      margin: 0 auto 15px auto;
+      display: block;
+      box-shadow: 0 0 10px rgba(222, 233, 75, 0.5);
+    }
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #dee94b;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: white;
+      box-sizing: border-box;
+    }
+    .btn {
+      background: #dee94b;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: #ffea00;
+    }
+    .profile-info p {
+      border-bottom: 1px solid #444;
+      padding: 8px 0;
+      margin: 5px 0;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="profile-box">
+      <h2 style="color: #dee94b; text-align: center;">🎓 Student Profile</h2>
+
+      <!-- ১. ফর্ম: যেখানে স্টুডেন্ট ছবি সহ তথ্য পূরণ করবে -->
+      <form id="profileForm" onsubmit="saveProfile(event)">
+        
+        <div class="input-group">
+          <label>Profile Picture:</label>
+          <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+        </div>
+
+        <div class="input-group">
+          <label>Student Name:</label>
+          <input type="text" id="name" required placeholder="আপনার নাম লিখুন">
+        </div>
+
+        <div class="input-group">
+          <label>Roll / ID:</label>
+          <input type="text" id="roll" required placeholder="আপনার রোল নম্বর">
+        </div>
+
+        <div class="input-group">
+          <label>Department & Batch:</label>
+          <input type="text" id="batch" required placeholder="উদাহরণ: CSE-27">
+        </div>
+
+        <div class="input-group">
+          <label>Phone / WhatsApp:</label>
+          <input type="text" id="phone" required placeholder="মোবাইল নম্বর">
+        </div>
+
+        <button type="submit" class="btn">Save Profile</button>
+      </form>
+
+      <!-- ২. সেভ হওয়া প্রোফাইল এবং ছবি প্রদর্শন -->
+      <div id="profileView" style="display: none;" class="profile-info">
+        <img id="viewImg" src="" alt="Student Photo" class="profile-img-preview">
+        
+        <p><strong>Name:</strong> <span id="viewName"></span></p>
+        <p><strong>Roll/ID:</strong> <span id="viewRoll"></span></p>
+        <p><strong>Batch:</strong> <span id="viewBatch"></span></p>
+        <p><strong>Phone:</strong> <span id="viewPhone"></span></p>
+        
+        <button onclick="editProfile()" class="btn" style="background: #ff9900;">Edit Profile</button>
+      </div>
+
+      <div style="text-align: center; margin-top: 15px;">
+        <a href="./index.html" style="color: #ffcc00; text-decoration: none;">🏠 Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let base64Image = "";
+
+    // ছবি সিলেক্ট করলে তা Base64 ফরমেটে কনভার্ট করা
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          base64Image = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // তথ্য এবং ছবি সেভ করা
+    function saveProfile(e) {
+      e.preventDefault();
+      
+      const studentData = {
+        image: base64Image || localStorage.getItem('std_img') || '',
+        name: document.getElementById('name').value,
+        roll: document.getElementById('roll').value,
+        batch: document.getElementById('batch').value,
+        phone: document.getElementById('phone').value
+      };
+
+      localStorage.setItem('studentProfile', JSON.stringify(studentData));
+      showProfile();
+    }
+
+    // প্রোফাইল স্ক্রিনে দেখানো
+    function showProfile() {
+      const savedData = localStorage.getItem('studentProfile');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        // ডিফল্ট ছবি যদি ইউজার ছবি না দেয়
+        document.getElementById('viewImg').src = data.image || './my-uni-pp.jpg';
+        document.getElementById('viewName').innerText = data.name;
+        document.getElementById('viewRoll').innerText = data.roll;
+        document.getElementById('viewBatch').innerText = data.batch;
+        document.getElementById('viewPhone').innerText = data.phone;
+
+        document.getElementById('profileForm').style.display = 'none';
+        document.getElementById('profileView').style.display = 'block';
+      }
+    }
+
+    // প্রোফাইল এডিট করা
+    function editProfile() {
+      const savedData = localStorage.getItem('studentProfile');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        document.getElementById('name').value = data.name;
+        document.getElementById('roll').value = data.roll;
+        document.getElementById('batch').value = data.batch;
+        document.getElementById('phone').value = data.phone;
+        base64Image = data.image;
+      }
+      document.getElementById('profileForm').style.display = 'block';
+      document.getElementById('profileView').style.display = 'none';
+    }
+
+    // পেজ লোড হওয়ার সময় প্রোফাইল চেক করা
+    showProfile();
+  </script>
+
+</body>
+</html>

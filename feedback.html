@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Feedback</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .feedback-box {
+      background: rgba(30, 30, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 500px;
+      margin: 30px auto;
+      color: white;
+    }
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #dee94b;
+    }
+    .input-group input, .input-group select, .input-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: white;
+      box-sizing: border-box;
+    }
+    .btn {
+      background: #dee94b;
+      color: black;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    .btn:hover {
+      background: #ffea00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="feedback-box">
+      <h2 style="color: #dee94b; text-align: center;">💬 Share Your Feedback</h2>
+
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <!-- এখানে আপনার Web3Forms Access Key বসাবেন -->
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+
+        <div class="input-group">
+          <label>Website Rating:</label>
+          <select name="rating" required>
+            <option value="5 Stars">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4 Stars">⭐⭐⭐⭐ (Good)</option>
+            <option value="3 Stars">⭐⭐⭐ (Average)</option>
+            <option value="2 Stars">⭐⭐ (Needs Improvement)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Your Feedback / Suggestion:</label>
+          <textarea name="feedback_message" rows="4" required placeholder="সাইটটি কেমন লেগেছে বা নতুন কি যুক্ত করা যায় অথবা আপনি কিসের কমতি অনুভব করছেন পরামর্শ দিন..."></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Name Department & Id (Optional):</label>
+          <input type="text" name="student_name" placeholder="আপনার নাম বিভাগ এবং আইডি লিখুন">
+        </div>
+
+        <button type="submit" class="btn">Submit Feedback</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 15px;">
+        <a href="./index.html" style="color: #ffcc00; text-decoration: none;">🏠 Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
