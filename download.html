@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatVerse - Offline Library</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0b141a;
+      color: #e9edef;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      height: 60px;
+      background: #111b21;
+      border-bottom: 1px solid #222d34;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h2 {
+      font-size: 18px;
+      color: #00a884;
+    }
+
+    /* Container */
+    .container {
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-title {
+      font-size: 15px;
+      color: #8696a0;
+      margin: 15px 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Resource Cards */
+    .file-card {
+      background: #111b21;
+      border: 1px solid #222d34;
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-icon {
+      font-size: 24px;
+    }
+
+    .file-details h4 {
+      font-size: 15px;
+      color: #e9edef;
+    }
+
+    .file-details p {
+      font-size: 12px;
+      color: #8696a0;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-download {
+      background: #00a884;
+      color: #fff;
+    }
+
+    .btn-download:hover {
+      background: #029071;
+    }
+
+    .btn-open {
+      background: #2a3942;
+      color: #DEE94B;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .badge-offline {
+      background: #005c4b;
+      color: #25d366;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h2>📚 Offline Resource Center</h2>
+    <a href="index.html" style="color: #8696a0; text-decoration: none;">🏠 Home</a>
+  </header>
+
+  <div class="container">
+    
+    <!-- 1. Web Library Books / Files -->
+    <div class="section-title">Available Books & Files (অনলাইন)</div>
+    
+    <div class="file-card">
+      <div class="file-info">
+        <div class="file-icon">📕</div>
+        <div class="file-details">
+          <h4>CSE 2nd Sem - Physics Book</h4>
+          <p>PDF • 5.2 MB</p>
+        </div>
+      </div>
+      <button class="btn btn-download" onclick="saveFileOffline('Physics Book', 'physics.pdf')">Save Offline 📥</button>
+    </div>
+
+    <div class="file-card">
+      <div class="file-info">
+        <div class="file-icon">📘</div>
+        <div class="file-details">
+          <h4>Data Structure Notes</h4>
+          <p>PDF • 2.1 MB</p>
+        </div>
+      </div>
+      <button class="btn btn-download" onclick="saveFileOffline('Data Structure Notes', 'ds_notes.pdf')">Save Offline 📥</button>
+    </div>
+
+
+    <!-- 2. Saved Offline Files Area -->
+    <div class="section-title">Saved Offline Files (নেটা ছাড়া এখানে দেখা যাবে)</div>
+    <div id="savedFilesContainer">
+      <p style="color: #8696a0; font-size: 13px;">কোনো ফাইল অফলাইনে সেভ করা নেই।</p>
+    </div>
+
+  </div>
+
+  <script>
+    // IndexedDB তৈরি (ফাইল স্থানীয়ভাবে ব্রাউজারে ধরে রাখার জন্য)
+    let db;
+    const request = indexedDB.open("ChatVerseOfflineDB", 1);
+
+    request.onupgradeneeded = function(e) {
+      db = e.target.result;
+      db.createObjectStore("files", { keyPath: "name" });
+    };
+
+    request.onsuccess = function(e) {
+      db = e.target.result;
+      loadOfflineFiles();
+    };
+
+    // ওয়েবসাইট থেকে বই বা ফাইল ডাউনলোড করে অফলাইনে সেভ করার ফাংশন
+    function saveFileOffline(fileName, fileUrl) {
+      alert(fileName + " ডাউনলোডিং... ইন্টারনেট ছাড়াই পরবর্তীতে পড়া যাবে।");
+      
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const transaction = db.transaction(["files"], "readwrite");
+          const store = transaction.objectStore("files");
+          
+          store.put({
+            name: fileName,
+            fileBlob: blob,
+            date: new Date().toLocaleDateString()
+          });
+
+          transaction.oncomplete = function() {
+            alert("✅ " + fileName + " অফলাইনে সেভ হয়ে গেছে!");
+            loadOfflineFiles();
+          };
+        })
+        .catch(err => {
+          alert("ফাইল ডাউনলোড করতে সমস্যা হয়েছে। সার্ভারে ফাইলটি নিশ্চিত করুন।");
+        });
+    }
+
+    // অফলাইনে সেভ হওয়া ফাইলগুলো লিস্ট আকারে দেখানো
+    function loadOfflineFiles() {
+      const transaction = db.transaction(["files"], "readonly");
+      const store = transaction.objectStore("files");
+      const getAll = store.getAll();
+
+      getAll.onsuccess = function() {
+        const container = document.getElementById("savedFilesContainer");
+        const files = getAll.result;
+
+        if (files.length === 0) {
+          container.innerHTML = `<p style="color: #8696a0; font-size: 13px;">কোনো ফাইল অফলাইনে সেভ করা নেই।</p>`;
+          return;
+        }
+
+        container.innerHTML = "";
+        files.forEach(file => {
+          const blobUrl = URL.createObjectURL(file.fileBlob);
+          container.innerHTML += `
+            <div class="file-card">
+              <div class="file-info">
+                <div class="file-icon">📄</div>
+                <div class="file-details">
+                  <h4>${file.name} <span class="badge-offline">Offline Ready</span></h4>
+                  <p>Saved Date: ${file.date}</p>
+                </div>
+              </div>
+              <a href="${blobUrl}" target="_blank" class="btn btn-open">Read / View 📖</a>
+            </div>
+          `;
+        });
+      };
+    }
+  </script>
+
+</body>
+</html>

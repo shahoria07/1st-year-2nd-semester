@@ -13,6 +13,43 @@ body {
   min-height: 100vh;
 }
 
+
+
+ /* Notification Bell Button Styling */
+    .notif-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px; /* একদম ডানপাশে পজিশন */
+      z-index: 1000;
+      background: #1e293b;
+      border: 1px solid #dee94b;
+      color: white;
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .notif-btn:active {
+      transform: scale(0.9);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: red;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+
+
+
 /* Scrollbar Style */
 ::-webkit-scrollbar {
   width: 16px;
@@ -104,8 +141,8 @@ html {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: 1100px;
+  width:90%;
+  max-width: 1000px;
   margin: 0;
   display: flex;
   flex-direction: row;
@@ -288,8 +325,31 @@ footer {
 @media (max-width: 768px) {
   .hamburger-dropdown {
     top: 14px;
-    left: 3px;
+    left: 5px;
   }
+
+
+
+
+  .notif-btn {
+  position: fixed;
+  top: 14px;
+  right: 5px; /* স্ক্রিনের ডান পাশে ঠিকমত বসবে */
+  z-index: 1000;
+  background: #1e293b;
+  border: 1px solid #fffffb;
+  color: white;
+  font-size: 13px; /* মোবাইলের জন্য আইকন কিছুটা ছোট */
+  padding: 8px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 
   .hamburger-btn {
     font-size: 18px;
@@ -299,8 +359,8 @@ footer {
   .side-menu {
     top: 3px;
     margin-top: 8px;
-    width: 82%;
-    left: 54%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
+    width: 70%;
+    left: %; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
     flex-wrap: wrap;
     gap: 16px;
     padding: 5px;

@@ -10,6 +10,7 @@
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZJRWW8016"></script>
   <script>
+    
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -59,9 +60,16 @@
         margin-right: auto;
       }
     }
+
+   
   </style>
 </head>
 <body>
+
+  <!-- Top Right Corner Notification Button -->
+  <button class="notif-btn" id="notifBtn" onclick="requestNotificationPermission()" title="Enable Notifications">
+    🔔 <span class="notif-badge" id="notifBadge" style="display:none;">!</span>
+  </button>
 
   <!-- Hamburger Dropdown (Top Left Corner) -->
   <div class="hamburger-dropdown">
@@ -69,45 +77,36 @@
     <div class="dropdown-content" id="myDropdown">
       <a href="./index.html">🏠 Home</a>
       <a href="./profile.html">👤 My Profile</a>
-
       <a href="./NOTICE.html" target="_blank">📢 Notice</a>
-      <a href="./chat.html" target="_blank">💬 Our Chat</a>
-      
-     
-      <a href="">⬇️ Download</a>
-      
+      <a href="./chat.html" target="_blank">👥 ChatVerse</a>
+      <a href="./download.html">⬇️ Download</a>
       <a href="">📄 Assignment</a>
       <a href="./complain.html" target="_blank">📝 Complain Box</a>
       <a href="./HELP-LINE.html" target="_blank">☎️ Helpline</a>
       <a href="./feedback.html" target="_blank">💬 Feedback</a>
       <a href="">⚙️ Setting</a>
-     <a href="./about.html">ℹ️ About Us</a>
-     <a href="">🚪 Log Out</a>
-      
+      <a href="./about.html">ℹ️ About Us</a>
+      <a href="">🚪 Log Out</a>
     </div>
   </div>
 
   <!-- Top Navigation Bar -->
   <nav class="side-menu">
-    
     <a href="./Digital%20System%20Design.html" target="_blank">💻</a>
     <a href="./Digital%20System%20Lab.html" target="_blank">🔬</a>
     <a href="./Discrete%20Mathematics.html" target="_blank">📐</a>
     <a href="./Linear%20Algebra.html" target="_blank">📊</a>
     <a href="./Statistics%20and%20Probability.html" target="_blank">📈</a>
     <a href="./History%20of%20the%20Emergence%20of%20Independent%20Bangladesh.html" target="_blank">📜</a>
-     
-    
   </nav>
 
   <!-- Main Center Wrapper -->
   <div class="main-container">
 
-    <!-- Notice Bar (এখন এটি ছবির উপরে প্রদর্শিত হবে) -->
+    <!-- Notice Bar -->
     <div class="notice">
       <span>📢 Breaking News:</span>
-      <marquee> “Due to some unavoidable circumstances your classes are postponed on next Sunday (06/09/26).
-From next day classes will be held accordingly. আগামী রবিবারের ক্লাস হবে না। তবে তার পরের দিন থেকে নিয়মিত ক্লাস চলবে।”</marquee>
+      <marquee> “Due to some unavoidable circumstances your classes are postponed on next Sunday (06/09/26). From next day classes will be held accordingly. আগামী রবিবারের ক্লাস হবে না। তবে তার পরের দিন থেকে নিয়মিত ক্লাস চলবে।”</marquee>
     </div>
 
     <!-- Header Animation Text & Random Image Container --> 
@@ -163,7 +162,39 @@ From next day classes will be held accordingly. আগামী রবিবা�
     </div>
   </footer>
 
-  <!-- Animation & Toggle Scripts -->
+  <!-- Firebase Realtime Notification Listener Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7NIqxJfzFcI88KBJZ1j8aiqeDOmZPcY",
+      authDomain: "our-chat-25a46.firebaseapp.com",
+      databaseURL: "https://our-chat-25a46-default-rtdb.firebaseio.com",
+      projectId: "our-chat-25a46",
+      storageBucket: "our-chat-25a46.firebasestorage.app",
+      messagingSenderId: "947765671445",
+      appId: "1:947765671445:web:1023862cb43225a697881c",
+      measurementId: "G-M854FQ44TZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const notifRef = ref(db, 'site_notifications');
+
+    // ফায়ারবেসে নতুন নোটিফিকেশন যুক্ত হলে ব্রাউজার পপ-আপ পাঠানো
+    onChildAdded(notifRef, (snapshot) => {
+      const data = snapshot.val();
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(data.title || "নতুন নোটিশ / আপডেট!", {
+          body: data.message,
+          icon: "./favicon.png"
+        });
+      }
+    });
+  </script>
+
+  <!-- Animation, Menu & Notification Permission Scripts -->
   <script>
     // Hamburger Dropdown Click Toggle Logic
     function toggleMenu(event) {
@@ -179,6 +210,35 @@ From next day classes will be held accordingly. আগামী রবিবা�
         dropdown.classList.remove('show-menu');
       }
     }
+
+    // নোটিফিকেশন পারমিশন চাওয়ার লজিক
+    function requestNotificationPermission() {
+      if (!("Notification" in window)) {
+        alert("আপনার ব্রাউজারে নোটিফিকেশন সাপোর্ট করে না।");
+        return;
+      }
+
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          alert("নোটিফিকেশন সক্রিয় করা হয়েছে! নতুন আপডেট আসলে আপনি জানতে পারবেন।");
+          document.getElementById("notifBadge").style.display = "none";
+          
+          new Notification("ISTT CSE 2nd Seme Portal", {
+            body: "নোটিফিকেশন সিস্টেম সফলভাবে চালু হয়েছে!",
+            icon: "./favicon.png"
+          });
+        } else {
+          alert("নোটিফিকেশন অনুমতি দেওয়া হয়নি।");
+        }
+      });
+    }
+
+    // পেজ লোড হলে পারমিশন স্টেট চেক করা
+    window.addEventListener('load', () => {
+      if ("Notification" in window && Notification.permission !== "granted") {
+        document.getElementById("notifBadge").style.display = "inline-block";
+      }
+    });
 
     // Animation & Random Image Script
     const images = [

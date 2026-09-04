@@ -1,225 +1,358 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Chat Room</title>
-  <link rel="stylesheet" href="style.css">
+  <title>ChatVerse Community</title>
+  <link rel="icon" href="favicon.png" type="image/png">
   
-  <!-- Firebase SDK Modules -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    // স্ক্রিনশট থেকে সংগৃহীত আপনার আসল Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7NIqxJfzFcI88KBJZ1j8aiqeDOmZPcY",
-      authDomain: "our-chat-25a46.firebaseapp.com",
-      databaseURL: "https://our-chat-25a46-default-rtdb.firebaseio.com",
-      projectId: "our-chat-25a46",
-      storageBucket: "our-chat-25a46.firebasestorage.app",
-      messagingSenderId: "947765671445",
-      appId: "1:947765671445:web:1023862cb43225a697881c",
-      measurementId: "G-M854FQ44TZ"
-    };
-
-    // Firebase ইনিশিয়ালাইজেশন
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const messagesRef = ref(db, 'chat_messages');
-
-    // মেসেজ পাঠানোর লজিক
-    window.sendMessage = function() {
-      const msgInput = document.getElementById('messageInput');
-      const text = msgInput.value.trim();
-
-      const savedProfile = JSON.parse(localStorage.getItem('studentProfile'));
-      const senderName = savedProfile && savedProfile.name ? savedProfile.name : 'Student';
-
-      if (text !== "") {
-        push(messagesRef, {
-          sender: senderName,
-          message: text,
-          timestamp: Date.now(),
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }).then(() => {
-          msgInput.value = "";
-        }).catch((err) => {
-          alert("Error: " + err.message);
-        });
-      }
-    };
-
-    // রিয়েল-টাইমে মেসেজ গ্রহণ
-    onChildAdded(messagesRef, (snapshot) => {
-      const data = snapshot.val();
-      const chatContainer = document.getElementById('chatContainer');
-
-      const savedProfile = JSON.parse(localStorage.getItem('studentProfile'));
-      const myName = savedProfile && savedProfile.name ? savedProfile.name : 'Student';
-
-      const isMe = data.sender === myName;
-      const msgHTML = `
-        <div class="msg-card ${isMe ? 'my-msg' : 'other-msg'}">
-          <small class="sender-name">${data.sender}</small>
-          <div class="msg-bubble">${data.message}</div>
-          <span class="msg-time">${data.time}</span>
-        </div>
-      `;
-
-      chatContainer.innerHTML += msgHTML;
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    });
-  </script>
-
   <style>
-    .chat-box {
-      background: rgba(20, 20, 20, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      width: 90%;
-      max-width: 550px;
-      margin: 20px auto;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Full Screen Dark Layout */
+    body, html {
+      height: 100%;
+      width: 100vw;
+      background-color: #0c141a;
+      color: #e9edef;
+      overflow: hidden; /* স্ক্রিন ফিক্সড রাখার জন্য */
       display: flex;
       flex-direction: column;
-      height: 80vh;
-      box-shadow: 0 0 20px rgba(0,0,0,0.8);
     }
+
+    /* 1. TOP FIXED HEADER (Logo Centered & Call Icons Right) */
     .chat-header {
-      background: #1e293b;
-      padding: 15px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      text-align: center;
-      color: #dee94b;
-      font-weight: bold;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: #204d12;
+      border-bottom: 1px solid #29678d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
-    .chat-messages {
+
+    .brand-logo {
+      width: 280px;
+      height: auto;
+    }
+
+    /* Call Action Buttons */
+    .call-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .header-btn {
+      background: #202c33;
+      border: 1px solid #00a884;
+      color: #00a884;
+      padding: 8px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    .header-btn:hover {
+      background: #00a884;
+      color: white;
+    }
+
+    /* 2. MIDDLE SCROLLABLE CHAT AREA */
+    .chat-body {
       flex: 1;
+      margin-top: 65px;    /* হেডার স্পেস */
+      margin-bottom: 65px; /* ইনপুট সেকশন স্পেস */
       padding: 15px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .msg-card {
-      display: flex;
-      flex-direction: column;
+
+    /* Message Bubbles */
+    .message {
       max-width: 75%;
-    }
-    .my-msg {
-      align-self: flex-end;
-      align-items: flex-end;
-    }
-    .other-msg {
-      align-self: flex-start;
-      align-items: flex-start;
-    }
-    .sender-name {
-      font-size: 11px;
-      color: #aaa;
-      margin-bottom: 2px;
-    }
-    .msg-bubble {
       padding: 10px 14px;
-      border-radius: 15px;
+      border-radius: 12px;
       font-size: 14px;
-      word-break: break-word;
+      line-height: 1.4;
+      word-wrap: break-word;
     }
-    .my-msg .msg-bubble {
-      background: #dee94b;
-      color: black;
-      border-bottom-right-radius: 2px;
-    }
-    .other-msg .msg-bubble {
-      background: #2f302f;
-      color: white;
+
+    .received {
+      background: #202c33;
+      align-self: flex-start;
       border-bottom-left-radius: 2px;
     }
-    .msg-time {
-      font-size: 9px;
-      color: #777;
-      margin-top: 2px;
+
+    .sent {
+      background: #005c4b;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
     }
-    .chat-input-area {
-      padding: 10px;
-      background: #111;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
+
+    .chat-img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+
+    .chat-file-link {
+      color: #DEE94B;
+      text-decoration: underline;
+      display: inline-block;
+      margin-top: 4px;
+      font-weight: bold;
+    }
+
+    /* 3. BOTTOM FIXED MULTIMEDIA INPUT BAR */
+    .chat-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: #111b21;
+      border-top: 1px solid #222d34;
       display: flex;
+      align-items: center;
+      padding: 10px 10px;
       gap: 8px;
+      z-index: 1000;
     }
-    .chat-input-area input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #444;
-      background: #222;
-      color: white;
-    }
-    .chat-input-area button {
-      background: #dee94b;
-      color: black;
+
+    .attach-btn {
+      background: none;
       border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
+      color: #8696a0;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .attach-btn:hover {
+      color: #00a884;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: #2a3942;
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .chat-input::placeholder {
+      color: #8696a0;
+    }
+
+    .send-btn {
+      background: #00a884;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 50px;
       font-weight: bold;
       cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s ease;
+    }
+
+    .send-btn:hover {
+      background: #029071;
+    }
+
+    /* Hidden File Inputs */
+    input[type="file"] {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Hamburger Menu -->
-  <div class="hamburger-dropdown">
-    <button class="hamburger-btn" onclick="toggleMenu(event)">☰</button>
-    <div class="dropdown-content" id="myDropdown">
-      <a href="./index.html">🏠 Home</a>
-      <a href="./NOTICE.html" target="_blank">📢 Notice</a>
-      <a href="./HELP-LINE.html" target="_blank">☎️ Helpline</a>
-      <a href="./profile.html">👤 My Profile</a>
-      <a href="./chat.html">💬 Chat Room</a>
-      <a href="./complain.html">📥 Complain Box</a>
-      <a href="./feedback.html">💬 Feedback</a>
-      <a href="./about.html">ℹ️ About Us</a>
+  <!-- 1. FIXED TOP HEADER WITH LOGO & CALL OPTIONS -->
+  <header class="chat-header">
+    <div style="width: 40px;"></div> <!-- Left Spacer for Center Alignment -->
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" class="brand-logo">
+      <defs>
+        <linearGradient id="cvGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00F2FE" />
+          <stop offset="100%" stop-color="#4FACFE" />
+        </linearGradient>
+        <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFFFFF" />
+          <stop offset="100%" stop-color="#DEE94B" />
+        </linearGradient>
+      </defs>
+
+      <g transform="translate(10, 10)">
+        <circle cx="50" cy="50" r="42" fill="none" stroke="url(#cvGradient)" stroke-width="4" stroke-dasharray="180 60" transform="rotate(-45 50 50)"/>
+        <path d="M 25 35 C 25 20, 75 20, 75 35 C 75 50, 55 50, 45 60 C 42 62, 38 65, 32 68 C 35 60, 25 52, 25 35 Z" fill="url(#cvGradient)" />
+        <circle cx="40" cy="36" r="4" fill="#0F172A" />
+        <circle cx="50" cy="36" r="4" fill="#0F172A" />
+        <circle cx="60" cy="36" r="4" fill="#0F172A" />
+        <circle cx="85" cy="20" r="6" fill="#DEE94B" />
+      </g>
+
+      <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">
+        Chat<tspan fill="#4FACFE">Verse</tspan>
+      </text>
+      
+      <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">
+        CONNECT THE WORLD
+      </text>
+    </svg>
+
+    <!-- Calling Buttons -->
+    <div class="call-actions">
+      <button class="header-btn" onclick="startVoiceCall()" title="Voice Call">📞</button>
+      <button class="header-btn" onclick="startVideoCall()" title="Video Call">📹</button>
     </div>
-  </div>
+  </header>
 
-  <div class="main-container">
-    <div class="chat-box">
-      <div class="chat-header">
-        💬 Student Community Chat
-      </div>
-
-      <div class="chat-messages" id="chatContainer">
-        <!-- মেসেজ প্রদর্শিত হবে -->
-      </div>
-
-      <div class="chat-input-area">
-        <input type="text" id="messageInput" placeholder="মেসেজ লিখুন..." onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()">Send</button>
-      </div>
+  <!-- 2. SCROLLABLE CHAT MESSAGES CONTAINER -->
+  <main class="chat-body" id="chatContainer">
+    <div class="message received">
+      Welcome to ChatVerse Community! 🚀
     </div>
+  </main>
 
-    <div style="text-align: center; margin-bottom: 15px;">
-      <a href="./index.html" style="color: #ffcc00; text-decoration: none;">🏠 Back to Home</a>
-    </div>
-  </div>
+  <!-- 3. FIXED BOTTOM MESSAGE & ATTACHMENT INPUT BAR -->
+  <footer class="chat-footer">
+    <!-- Image Button -->
+    <label for="imageInput" class="attach-btn" title="Send Image">📷</label>
+    <input type="file" id="imageInput" accept="image/*" onchange="sendImage(this)">
+
+    <!-- PDF/File Button -->
+    <label for="pdfInput" class="attach-btn" title="Send PDF / File">📄</label>
+    <input type="file" id="pdfInput" accept="application/pdf" onchange="sendPDF(this)">
+
+    <!-- Voice Note Button -->
+    <button class="attach-btn" id="recordBtn" onclick="toggleVoiceRecord()" title="Record Audio">🎤</button>
+
+    <!-- Location Button -->
+    <button class="attach-btn" onclick="requestUserLocation()" title="Share Location">📍</button>
+
+    <!-- Text Input & Send -->
+    <input type="text" id="messageInput" class="chat-input" placeholder="Type a message..." autocomplete="off">
+    <button class="send-btn" onclick="sendMessage()">Send</button>
+  </footer>
 
   <script>
-    function toggleMenu(event) {
-      event.stopPropagation();
-      const dropdown = document.getElementById("myDropdown");
-      dropdown.classList.toggle("show-menu");
-    }
+    const chatContainer = document.getElementById("chatContainer");
 
-    window.onclick = function(event) {
-      const dropdown = document.getElementById("myDropdown");
-      if (dropdown && dropdown.classList.contains('show-menu')) {
-        dropdown.classList.remove('show-menu');
+    // 1. Text Message Send
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+
+      if (text !== "") {
+        appendMessage(text, 'sent');
+        input.value = "";
       }
     }
+
+    // 2. Image Attach & Send
+    function sendImage(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgHTML = `📷 <b>Image Sent:</b><br><img src="${e.target.result}" class="chat-img" />`;
+          appendMessage(imgHTML, 'sent');
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // 3. PDF Attach & Send
+    function sendPDF(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileURL = URL.createObjectURL(file);
+        const pdfHTML = `📄 <b>File:</b> ${file.name}<br><a href="${fileURL}" target="_blank" class="chat-file-link">📥 View / Download PDF</a>`;
+        appendMessage(pdfHTML, 'sent');
+      }
+    }
+
+    // 4. Voice Note Logic
+    let isRecording = false;
+    function toggleVoiceRecord() {
+      const recBtn = document.getElementById("recordBtn");
+      if (!isRecording) {
+        isRecording = true;
+        recBtn.style.color = "red";
+        alert("🎤 Recording Started... Click again to stop and send.");
+      } else {
+        isRecording = false;
+        recBtn.style.color = "#8696a0";
+        appendMessage("🎙️ <i>Voice Note (0:05)</i>", 'sent');
+      }
+    }
+
+    // 5. GPS Location Sharing
+    function requestUserLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+            const locHTML = `📍 <b>My Live Location:</b><br><a href="${mapUrl}" target="_blank" class="chat-file-link">🗺️ Open in Google Maps</a>`;
+            appendMessage(locHTML, 'sent');
+          },
+          (error) => {
+            alert("Location access denied or unavailable.");
+          },
+          { enableHighAccuracy: true }
+        );
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    }
+
+    // 6. Calling Function Triggers
+    function startVoiceCall() {
+      alert("📞 Voice Call initiated!");
+    }
+
+    function startVideoCall() {
+      alert("📹 Video Call initiated!");
+    }
+
+    // Common Message Builder Helper
+    function appendMessage(content, type) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${type}`;
+      msgDiv.innerHTML = content;
+      chatContainer.appendChild(msgDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Enter Key Send Event
+    document.getElementById("messageInput").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
   </script>
 
 </body>
