@@ -6,11 +6,18 @@
   <title>Videos For CSE Student</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* Global Reset & Responsive Box-sizing */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       background-color: #0f0f0f;
       margin: 0;
+      padding: 0;
       font-family: 'Roboto', 'Segoe UI', sans-serif;
       color: #f1f1f1;
+      overflow-x: hidden; /* স্ক্রিনের বাইরে চলে যাওয়া বা ডানে স্ক্রোল বন্ধ করবে */
     }
 
     /* Hamburger Menu */
@@ -64,7 +71,7 @@
 
     .page-header {
       text-align: center;
-      padding: 30px 20px 15px 20px;
+      padding: 60px 15px 15px 15px; /* মেনু বাটন এর জন্য উপরিভাগে একটু স্পেস দেওয়া হয়েছে */
       background: #0f0f0f;
       border-bottom: 1px solid #272727;
     }
@@ -72,7 +79,7 @@
     .page-header h1 {
       color: #dee94b;
       margin: 0;
-      font-size: 26px;
+      font-size: 24px;
     }
 
     .page-header p {
@@ -81,14 +88,15 @@
       margin-top: 5px;
     }
 
-    /* YouTube Grid Design */
+    /* Responsive YouTube Grid Design */
     .yt-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
-      padding: 25px;
+      padding: 15px;
       max-width: 1800px;
       margin: 0 auto;
+      width: 100%;
     }
 
     .yt-card {
@@ -98,6 +106,7 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
+      width: 100%;
     }
 
     .yt-card:hover {
@@ -107,7 +116,7 @@
     .yt-thumbnail-wrapper {
       position: relative;
       width: 100%;
-      padding-top: 56.25%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
       border-radius: 12px;
       overflow: hidden;
       background-color: #272727;
@@ -150,7 +159,7 @@
 
     .video-title {
       color: #f1f1f1;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       line-height: 1.3;
       margin-bottom: 6px;
@@ -162,7 +171,7 @@
 
     .channel-name {
       color: #aaa;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     /* Video Player Modal */
@@ -177,8 +186,7 @@
       z-index: 3000;
       justify-content: center;
       align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
+      padding: 15px;
     }
 
     .modal-overlay.active {
@@ -188,7 +196,7 @@
     .modal-content {
       position: relative;
       width: 100%;
-      max-width: 1000px;
+      max-width: 900px;
       background: #0f0f0f;
       border-radius: 12px;
       overflow: hidden;
@@ -212,32 +220,75 @@
     }
 
     .modal-info {
-      padding: 15px 20px;
+      padding: 12px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .modal-title {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
       color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80%;
     }
 
     .close-btn {
       background: #272727;
       border: none;
       color: #fff;
-      font-size: 20px;
-      width: 36px;
-      height: 36px;
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .close-btn:hover {
       background: #383838;
       color: #dee94b;
+    }
+
+    /* Mobile Responsive Custom Optimization */
+    @media (max-width: 500px) {
+      .yt-grid {
+        grid-template-columns: 1fr; /* মোবাইলে ১টি করে কার্ড পুরো স্ক্রিন জুড়ে দেখাবে */
+        padding: 10px;
+        gap: 15px;
+      }
+      
+      .page-header h1 {
+        font-size: 20px;
+      }
+
+      .hamburger-dropdown{
+          font-size: 8px;
+          margin-top: 2PX;
+          margin-left: 2px;
+          size: 10px;
+      }
+
+
+
+     .side-menu {
+    top: 3px;
+    margin-top: 8px;
+    width: 80%;
+    left: 60%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
+    flex-wrap: wrap;
+    gap: 11px;
+    padding: 5px;
+    z-index: 9999; ;
+  
+
+
+
     }
   </style>
 </head>
@@ -258,12 +309,32 @@
     </div>
   </div>
 
+
+
+<!-- Top Navigation Bar -->
+  <nav class="side-menu">
+    <a href="./Digital%20System%20Design.html" target="_blank">💻</a>
+    <a href="./Digital%20System%20Lab.html" target="_blank">🔬</a>
+    <a href="./Discrete%20Mathematics.html" target="_blank">📐</a>
+    <a href="./Linear%20Algebra.html" target="_blank">📊</a>
+    <a href="./Statistics%20and%20Probability.html" target="_blank">📈</a>
+    <a href="./History%20of%20the%20Emergence%20of%20Independent%20Bangladesh.html" target="_blank">📜</a>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="page-header">
     <h1>💻 Videos For CSE Student</h1>
-    <p>We will learn together; the future belongs to us.
-
-        
-    </p>
+    <p>We will learn together; the future belongs to us.</p>
   </div>
 
   <!-- YouTube Grid Area -->
@@ -271,1018 +342,59 @@
     
     <!-- ভিডিও ১ -->
     <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=irqbmMNs2Bo&list=PLE_puU2T81M0&index=1" 
+         data-url="https://www.youtube.com/watch?v=irqbmMNs2Bo" 
          data-title="C Language Tutorial for Beginners"
          data-channel="Apna College">
     </div>
 
     <!-- ভিডিও ২ -->
     <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=ERCMXc8x7mc&list=PLE_puU2T81M0&index=2" 
+         data-url="https://www.youtube.com/watch?v=ERCMXc8x7mc" 
          data-title="Python Tutorial for Beginners - Full Course (with Notes & Practice Questions)"
          data-channel="Apna College">
     </div>
 
-
-     <!-- ভিডিও 3 -->
+    <!-- ভিডিও ৩ -->
     <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=8WzSEikpHk8&list=PLE_puU2T81M0&index=3" 
+         data-url="https://www.youtube.com/watch?v=8WzSEikpHk8" 
          data-title="How to start AI/ML in 2026 ?"
          data-channel="Apna College">
     </div>
 
-
-    
-     <!-- ভিডিও 4 -->
+    <!-- ভিডিও ৪ -->
     <div class="yt-card" 
          data-url="https://www.youtube.com/watch?v=np_GzaVfUKw" 
          data-title="The Fastest Way to Improve Your English"
          data-channel="POC English">
     </div>
 
-
-    
-     <!-- ভিডিও 5 -->
+    <!-- ভিডিও ৫ -->
     <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=Smv2U9dSuWE&t=108s" 
+         data-url="https://www.youtube.com/watch?v=Smv2U9dSuWE" 
          data-title="Computer Basics A to Z with ChatGPT (AI)"
-         data-channel=" Ali Hossain">
+         data-channel="Ali Hossain">
     </div>
 
-
-    
-     <!-- ভিডিও 6 -->
+    <!-- ভিডিও ৬ -->
     <div class="yt-card" 
          data-url="https://www.youtube.com/watch?v=okmuA99CXrc" 
-         data-title="AI Engineer Full Course 2026 | Python, Machine Learning, GenAI & MLOps | Simplilearn "
+         data-title="AI Engineer Full Course 2026 | Python, Machine Learning, GenAI & MLOps"
          data-channel="Simplilearn">
     </div>
 
-    
-     <!-- ভিডিও 7-->
+    <!-- ভিডিও ৭ -->
     <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=v3iUx2SNspY&t=189s" 
-         data-title="
-Cyber Security Full Course for Beginners in 11 Hours - 2025 Edition"
+         data-url="https://www.youtube.com/watch?v=v3iUx2SNspY" 
+         data-title="Cyber Security Full Course for Beginners in 11 Hours - 2025 Edition"
          data-channel="WsCube Cyber Security">
     </div>
 
-
-    
-     <!-- ভিডিও 8 -->
+    <!-- ভিডিও ৮ -->
     <div class="yt-card" 
          data-url="https://www.youtube.com/watch?v=gmuTjeQUbTM" 
-         data-title="
-Harvard CS50 (2026) Full Computer Science University Course"
-         data-channel="freeCodeCamp.organd CS50">
+         data-title="Harvard CS50 (2026) Full Computer Science University Course"
+         data-channel="freeCodeCamp.org">
     </div>
-
-
-     <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url=":/ h?v=8WzSEikpHk8&list=PLE_puU2T81M0&index=3" 
-         data-title="How to start AI/ML in 2026 ?"
-         data-channel="Apna College">
-    </div>
-
-
-<!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-      <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-    
-
-      <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-    
-
-
-
-  <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-
-
-    <!-- ভিডিও 3 -->
-    <div class="yt-card" 
-         data-url="" 
-         data-title=" "
-         data-channel="Apna College">
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   </div>
 
@@ -1316,7 +428,7 @@ Harvard CS50 (2026) Full Computer Science University Course"
         const videoId = extractVideoID(url);
 
         if (videoId) {
-          const firstLetter = channel ? channel.charAt(0).toUpperCase() : 'C';
+          const firstLetter = channel ? channel.trim().charAt(0).toUpperCase() : 'C';
           
           card.innerHTML = `
             <div class="yt-thumbnail-wrapper">
@@ -1355,7 +467,6 @@ Harvard CS50 (2026) Full Computer Science University Course"
       modal.classList.remove('active');
     }
 
-    // Modal এর বাইরে ক্লিক করলে বন্ধ হবে
     document.getElementById('videoModal').addEventListener('click', function(e) {
       if (e.target === this) {
         closeModal();
