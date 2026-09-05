@@ -24,6 +24,7 @@
       flex-direction: column;
     }
 
+    /* HEADER */
     .chat-header {
       position: fixed;
       top: 0;
@@ -41,13 +42,14 @@
     }
 
     .brand-logo {
-      width: 300px;
+      width: 180px;
       height: auto;
     }
 
     .call-actions {
       display: flex;
       gap: 10px;
+      align-items: center;
     }
 
     .header-btn {
@@ -66,6 +68,17 @@
       color: white;
     }
 
+    /* User Profile Avatar in Header */
+    .my-header-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00a884;
+      cursor: pointer;
+    }
+
+    /* CHAT BODY */
     .chat-body {
       flex: 1;
       margin-top: 60px;
@@ -74,29 +87,65 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       -webkit-overflow-scrolling: touch;
     }
 
+    /* MESSAGE BUBBLE WITH PROFILE */
+    .msg-wrapper {
+      display: flex;
+      gap: 8px;
+      max-width: 85%;
+    }
+
+    .msg-wrapper.received {
+      align-self: flex-start;
+    }
+
+    .msg-wrapper.sent {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
     .message {
-      max-width: 80%;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 12px;
       font-size: 14px;
       line-height: 1.4;
       word-wrap: break-word;
+      position: relative;
     }
 
-    .received {
+    .received .message {
       background: #202c33;
-      align-self: flex-start;
       border-bottom-left-radius: 2px;
     }
 
-    .sent {
+    .sent .message {
       background: #005c4b;
-      align-self: flex-end;
       border-bottom-right-radius: 2px;
+    }
+
+    .sender-name {
+      font-size: 11px;
+      font-weight: bold;
+      color: #00a884;
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    .sent .sender-name {
+      color: #53bdeb;
+      text-align: right;
     }
 
     .chat-img {
@@ -113,6 +162,7 @@
       font-weight: bold;
     }
 
+    /* FOOTER */
     .chat-footer {
       position: fixed;
       bottom: 0;
@@ -137,11 +187,6 @@
       cursor: pointer;
       padding: 4px;
       flex-shrink: 0;
-      transition: color 0.2s;
-    }
-
-    .attach-btn:hover {
-      color: #00a884;
     }
 
     .chat-input {
@@ -156,14 +201,9 @@
       font-size: 14px;
     }
 
-    .chat-input::placeholder {
-      color: #8696a0;
-    }
-
     .send-btn {
       background: #00a884;
       border: none;
-      outline: none;
       color: white;
       padding: 9px 12px;
       border-radius: 50px;
@@ -171,22 +211,92 @@
       cursor: pointer;
       font-size: 13px;
       flex-shrink: 0;
-      transition: background 0.2s ease;
-    }
-
-    .send-btn:hover {
-      background: #029071;
     }
 
     input[type="file"] {
       display: none;
     }
+
+    /* PROFILE SETUP MODAL POPUP */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-box {
+      background: #111b21;
+      border: 1px solid #222d34;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+    }
+
+    .modal-box h3 {
+      margin-bottom: 15px;
+      color: #00a884;
+    }
+
+    .modal-avatar-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid #00a884;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      background: #2a3942;
+      border: none;
+      color: #fff;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    .modal-save-btn {
+      width: 100%;
+      padding: 10px;
+      background: #00a884;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
+  <!-- PROFILE MODAL FOR FIRST TIME VISITORS -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-box">
+      <h3>Setup Profile</h3>
+      <img id="modalAvatarPreview" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="modal-avatar-preview">
+      <br>
+      <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 13px;">Change Profile Picture</label>
+      <input type="file" id="profileImgInput" accept="image/*" onchange="previewProfilePic(this)">
+      
+      <input type="text" id="userNameInput" class="modal-input" placeholder="Enter your name..." style="margin-top: 15px;">
+      <button class="modal-save-btn" onclick="saveProfile()">Start Chatting</button>
+    </div>
+  </div>
+
+  <!-- TOP HEADER -->
   <header class="chat-header">
-    <div style="width: 40px;"></div>
+    <img id="myHeaderPic" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="my-header-avatar" onclick="openProfileModal()" title="Edit Profile">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" class="brand-logo">
       <defs>
@@ -199,7 +309,6 @@
           <stop offset="100%" stop-color="#DEE94B" />
         </linearGradient>
       </defs>
-
       <g transform="translate(10, 10)">
         <circle cx="50" cy="50" r="42" fill="none" stroke="url(#cvGradient)" stroke-width="4" stroke-dasharray="180 60" transform="rotate(-45 50 50)"/>
         <path d="M 25 35 C 25 20, 75 20, 75 35 C 75 50, 55 50, 45 60 C 42 62, 38 65, 32 68 C 35 60, 25 52, 25 35 Z" fill="url(#cvGradient)" />
@@ -208,14 +317,8 @@
         <circle cx="60" cy="36" r="4" fill="#0F172A" />
         <circle cx="85" cy="20" r="6" fill="#DEE94B" />
       </g>
-
-      <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">
-        Chat<tspan fill="#4FACFE">Verse</tspan>
-      </text>
-      
-      <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">
-        CONNECT THE WORLD
-      </text>
+      <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">Chat<tspan fill="#4FACFE">Verse</tspan></text>
+      <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">CONNECT THE WORLD</text>
     </svg>
 
     <div class="call-actions">
@@ -224,12 +327,10 @@
     </div>
   </header>
 
-  <main class="chat-body" id="chatContainer">
-    <div class="message received">
-      Welcome to ChatVerse Community! 🚀
-    </div>
-  </main>
+  <!-- CHAT MESSAGES CONTAINER -->
+  <main class="chat-body" id="chatContainer"></main>
 
+  <!-- BOTTOM INPUT BAR -->
   <footer class="chat-footer">
     <label for="imageInput" class="attach-btn" title="Send Image">📷</label>
     <input type="file" id="imageInput" accept="image/*" onchange="sendImage(this)">
@@ -244,16 +345,15 @@
     <button class="send-btn" onclick="sendMessage()">➤</button>
   </footer>
 
-  <!-- Firebase JavaScript SDK (Modular Setup) -->
+  <!-- FIREBASE MODULE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // আপনার স্ক্রিনশট অনুযায়ী আসল ক্রেডেনশিয়ালস
     const firebaseConfig = {
       apiKey: "AIzaSyAsA-3A0pd8Vn6u4MbZr56uF80MBst7fTA",
       authDomain: "chatverse-5905d.firebaseapp.com",
-      databaseURL: "https://chatverse-5905d-default-rtdb.firebaseio.com", // লিঙ্ক পরিবর্তন হলে বদলে নেবেন
+      databaseURL: "https://chatverse-5905d-default-rtdb.firebaseio.com",
       projectId: "chatverse-5905d",
       storageBucket: "chatverse-5905d.firebasestorage.app",
       messagingSenderId: "692B37148566",
@@ -261,21 +361,61 @@
       measurementId: "G-VXVCV8R5JP"
     };
 
-    // Firebase ইনিশিয়ালাইজ করা
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const messagesRef = ref(db, "messages");
 
-    // ডিভাইসের জন্য আইডি জেনারেট
+    // Local Storage for User Info
     let myUserId = localStorage.getItem("chatVerseUserId");
     if (!myUserId) {
       myUserId = "user_" + Math.random().toString(36).substring(2, 9);
       localStorage.setItem("chatVerseUserId", myUserId);
     }
 
+    let myName = localStorage.getItem("chatVerseUserName") || "";
+    let myPic = localStorage.getItem("chatVerseUserPic") || `https://api.dicebear.com/7.x/bottts/svg?seed=${myUserId}`;
+
     const chatContainer = document.getElementById("chatContainer");
 
-    // ১. টেক্সট মেসেজ পাঠানো
+    // Show Profile Modal if Name not set
+    if (!myName) {
+      document.getElementById("profileModal").style.display = "flex";
+    } else {
+      document.getElementById("profileModal").style.display = "none";
+      document.getElementById("myHeaderPic").src = myPic;
+    }
+
+    // Save Profile
+    window.saveProfile = function() {
+      const nameInput = document.getElementById("userNameInput").value.trim();
+      if (nameInput) {
+        myName = nameInput;
+        localStorage.setItem("chatVerseUserName", myName);
+        localStorage.setItem("chatVerseUserPic", myPic);
+        document.getElementById("myHeaderPic").src = myPic;
+        document.getElementById("profileModal").style.display = "none";
+      } else {
+        alert("Please enter your name!");
+      }
+    }
+
+    window.openProfileModal = function() {
+      document.getElementById("userNameInput").value = myName;
+      document.getElementById("profileModal").style.display = "flex";
+    }
+
+    window.previewProfilePic = function(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          myPic = e.target.result;
+          document.getElementById("modalAvatarPreview").src = myPic;
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // 1. Send Text Message
     window.sendMessage = function() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
@@ -283,6 +423,8 @@
       if (text !== "") {
         push(messagesRef, {
           senderId: myUserId,
+          senderName: myName,
+          senderPic: myPic,
           content: text,
           timestamp: Date.now()
         });
@@ -290,37 +432,36 @@
       }
     }
 
-    // ২. রিয়েল-টাইমে মেসেজ রিসিভ করা (অন্য যেকোনো মোবাইল বা ডিভাইস থেকে)
+    // 2. Receive Realtime Messages
     onChildAdded(messagesRef, (snapshot) => {
       const data = snapshot.val();
       const messageType = data.senderId === myUserId ? "sent" : "received";
-      appendMessage(data.content, messageType);
+      appendMessage(data, messageType);
     });
 
-    // ৩. ছবি পাঠানো
+    // 3. Send Image
     window.sendImage = function(input) {
       if (input.files && input.files[0]) {
-        const file = input.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
           const imgHTML = `📷 <b>Image:</b><br><img src="${e.target.result}" class="chat-img" />`;
-          push(messagesRef, { senderId: myUserId, content: imgHTML, timestamp: Date.now() });
+          push(messagesRef, { senderId: myUserId, senderName: myName, senderPic: myPic, content: imgHTML, timestamp: Date.now() });
         }
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(input.files[0]);
       }
     }
 
-    // ৪. পিডিএফ পাঠানো
+    // 4. Send PDF
     window.sendPDF = function(input) {
       if (input.files && input.files[0]) {
         const file = input.files[0];
         const fileURL = URL.createObjectURL(file);
         const pdfHTML = `📄 <b>File:</b> ${file.name}<br><a href="${fileURL}" target="_blank" class="chat-file-link">📥 View / Download PDF</a>`;
-        push(messagesRef, { senderId: myUserId, content: pdfHTML, timestamp: Date.now() });
+        push(messagesRef, { senderId: myUserId, senderName: myName, senderPic: myPic, content: pdfHTML, timestamp: Date.now() });
       }
     }
 
-    // ৫. ভয়েস নোট
+    // 5. Voice Record
     let isRecording = false;
     window.toggleVoiceRecord = function() {
       const recBtn = document.getElementById("recordBtn");
@@ -331,11 +472,11 @@
       } else {
         isRecording = false;
         recBtn.style.color = "#8696a0";
-        push(messagesRef, { senderId: myUserId, content: "🎙️ <i>Voice Note (0:05)</i>", timestamp: Date.now() });
+        push(messagesRef, { senderId: myUserId, senderName: myName, senderPic: myPic, content: "🎙️ <i>Voice Note (0:05)</i>", timestamp: Date.now() });
       }
     }
 
-    // ৬. লাইভ লোকেশন
+    // 6. Share Location
     window.requestUserLocation = function() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -344,7 +485,7 @@
             const lng = position.coords.longitude;
             const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
             const locHTML = `📍 <b>Live Location:</b><br><a href="${mapUrl}" target="_blank" class="chat-file-link">🗺️ Open in Google Maps</a>`;
-            push(messagesRef, { senderId: myUserId, content: locHTML, timestamp: Date.now() });
+            push(messagesRef, { senderId: myUserId, senderName: myName, senderPic: myPic, content: locHTML, timestamp: Date.now() });
           },
           () => alert("Location access denied or unavailable.")
         );
@@ -354,11 +495,23 @@
     window.startVoiceCall = () => alert("📞 Voice Call initiated!");
     window.startVideoCall = () => alert("📹 Video Call initiated!");
 
-    function appendMessage(content, type) {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `message ${type}`;
-      msgDiv.innerHTML = content;
-      chatContainer.appendChild(msgDiv);
+    // Common Message Builder Helper
+    function appendMessage(data, type) {
+      const wrapper = document.createElement("div");
+      wrapper.className = `msg-wrapper ${type}`;
+
+      const nameHTML = `<span class="sender-name">${data.senderName || 'Anonymous'}</span>`;
+      const avatarHTML = `<img src="${data.senderPic || 'https://api.dicebear.com/7.x/bottts/svg?seed=user'}" class="msg-avatar" title="${data.senderName}">`;
+
+      wrapper.innerHTML = `
+        ${avatarHTML}
+        <div class="message">
+          ${nameHTML}
+          ${data.content}
+        </div>
+      `;
+
+      chatContainer.appendChild(wrapper);
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
