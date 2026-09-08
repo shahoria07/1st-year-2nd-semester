@@ -6,7 +6,6 @@
   <title>Videos For CSE Student</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Global Reset & Responsive Box-sizing */
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -17,10 +16,9 @@
       padding: 0;
       font-family: 'Roboto', 'Segoe UI', sans-serif;
       color: #f1f1f1;
-      overflow-x: hidden; /* স্ক্রিনের বাইরে চলে যাওয়া বা ডানে স্ক্রোল বন্ধ করবে */
+      overflow-x: hidden;
     }
 
-    /* Hamburger Menu */
     .hamburger-dropdown {
       position: fixed;
       top: 15px;
@@ -71,7 +69,7 @@
 
     .page-header {
       text-align: center;
-      padding: 60px 15px 15px 15px; /* মেনু বাটন এর জন্য উপরিভাগে একটু স্পেস দেওয়া হয়েছে */
+      padding: 60px 15px 15px 15px;
       background: #0f0f0f;
       border-bottom: 1px solid #272727;
     }
@@ -88,7 +86,7 @@
       margin-top: 5px;
     }
 
-    /* Responsive YouTube Grid Design */
+    /* Grid Layout */
     .yt-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -116,7 +114,7 @@
     .yt-thumbnail-wrapper {
       position: relative;
       width: 100%;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      padding-top: 56.25%;
       border-radius: 12px;
       overflow: hidden;
       background-color: #272727;
@@ -174,7 +172,7 @@
       font-size: 12px;
     }
 
-    /* Video Player Modal */
+    /* Modal Player */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -250,51 +248,17 @@
       justify-content: center;
     }
 
-    .close-btn:hover {
-      background: #383838;
-      color: #dee94b;
-    }
-
-    /* Mobile Responsive Custom Optimization */
     @media (max-width: 500px) {
       .yt-grid {
-        grid-template-columns: 1fr; /* মোবাইলে ১টি করে কার্ড পুরো স্ক্রিন জুড়ে দেখাবে */
+        grid-template-columns: 1fr;
         padding: 10px;
         gap: 15px;
       }
-      
-      .page-header h1 {
-        font-size: 20px;
-      }
-
-      .hamburger-dropdown{
-          font-size: 8px;
-          margin-top: 2PX;
-          margin-left: 2px;
-          size: 10px;
-      }
-
-
-
-     .side-menu {
-    top: 3px;
-    margin-top: 8px;
-    width: 80%;
-    left: 60%; /* Hamburger বাটনের জায়গা রাখার জন্য ডানপাশে একটু অ্যাডজাস্ট করা হলো */
-    flex-wrap: wrap;
-    gap: 11px;
-    padding: 5px;
-    z-index: 9999; ;
-  
-
-
-
     }
   </style>
 </head>
 <body>
 
-  <!-- Menu Dropdown -->
   <div class="hamburger-dropdown">
     <button class="hamburger-btn" onclick="toggleMenu(event)">☰</button>
     <div class="dropdown-content" id="myDropdown">
@@ -309,37 +273,22 @@
     </div>
   </div>
 
-
-
-<!-- Top Navigation Bar -->
-  <nav class="side-menu">
-    <a href="./Digital%20System%20Design.html" target="_blank">💻</a>
-    <a href="./Digital%20System%20Lab.html" target="_blank">🔬</a>
-    <a href="./Discrete%20Mathematics.html" target="_blank">📐</a>
-    <a href="./Linear%20Algebra.html" target="_blank">📊</a>
-    <a href="./Statistics%20and%20Probability.html" target="_blank">📈</a>
-    <a href="./History%20of%20the%20Emergence%20of%20Independent%20Bangladesh.html" target="_blank">📜</a>
-  </nav>
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="page-header">
     <h1>💻 Videos For CSE Student</h1>
     <p>We will learn together; the future belongs to us.</p>
   </div>
 
-  <!-- YouTube Grid Area -->
   <div class="yt-grid" id="videoGrid">
     
+    <!-- ১. আনিসুল ইসলাম - C Programming Full Playlist -->
+    <div class="yt-card" 
+         data-playlist="PLgH5QX0i9K3pCMBZcul1fta6UivHDbXvZ" 
+         data-video-id="5FrHBakZMA8"
+         data-thumb="https://i.ytimg.com/vi/5FrHBakZMA8/hqdefault.jpg"
+         data-title="সি প্রোগ্রামিং Bangla Full Course (Complete Playlist)"
+         data-channel="Anisul Islam">
+    </div>
+
     <!-- ভিডিও ১ -->
     <div class="yt-card" 
          data-url="https://www.youtube.com/watch?v=irqbmMNs2Bo" 
@@ -396,6 +345,22 @@
          data-channel="freeCodeCamp.org">
     </div>
 
+
+<!-- ভিডিও 9 -->
+    <div class="yt-card" 
+         data-url="https://www.youtube.com/watch?v=gmuTjeQUbTM" 
+         data-title="Harvard CS50 (2026) Full Computer Science University Course"
+         data-channel="freeCodeCamp.org">
+    </div>
+
+
+
+
+
+
+
+
+
   </div>
 
   <!-- Modal Player -->
@@ -405,7 +370,7 @@
         <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div class="modal-info">
-        <div class="modal-title" id="modalTitle">ভিডিও প্লেয়ার</div>
+        <div class="modal-title" id="modalTitle">ভিডিও প্লেয়ার</div>
         <button class="close-btn" onclick="closeModal()">✕</button>
       </div>
     </div>
@@ -418,21 +383,24 @@
       return (match && match[1]) ? match[1] : null;
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    function renderCards() {
       const cards = document.querySelectorAll('.yt-card');
       
       cards.forEach(card => {
+        const playlistId = card.getAttribute('data-playlist');
+        const customThumb = card.getAttribute('data-thumb');
         const url = card.getAttribute('data-url');
         const title = card.getAttribute('data-title');
         const channel = card.getAttribute('data-channel');
-        const videoId = extractVideoID(url);
 
-        if (videoId) {
-          const firstLetter = channel ? channel.trim().charAt(0).toUpperCase() : 'C';
-          
+        let videoId = card.getAttribute('data-video-id') || extractVideoID(url);
+        let thumbnailUrl = customThumb || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+        const firstLetter = channel ? channel.trim().charAt(0).toUpperCase() : 'C';
+
+        if (title) {
           card.innerHTML = `
             <div class="yt-thumbnail-wrapper">
-              <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Thumbnail">
+              <img src="${thumbnailUrl}" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/${videoId}/mqdefault.jpg'">
             </div>
             <div class="yt-details">
               <div class="channel-avatar">${firstLetter}</div>
@@ -444,18 +412,32 @@
           `;
 
           card.addEventListener('click', function() {
-            openModal(videoId, title);
+            if (playlistId) {
+              openPlaylistModal(playlistId, videoId, title);
+            } else {
+              openModal(videoId, title);
+            }
           });
         }
       });
-    });
+    }
 
     function openModal(videoId, title) {
       const modal = document.getElementById('videoModal');
       const iframe = document.getElementById('modalIframe');
       const titleElem = document.getElementById('modalTitle');
 
-      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0";
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0";
+      titleElem.innerText = title;
+      modal.classList.add('active');
+    }
+
+    function openPlaylistModal(playlistId, videoId, title) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('modalIframe');
+      const titleElem = document.getElementById('modalTitle');
+
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?list=" + playlistId + "&autoplay=1";
       titleElem.innerText = title;
       modal.classList.add('active');
     }
@@ -468,9 +450,7 @@
     }
 
     document.getElementById('videoModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
+      if (e.target === this) closeModal();
     });
 
     function toggleMenu(event) {
@@ -489,6 +469,8 @@
         }
       }
     }
+
+    document.addEventListener("DOMContentLoaded", renderCards);
   </script>
 
 </body>
