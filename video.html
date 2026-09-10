@@ -1,477 +1,494 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Videos For CSE Student</title>
-  <link rel="stylesheet" href="style.css">
+  <title>NexZa - YouTube Style Video Platform</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; }
+    body { 
+      background-image: url('./brean.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0.6); /* হালকা কালো ওভারলে */
+      background-blend-mode: multiply; /* ছবির সাথে সুন্দরভাবে মিশে যাবে */
+      color: #f1f1f1; /* টেক্সট হালকা রাখবে */
+    }
+    
+    /* ================= 1. SPLASH SCREEN ================= */
+    #splash-screen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: #08090c; z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    .splash-logo { animation: zoomPulse 2s infinite alternate ease-in-out; }
+    @keyframes zoomPulse {
+      0% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+      100% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6)); }
+    }
+    .loader-line { width: 140px; height: 3px; background: #222; margin-top: 25px; border-radius: 3px; overflow: hidden; }
+    .loader-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #FFFFFF, #38BDF8); animation: load 2s forwards; }
+    @keyframes load { 100% { width: 100%; } }
+
+    /* ================= 2. HEADER ================= */
+    header {
+      position: sticky; top: 0; z-index: 100; background: #0f0f0f;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 12px; height: 56px; border-bottom: 1px solid #222; gap: 8px;
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .menu-icon { font-size: 24px; cursor: pointer; color: #fff; padding: 4px; display: flex; align-items: center; justify-content: center; user-select: none; }
+    .menu-icon:hover { color: #38BDF8; }
+    .logo-svg { width: 130px; height: 38px; cursor: pointer; }
+
+    .search-container { display: flex; align-items: center; width: 100%; max-width: 500px; }
+    .search-container input {
+      width: 100%; padding: 7px 14px; background: #121212; border: 1px solid #303030;
+      border-radius: 40px 0 0 40px; color: #fff; outline: none; font-size: 14px;
+    }
+    .search-container button {
+      padding: 7px 14px; background: #222222; border: 1px solid #303030; border-left: none;
+      border-radius: 0 40px 40px 0; cursor: pointer; color: #fff; flex-shrink: 0;
     }
 
-    body {
-      background-color: #0f0f0f;
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
-      color: #f1f1f1;
-      overflow-x: hidden;
+    .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    
+    .dev-btn {
+      background: #222; color: #888; border: 1px solid #333;
+      padding: 5px 9px; border-radius: 18px; font-size: 11px; cursor: pointer;
+    }
+    .dev-btn.active { color: #00ff66; border-color: #00ff66; }
+
+    .create-btn {
+      background: #272727; color: #fff; border: 1px solid #3f3f3f;
+      padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px;
+      display: none; align-items: center; gap: 4px; white-space: nowrap;
+    }
+    .signin-btn {
+      border: 1px solid #3ea6ff; color: #3ea6ff; background: transparent;
+      padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px;
+      display: flex; align-items: center; gap: 4px; white-space: nowrap;
+    }
+    .user-profile { 
+      background: #38BDF8; color: #000; font-weight: bold; width: 32px; height: 32px; 
+      border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;
     }
 
-    .hamburger-dropdown {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 2000;
+    /* ================= 3. LAYOUT & SIDEBAR ================= */
+    .app-layout { display: flex; height: calc(100vh - 56px); }
+    .sidebar-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.6); z-index: 200; display: none;
     }
-
-    .hamburger-btn {
-      background: #212121;
-      border: 1px solid #dee94b;
-      color: #dee94b;
-      font-size: 22px;
-      padding: 5px 12px;
-      border-radius: 6px;
-      cursor: pointer;
+    aside {
+      width: 230px; background: #0f0f0f; padding: 12px; display: flex; flex-direction: column; gap: 4px;
+      flex-shrink: 0; border-right: 1px solid #1f1f1f; transition: transform 0.3s ease; z-index: 201;
     }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 45px;
-      left: 0;
-      background-color: #212121;
-      min-width: 200px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
-      border: 1px solid #383838;
-      border-radius: 8px;
-      overflow: hidden;
+    aside a {
+      display: flex; align-items: center; gap: 15px; padding: 10px 12px;
+      color: #f1f1f1; text-decoration: none; font-size: 14px; border-radius: 10px; transition: 0.2s;
     }
+    aside a:hover, aside a.active { background: #272727; font-weight: 500; }
+    aside hr { border: 0; border-top: 1px solid #272727; margin: 8px 0; }
 
-    .dropdown-content.show {
-      display: block;
-    }
+    main { flex: 1; padding: 16px; overflow-y: auto; }
 
-    .dropdown-content a {
-      color: #f1f1f1;
-      padding: 10px 15px;
-      text-decoration: none;
-      display: block;
-      font-size: 14px;
-      border-bottom: 1px solid #2a2a2a;
-    }
+    /* CATEGORIES & GRID */
+    .category-tags { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .category-tags::-webkit-scrollbar { display: none; }
+    .tag { background: #272727; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .tag.active { background: #fff; color: #000; font-weight: 600; }
 
-    .dropdown-content a:hover {
-      background-color: #383838;
-      color: #dee94b;
-    }
-
-    .page-header {
-      text-align: center;
-      padding: 60px 15px 15px 15px;
-      background: #0f0f0f;
-      border-bottom: 1px solid #272727;
-    }
-
-    .page-header h1 {
-      color: #dee94b;
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .page-header p {
-      color: #aaa;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    /* Grid Layout */
-    .yt-grid {
+    .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 15px;
-      max-width: 1800px;
-      margin: 0 auto;
-      width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
     }
 
-    .yt-card {
-      background: transparent;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+    .video-card { position: relative; }
+    .thumbnail-box {
+      width: 100%; height: 160px; background: #1f1f1f; border-radius: 10px;
+      position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer;
+      background-size: cover; background-position: center;
+      display: flex; align-items: center; justify-content: center;
     }
+    .thumbnail-box::after { content: '▶'; font-size: 24px; color: rgba(255,255,255,0.85); }
+    .duration { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.8); padding: 2px 5px; font-size: 11px; border-radius: 4px; font-weight: 500; color: #fff; }
 
-    .yt-card:hover {
-      transform: translateY(-4px);
+    .video-details { display: flex; gap: 10px; position: relative; }
+    .channel-avatar { width: 34px; height: 34px; background: #333; border-radius: 50%; flex-shrink: 0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:13px; cursor: pointer; }
+    .video-meta { flex: 1; cursor: pointer; }
+    .video-meta h3 { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; color: #f1f1f1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .video-meta p { font-size: 12px; color: #aaa; }
+
+    /* DEVELOPER DELETE BUTTON */
+    .dev-delete-btn {
+      background: transparent; border: none; color: #ff4d4d; font-size: 16px;
+      cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: 0.2s;
+      align-self: flex-start; display: none;
     }
+    .dev-delete-btn:hover { background: rgba(255, 77, 77, 0.2); }
+    body.is-developer .dev-delete-btn { display: block; }
 
-    .yt-thumbnail-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 12px;
-      overflow: hidden;
-      background-color: #272727;
-    }
+    /* ================= 4. WATCH VIEW ================= */
+    #watchView { display: none; gap: 20px; width: 100%; }
+    .watch-main { flex: 1; max-width: 900px; }
+    .video-player-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .video-player-container iframe { width: 100%; height: 100%; border: none; }
+    .watch-title { font-size: 17px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
+    .watch-actions { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 12px; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+    .channel-info { display: flex; align-items: center; gap: 10px; }
+    .sub-btn { background: #fff; color: #000; border: none; padding: 6px 14px; border-radius: 18px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .action-btns { display: flex; gap: 6px; }
+    .act-btn { background: #272727; color: #fff; border: none; padding: 6px 12px; border-radius: 18px; font-size: 13px; cursor: pointer; }
 
-    .yt-thumbnail-wrapper img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .watch-sidebar { width: 320px; flex-shrink: 0; }
+    .side-video-card { display: flex; gap: 8px; margin-bottom: 10px; cursor: pointer; }
+    .side-thumb { width: 110px; height: 65px; background: #222; border-radius: 6px; background-size: cover; background-position: center; flex-shrink: 0; }
+    .side-meta h4 { font-size: 12px; font-weight: 600; line-height: 1.2; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .side-meta p { font-size: 11px; color: #aaa; margin-top: 2px; }
 
-    .yt-details {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-      padding: 0 4px;
-    }
+    /* MODALS */
+    .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 15px; }
+    .modal-box { background: #212121; padding: 20px; border-radius: 14px; width: 100%; max-width: 420px; position: relative; }
+    .modal-box h2 { margin-bottom: 12px; color: #fff; font-size: 18px; }
+    .modal-box input { width: 100%; padding: 10px; margin-bottom: 10px; background: #121212; border: 1px solid #3f3f3f; border-radius: 6px; color: #fff; outline: none; font-size: 14px; }
+    .modal-box button { width: 100%; padding: 10px; background: #3ea6ff; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    .close-modal { position: absolute; top: 12px; right: 15px; font-size: 22px; cursor: pointer; color: #aaa; }
 
-    .channel-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #dee94b;
-      color: #000;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-
-    .meta-data {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .video-title {
-      color: #f1f1f1;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.3;
-      margin-bottom: 6px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .channel-name {
-      color: #aaa;
-      font-size: 12px;
-    }
-
-    /* Modal Player */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 3000;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      background: #0f0f0f;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-      border: 1px solid #272727;
-    }
-
-    .modal-player-wrapper {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-    }
-
-    .modal-player-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .modal-info {
-      padding: 12px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 80%;
-    }
-
-    .close-btn {
-      background: #272727;
-      border: none;
-      color: #fff;
-      font-size: 18px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @media (max-width: 500px) {
-      .yt-grid {
-        grid-template-columns: 1fr;
-        padding: 10px;
-        gap: 15px;
-      }
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      aside { position: fixed; top: 56px; left: 0; height: calc(100vh - 56px); transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.5); }
+      aside.open { transform: translateX(0); }
+      .sidebar-overlay.active { display: block; }
+      .search-container { max-width: 180px; }
+      .search-container input { padding: 5px 10px; font-size: 12px; }
+      .search-container button { padding: 5px 10px; }
+      .signin-btn { padding: 4px 8px; font-size: 12px; }
+      .logo-svg { width: 100px; height: 30px; }
+      main { padding: 10px; }
+      .video-grid { grid-template-columns: 1fr; }
+      #watchView { flex-direction: column; }
+      .watch-sidebar { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <div class="hamburger-dropdown">
-    <button class="hamburger-btn" onclick="toggleMenu(event)">☰</button>
-    <div class="dropdown-content" id="myDropdown">
-      <a href="./index.html">🏠 Home</a>
+  <!-- SPLASH SCREEN (UPDATED LOGO 07) -->
+  <div id="splash-screen">
+    <div class="splash-logo">
+      <svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="70" height="70" rx="20" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+        <path d="M22 23H58L32 57H58" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="46,35 58,42 46,49" fill="#38BDF8"/>
+        <text x="90" y="48" fill="#FFF" font-size="34" font-weight="900">Nex<tspan fill="#A1A1AA">Za</tspan></text>
+        <text x="92" y="64" fill="#38BDF8" font-size="9" font-weight="800" letter-spacing="2">BY STZ IT COM</text>
+      </svg>
+    </div>
+    <div class="loader-line"><div class="loader-progress"></div></div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+      <!-- HEADER LOGO (UPDATED LOGO 07) -->
+      <svg class="logo-svg" viewBox="0 0 300 80" fill="none" onclick="showHomeView()">
+        <rect x="5" y="5" width="70" height="70" rx="20" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+        <path d="M22 23H58L32 57H58" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="46,35 58,42 46,49" fill="#38BDF8"/>
+        <text x="90" y="48" fill="#FFF" font-size="34" font-weight="900">Nex<tspan fill="#A1A1AA">Za</tspan></text>
+        <text x="92" y="64" fill="#38BDF8" font-size="9" font-weight="800" letter-spacing="2">BY STZ IT COM</text>
+      </svg>
+    </div>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search...">
+      <button>🔍</button>
+    </div>
+
+    <div class="header-right">
+      <button class="dev-btn" id="devToggleBtn" onclick="toggleDeveloperAccess()">🔑 Dev Mode</button>
+      <button class="create-btn" id="uploadBtn" onclick="openUploadModal()">➕ <span>Create</span></button>
+      <button class="signin-btn" id="signinBtn" onclick="openLoginModal()">👤 <span>Sign In</span></button>
+      <div class="user-profile" id="userAvatar" onclick="alert('Channel Profile Active!')">U</div>
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="app-layout">
+    <aside id="mainSidebar">
+      <a href="javascript:void(0)" onclick="showHomeView(); toggleSidebar();" class="active">🏠 Home</a>
       <a href="./profile.html">👤 My Profile</a>
-      <a href="./video.html">🎥 Videos</a>
       <a href="./NOTICE.html" target="_blank">📢 Notice</a>
       <a href="./chat.html" target="_blank">👥 ChatVerse</a>
-      <a href="./download.html">⬇️ Download</a>
+      <a href="./video.html">▶️ NexZa</a>
+      <a href="./download.html">📥 Download</a>
+      <a href="#">📄 Assignment</a>
       <a href="./complain.html" target="_blank">📝 Complain Box</a>
-      <a href="./HELP-LINE.html" target="_blank">☎️ Helpline</a>
-    </div>
-  </div>
+      <a href="./HELP-LINE.html" target="_blank">📞 Helpline</a>
+      <a href="./feedback.html" target="_blank">💬 Feedback</a>
+      <a href="#">⚙️ Setting</a>
+      <a href="./about.html">ℹ️ About Us</a>
+      <a href="#">🚪 Log Out</a>
+    </aside>
 
-  <div class="page-header">
-    <h1>💻 Videos For CSE Student</h1>
-    <p>We will learn together; the future belongs to us.</p>
-  </div>
+    <main>
+      <div id="homeView">
+        <div class="category-tags">
+          <div class="tag active">All</div>
+          <div class="tag">Latest <b>TECH</b> News In World</div>
+          <div class="tag">New</div>
+          <div class="tag">Computer Science</div>
+          <div class="tag">JavaScript</div>
+          <div class="tag">Python</div>
+          <div class="tag">Web Development</div>
+        </div>
 
-  <div class="yt-grid" id="videoGrid">
-    
-    <!-- ১. আনিসুল ইসলাম - C Programming Full Playlist -->
-    <div class="yt-card" 
-         data-playlist="PLgH5QX0i9K3pCMBZcul1fta6UivHDbXvZ" 
-         data-video-id="5FrHBakZMA8"
-         data-thumb="https://i.ytimg.com/vi/5FrHBakZMA8/hqdefault.jpg"
-         data-title="সি প্রোগ্রামিং Bangla Full Course (Complete Playlist)"
-         data-channel="Anisul Islam">
-    </div>
-
-    <!-- ভিডিও ১ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=irqbmMNs2Bo" 
-         data-title="C Language Tutorial for Beginners"
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও ২ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=ERCMXc8x7mc" 
-         data-title="Python Tutorial for Beginners - Full Course (with Notes & Practice Questions)"
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও ৩ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=8WzSEikpHk8" 
-         data-title="How to start AI/ML in 2026 ?"
-         data-channel="Apna College">
-    </div>
-
-    <!-- ভিডিও ৪ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=np_GzaVfUKw" 
-         data-title="The Fastest Way to Improve Your English"
-         data-channel="POC English">
-    </div>
-
-    <!-- ভিডিও ৫ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=Smv2U9dSuWE" 
-         data-title="Computer Basics A to Z with ChatGPT (AI)"
-         data-channel="Ali Hossain">
-    </div>
-
-    <!-- ভিডিও ৬ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=okmuA99CXrc" 
-         data-title="AI Engineer Full Course 2026 | Python, Machine Learning, GenAI & MLOps"
-         data-channel="Simplilearn">
-    </div>
-
-    <!-- ভিডিও ৭ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=v3iUx2SNspY" 
-         data-title="Cyber Security Full Course for Beginners in 11 Hours - 2025 Edition"
-         data-channel="WsCube Cyber Security">
-    </div>
-
-    <!-- ভিডিও ৮ -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=gmuTjeQUbTM" 
-         data-title="Harvard CS50 (2026) Full Computer Science University Course"
-         data-channel="freeCodeCamp.org">
-    </div>
-
-
-<!-- ভিডিও 9 -->
-    <div class="yt-card" 
-         data-url="https://www.youtube.com/watch?v=gmuTjeQUbTM" 
-         data-title="Harvard CS50 (2026) Full Computer Science University Course"
-         data-channel="freeCodeCamp.org">
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
-
-  <!-- Modal Player -->
-  <div class="modal-overlay" id="videoModal">
-    <div class="modal-content">
-      <div class="modal-player-wrapper">
-        <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-grid" id="videoGrid"></div>
       </div>
-      <div class="modal-info">
-        <div class="modal-title" id="modalTitle">ভিডিও প্লেয়ার</div>
-        <button class="close-btn" onclick="closeModal()">✕</button>
+
+      <div id="watchView">
+        <div class="watch-main">
+          <div class="video-player-container">
+            <iframe id="mainPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <h1 class="watch-title" id="watchTitle">Video Title Here</h1>
+          
+          <div class="watch-actions">
+            <div class="channel-info">
+              <div class="channel-avatar" id="watchAvatar" style="background:#38BDF8; color:#000;">S</div>
+              <div>
+                <strong id="watchChannel" style="color:#fff; display:block; font-size:14px;">Channel Name</strong>
+                <span style="color:#aaa; font-size:11px;">100K subscribers</span>
+              </div>
+              <button class="sub-btn">Subscribe</button>
+            </div>
+
+            <div class="action-btns">
+              <button class="act-btn">👍 12K</button>
+              <button class="act-btn">➡️ Share</button>
+              <button class="act-btn">💾 Save</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="watch-sidebar" id="watchSidebar"></div>
       </div>
+    </main>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal">
+    <div class="modal-box">
+      <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Sign In / Create Channel</h2>
+      <input type="text" id="usernameInput" placeholder="Enter Channel/User Name...">
+      <input type="email" id="emailInput" placeholder="Enter Email Address...">
+      <button onclick="handleLogin()">Sign In & Activate Channel</button>
+    </div>
+  </div>
+
+  <!-- UPLOAD MODAL -->
+  <div id="uploadModal" class="modal">
+    <div class="modal-box">
+      <span class="close-modal" onclick="closeModal('uploadModal')">&times;</span>
+      <h2>Upload New Video (Public)</h2>
+      <input type="text" id="videoTitleInput" placeholder="Video Title...">
+      <input type="text" id="youtubeIdInput" placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)...">
+      <input type="text" id="durationInput" placeholder="Duration (e.g. 10:45)...">
+      <button onclick="handlePublishVideo()">Publish Video Publicly</button>
     </div>
   </div>
 
   <script>
-    function extractVideoID(url) {
-      if(!url) return null;
-      let match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
-      return (match && match[1]) ? match[1] : null;
+    // ডেভেলপার পাসওয়ার্ড
+    const DEVELOPER_SECRET_KEY = "admiN3187";
+    let isDeveloperLoggedIn = false;
+    let currentUser = null;
+
+    // ডিফল্ট ভিডিও লিস্ট
+    const defaultVideos = [
+      { indexId: 1, id: 'dQw4w9WgXcQ', title: 'Full HTML & CSS Crash Course for Beginners 2026', channel: 'STZ Academy', views: '120K views', duration: '15:24' },
+      { indexId: 2, id: 'L_LUpnjgPso', title: 'How to become a CSE Engineer in Bangladesh', channel: 'NexZa Tech', views: '85K views', duration: '28:10' },
+      { indexId: 3, id: 'kqtD5dpn9C8', title: 'Top 5 Programming Languages to Learn in 2026', channel: 'CodeMaster', views: '230K views', duration: '08:45' },
+      { indexId: 4, id: '8hly31xKLI0', title: 'Data Structures & Algorithms Full Course', channel: 'STZ IT COM', views: '50K views', duration: '42:00' }
+    ];
+
+    // LocalStorage থেকে ভিডিও লোড
+    let videos = JSON.parse(localStorage.getItem('nexza_videos')) || defaultVideos;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHomeGrid();
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.visibility = 'hidden', 600);
+      }, 1500);
+    });
+
+    // ৩ লাইনের মেনু (Sidebar Toggle) ফিক্স করা হয়েছে
+    function toggleSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
     }
 
-    function renderCards() {
-      const cards = document.querySelectorAll('.yt-card');
-      
-      cards.forEach(card => {
-        const playlistId = card.getAttribute('data-playlist');
-        const customThumb = card.getAttribute('data-thumb');
-        const url = card.getAttribute('data-url');
-        const title = card.getAttribute('data-title');
-        const channel = card.getAttribute('data-channel');
+    // ভিডিও রেন্ডার করা
+    function renderHomeGrid() {
+      const grid = document.getElementById('videoGrid');
+      grid.innerHTML = '';
 
-        let videoId = card.getAttribute('data-video-id') || extractVideoID(url);
-        let thumbnailUrl = customThumb || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-        const firstLetter = channel ? channel.trim().charAt(0).toUpperCase() : 'C';
+      videos.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
 
-        if (title) {
-          card.innerHTML = `
-            <div class="yt-thumbnail-wrapper">
-              <img src="${thumbnailUrl}" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/${videoId}/mqdefault.jpg'">
+        card.innerHTML = `
+          <div class="thumbnail-box" style="background-image: url('https://img.youtube.com/vi/${v.id}/hqdefault.jpg');" onclick="loadWatchViewByUniqueId(${v.indexId})">
+            <span class="duration">${v.duration}</span>
+          </div>
+          <div class="video-details">
+            <div class="channel-avatar" onclick="loadWatchViewByUniqueId(${v.indexId})">${v.channel.charAt(0)}</div>
+            <div class="video-meta" onclick="loadWatchViewByUniqueId(${v.indexId})">
+              <h3>${v.title}</h3>
+              <p>${v.channel}</p>
+              <p>${v.views} • Recently</p>
             </div>
-            <div class="yt-details">
-              <div class="channel-avatar">${firstLetter}</div>
-              <div class="meta-data">
-                <div class="video-title">${title}</div>
-                <div class="channel-name">${channel}</div>
-              </div>
-            </div>
-          `;
-
-          card.addEventListener('click', function() {
-            if (playlistId) {
-              openPlaylistModal(playlistId, videoId, title);
-            } else {
-              openModal(videoId, title);
-            }
-          });
-        }
+            <button class="dev-delete-btn" title="Delete Video (Developer Only)" onclick="deleteVideoAsDev(${v.indexId})">🗑️</button>
+          </div>
+        `;
+        grid.appendChild(card);
       });
     }
 
-    function openModal(videoId, title) {
-      const modal = document.getElementById('videoModal');
-      const iframe = document.getElementById('modalIframe');
-      const titleElem = document.getElementById('modalTitle');
-
-      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0";
-      titleElem.innerText = title;
-      modal.classList.add('active');
-    }
-
-    function openPlaylistModal(playlistId, videoId, title) {
-      const modal = document.getElementById('videoModal');
-      const iframe = document.getElementById('modalIframe');
-      const titleElem = document.getElementById('modalTitle');
-
-      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?list=" + playlistId + "&autoplay=1";
-      titleElem.innerText = title;
-      modal.classList.add('active');
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('videoModal');
-      const iframe = document.getElementById('modalIframe');
-      iframe.src = "";
-      modal.classList.remove('active');
-    }
-
-    document.getElementById('videoModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-
-    function toggleMenu(event) {
-      event.stopPropagation();
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function(event) {
-      if (!event.target.matches('.hamburger-btn')) {
-        const dropdowns = document.getElementsByClassName("dropdown-content");
-        for (let i = 0; i < dropdowns.length; i++) {
-          let openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
+    // ডেভেলপার অ্যাক্সেস
+    function toggleDeveloperAccess() {
+      if (!isDeveloperLoggedIn) {
+        const pass = prompt("Enter Developer Secret Password:");
+        if (pass === DEVELOPER_SECRET_KEY) {
+          isDeveloperLoggedIn = true;
+          document.body.classList.add('is-developer');
+          document.getElementById('devToggleBtn').innerText = "🔑 Dev Mode: ON";
+          document.getElementById('devToggleBtn').classList.add('active');
+          alert("Developer Controls Activated!");
+        } else {
+          alert("Wrong Password! Access Denied.");
         }
+      } else {
+        isDeveloperLoggedIn = false;
+        document.body.classList.remove('is-developer');
+        document.getElementById('devToggleBtn').innerText = "🔑 Dev Mode";
+        document.getElementById('devToggleBtn').classList.remove('active');
       }
     }
 
-    document.addEventListener("DOMContentLoaded", renderCards);
-  </script>
+    // ডেভেলপার ভিডিও ডিলিট ফংশন
+    function deleteVideoAsDev(uniqueId) {
+      if (!isDeveloperLoggedIn) return;
 
+      const targetVideo = videos.find(v => v.indexId === uniqueId);
+      if (!targetVideo) return;
+
+      const confirmDelete = confirm(`Developer Action: Confirm deletion of "${targetVideo.title}"?`);
+      if (confirmDelete) {
+        videos = videos.filter(v => v.indexId !== uniqueId);
+        localStorage.setItem('nexza_videos', JSON.stringify(videos));
+        renderHomeGrid();
+        alert('Video removed successfully by Developer.');
+      }
+    }
+
+    function showHomeView() {
+      document.getElementById('watchView').style.display = 'none';
+      document.getElementById('homeView').style.display = 'block';
+      document.getElementById('mainPlayer').src = '';
+    }
+
+    function loadWatchViewByUniqueId(uniqueId) {
+      const video = videos.find(v => v.indexId === uniqueId);
+      if (video) loadWatchView(video);
+    }
+
+    function loadWatchView(video) {
+      document.getElementById('homeView').style.display = 'none';
+      document.getElementById('watchView').style.display = 'flex';
+
+      document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      document.getElementById('watchTitle').innerText = video.title;
+      document.getElementById('watchChannel').innerText = video.channel;
+      document.getElementById('watchAvatar').innerText = video.channel.charAt(0);
+
+      const sidebar = document.getElementById('watchSidebar');
+      sidebar.innerHTML = '<h3 style="margin-bottom:12px; font-size:15px;">Related Videos</h3>';
+
+      videos.filter(v => v.indexId !== video.indexId).forEach(v => {
+        const sideCard = document.createElement('div');
+        sideCard.className = 'side-video-card';
+        sideCard.onclick = () => loadWatchView(v);
+
+        sideCard.innerHTML = `
+          <div class="side-thumb" style="background-image: url('https://img.youtube.com/vi/${v.id}/hqdefault.jpg');"></div>
+          <div class="side-meta">
+            <h4>${v.title}</h4>
+            <p>${v.channel}</p>
+            <p>${v.views}</p>
+          </div>
+        `;
+        sidebar.appendChild(sideCard);
+      });
+
+      window.scrollTo(0,0);
+    }
+
+    function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function openUploadModal() { document.getElementById('uploadModal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function handleLogin() {
+      const name = document.getElementById('usernameInput').value;
+      if (!name) return alert('Please enter your channel name!');
+
+      currentUser = name;
+      document.getElementById('signinBtn').style.display = 'none';
+      document.getElementById('uploadBtn').style.display = 'flex';
+      
+      const avatar = document.getElementById('userAvatar');
+      avatar.innerText = name.charAt(0).toUpperCase();
+      avatar.style.display = 'flex';
+
+      closeModal('loginModal');
+      alert(`Welcome, ${name}! Your channel is now active.`);
+    }
+
+    function handlePublishVideo() {
+      const title = document.getElementById('videoTitleInput').value;
+      const ytId = document.getElementById('youtubeIdInput').value || 'dQw4w9WgXcQ';
+      const duration = document.getElementById('durationInput').value || '05:00';
+
+      if (!title) return alert('Please enter video title!');
+
+      const newVideo = {
+        indexId: Date.now(),
+        id: ytId,
+        title: title,
+        channel: currentUser || 'Anonymous Channel',
+        views: '1 view',
+        duration: duration
+      };
+
+      videos.unshift(newVideo);
+      localStorage.setItem('nexza_videos', JSON.stringify(videos));
+
+      renderHomeGrid();
+      closeModal('uploadModal');
+      alert('Video Published Successfully!');
+    }
+  </script>
 </body>
 </html>
