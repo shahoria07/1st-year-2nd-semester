@@ -7,41 +7,44 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; }
     body { 
-      background-image: url('./brean.png');
+      background: #0f0f0f url("./brean.png") no-repeat center center fixed;
       background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-color: rgba(0, 0, 0, 0.6); /* হালকা কালো ওভারলে */
-      background-blend-mode: multiply; /* ছবির সাথে সুন্দরভাবে মিশে যাবে */
-      color: #f1f1f1; /* টেক্সট হালকা রাখবে */
+      color: #f1f1f1; 
+      overflow-x: hidden; 
     }
-    
-    /* ================= 1. SPLASH SCREEN ================= */
+
+    /* SPLASH SCREEN */
     #splash-screen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background-color: #08090c; z-index: 9999;
+      background-color: #0a0000; z-index: 9999;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.6s ease, visibility 0.6s;
     }
+    
+    .splash-img-container {
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center; background: #ffffff;
+    }
+    .splash-img-container img { max-width: 80%; max-height: 80%; object-fit: contain; }
     .splash-logo { animation: zoomPulse 2s infinite alternate ease-in-out; }
     @keyframes zoomPulse {
-      0% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
-      100% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6)); }
+      0% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4)); }
+      100% { transform: scale(1.02); filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.8)); }
     }
-    .loader-line { width: 140px; height: 3px; background: #222; margin-top: 25px; border-radius: 3px; overflow: hidden; }
-    .loader-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #FFFFFF, #38BDF8); animation: load 2s forwards; }
+    .loader-line { width: 140px; height: 3px; background: #eee; margin-top: 25px; border-radius: 3px; overflow: hidden; }
+    .loader-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #00F0FF, #8B5CF6); animation: load 2s forwards; }
     @keyframes load { 100% { width: 100%; } }
 
-    /* ================= 2. HEADER ================= */
+    /* HEADER */
     header {
-      position: sticky; top: 0; z-index: 100; background: #0f0f0f;
+      position: sticky; top: 0; z-index: 100; background: rgba(15, 15, 15, 0.98);
+      backdrop-filter: blur(8px);
       display: flex; justify-content: space-between; align-items: center;
       padding: 0 12px; height: 56px; border-bottom: 1px solid #222; gap: 8px;
     }
     .header-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-    .menu-icon { font-size: 24px; cursor: pointer; color: #fff; padding: 4px; display: flex; align-items: center; justify-content: center; user-select: none; }
-    .menu-icon:hover { color: #38BDF8; }
-    .logo-svg { width: 130px; height: 38px; cursor: pointer; }
+    .menu-icon { font-size: 22px; cursor: pointer; color: #fff; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .logo-svg { width: 110px; height: 32px; cursor: pointer; }
 
     .search-container { display: flex; align-items: center; width: 100%; max-width: 500px; }
     .search-container input {
@@ -54,88 +57,82 @@
     }
 
     .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    
-    .dev-btn {
-      background: #222; color: #888; border: 1px solid #333;
-      padding: 5px 9px; border-radius: 18px; font-size: 11px; cursor: pointer;
-    }
+    .dev-btn { background: #222; color: #888; border: 1px solid #333; padding: 5px 9px; border-radius: 18px; font-size: 11px; cursor: pointer; }
     .dev-btn.active { color: #00ff66; border-color: #00ff66; }
+    .create-btn { background: #272727; color: #fff; border: 1px solid #3f3f3f; padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px; display: none; align-items: center; gap: 4px; white-space: nowrap; }
+    .signin-btn { border: 1px solid #3ea6ff; color: #3ea6ff; background: transparent; padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .user-profile { background: #8B5CF6; color: #fff; font-weight: bold; width: 32px; height: 32px; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
 
-    .create-btn {
-      background: #272727; color: #fff; border: 1px solid #3f3f3f;
-      padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px;
-      display: none; align-items: center; gap: 4px; white-space: nowrap;
-    }
-    .signin-btn {
-      border: 1px solid #3ea6ff; color: #3ea6ff; background: transparent;
-      padding: 5px 10px; border-radius: 18px; cursor: pointer; font-weight: 500; font-size: 13px;
-      display: flex; align-items: center; gap: 4px; white-space: nowrap;
-    }
-    .user-profile { 
-      background: #38BDF8; color: #000; font-weight: bold; width: 32px; height: 32px; 
-      border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;
-    }
-
-    /* ================= 3. LAYOUT & SIDEBAR ================= */
-    .app-layout { display: flex; height: calc(100vh - 56px); }
-    .sidebar-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.6); z-index: 200; display: none;
-    }
+    /* LAYOUT FIXED FOR STICKY STUFF */
+    .app-layout { display: flex; min-height: calc(100vh - 56px); }
+    .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 200; display: none; }
+    
     aside {
-      width: 230px; background: #0f0f0f; padding: 12px; display: flex; flex-direction: column; gap: 4px;
+      width: 230px; background: rgba(15, 15, 15, 0.95); padding: 12px; display: flex; flex-direction: column; gap: 4px;
       flex-shrink: 0; border-right: 1px solid #1f1f1f; transition: transform 0.3s ease; z-index: 201;
+      height: calc(100vh - 56px); position: sticky; top: 56px;
     }
-    aside a {
-      display: flex; align-items: center; gap: 15px; padding: 10px 12px;
-      color: #f1f1f1; text-decoration: none; font-size: 14px; border-radius: 10px; transition: 0.2s;
-    }
+    aside a { display: flex; align-items: center; gap: 20px; padding: 10px 12px; color: #f1f1f1; text-decoration: none; font-size: 14px; border-radius: 10px; transition: 0.2s; }
     aside a:hover, aside a.active { background: #272727; font-weight: 500; }
     aside hr { border: 0; border-top: 1px solid #272727; margin: 8px 0; }
 
-    main { flex: 1; padding: 16px; overflow-y: auto; }
+    main { flex: 1; padding: 16px; width: 100%; }
 
-    /* CATEGORIES & GRID */
     .category-tags { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .category-tags::-webkit-scrollbar { display: none; }
-    .tag { background: #272727; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .tag { background: rgba(39, 39, 39, 0.8); padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
     .tag.active { background: #fff; color: #000; font-weight: 600; }
 
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .video-card { position: relative; cursor: pointer; border-radius: 12px; padding: 6px; transition: background 0.2s; }
+    .video-card:hover { background-color: rgba(48, 1, 1, 0.8); }
 
-    .video-card { position: relative; }
     .thumbnail-box {
-      width: 100%; height: 160px; background: #1f1f1f; border-radius: 10px;
-      position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer;
+      width: 100%; aspect-ratio: 16/9; background: #1f1f1f; border-radius: 12px;
+      position: relative; overflow: hidden; margin-bottom: 10px;
       background-size: cover; background-position: center;
       display: flex; align-items: center; justify-content: center;
     }
     .thumbnail-box::after { content: '▶'; font-size: 24px; color: rgba(255,255,255,0.85); }
-    .duration { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.8); padding: 2px 5px; font-size: 11px; border-radius: 4px; font-weight: 500; color: #fff; }
+    .duration { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); padding: 2px 6px; font-size: 11px; border-radius: 4px; font-weight: 500; color: #fff; }
 
-    .video-details { display: flex; gap: 10px; position: relative; }
-    .channel-avatar { width: 34px; height: 34px; background: #333; border-radius: 50%; flex-shrink: 0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:13px; cursor: pointer; }
-    .video-meta { flex: 1; cursor: pointer; }
-    .video-meta h3 { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; color: #f1f1f1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .video-meta p { font-size: 12px; color: #aaa; }
-
-    /* DEVELOPER DELETE BUTTON */
-    .dev-delete-btn {
-      background: transparent; border: none; color: #ff4d4d; font-size: 16px;
-      cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: 0.2s;
-      align-self: flex-start; display: none;
+    .video-details { display: flex; gap: 12px; position: relative; }
+    .channel-avatar { width: 36px; height: 36px; background: #333; border-radius: 50%; flex-shrink: 0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; }
+    .video-meta { flex: 1; min-width: 0; }
+    
+    /* 3 LINE TITLE PERFECT FIX */
+    .video-meta h3 { 
+      font-size: 15px; 
+      font-weight: 600; 
+      line-height: 1.3em; 
+      max-height: 3.9em; /* Exact height for 3 lines */
+      margin-bottom: 4px; 
+      color: #f1f1f1; 
+      display: -webkit-box; 
+      -webkit-line-clamp: 3; 
+      -webkit-box-orient: vertical; 
+      overflow: hidden; 
+      text-overflow: ellipsis;
+      word-break: break-word;
     }
+    .video-meta p { font-size: 13px; color: #aaa; }
+
+    .dev-delete-btn { background: transparent; border: none; color: #ff4d4d; font-size: 16px; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: 0.2s; align-self: flex-start; display: none; }
     .dev-delete-btn:hover { background: rgba(255, 77, 77, 0.2); }
     body.is-developer .dev-delete-btn { display: block; }
 
-    /* ================= 4. WATCH VIEW ================= */
-    #watchView { display: none; gap: 20px; width: 100%; }
-    .watch-main { flex: 1; max-width: 900px; }
-    .video-player-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    /* WATCH VIEW FIXES */
+    #watchView { display: none; gap: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
+    .watch-main { flex: 1; min-width: 0; }
+    
+    .video-player-container { 
+      width: 100%; 
+      aspect-ratio: 16/9; 
+      background: #000; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      margin-bottom: 12px; 
+    }
     .video-player-container iframe { width: 100%; height: 100%; border: none; }
     .watch-title { font-size: 17px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
     .watch-actions { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 12px; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
@@ -144,13 +141,8 @@
     .action-btns { display: flex; gap: 6px; }
     .act-btn { background: #272727; color: #fff; border: none; padding: 6px 12px; border-radius: 18px; font-size: 13px; cursor: pointer; }
 
-    .watch-sidebar { width: 320px; flex-shrink: 0; }
-    .side-video-card { display: flex; gap: 8px; margin-bottom: 10px; cursor: pointer; }
-    .side-thumb { width: 110px; height: 65px; background: #222; border-radius: 6px; background-size: cover; background-position: center; flex-shrink: 0; }
-    .side-meta h4 { font-size: 12px; font-weight: 600; line-height: 1.2; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .side-meta p { font-size: 11px; color: #aaa; margin-top: 2px; }
+    .watch-sidebar { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
 
-    /* MODALS */
     .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 15px; }
     .modal-box { background: #212121; padding: 20px; border-radius: 14px; width: 100%; max-width: 420px; position: relative; }
     .modal-box h2 { margin-bottom: 12px; color: #fff; font-size: 18px; }
@@ -158,35 +150,55 @@
     .modal-box button { width: 100%; padding: 10px; background: #3ea6ff; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
     .close-modal { position: absolute; top: 12px; right: 15px; font-size: 22px; cursor: pointer; color: #aaa; }
 
-    /* MEDIA QUERIES */
-    @media (max-width: 768px) {
-      aside { position: fixed; top: 56px; left: 0; height: calc(100vh - 56px); transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.5); }
+    /* MOBILE SPECIFIC OVERRIDES */
+    @media (max-width: 850px) {
+      aside { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.5); }
       aside.open { transform: translateX(0); }
       .sidebar-overlay.active { display: block; }
       .search-container { max-width: 180px; }
       .search-container input { padding: 5px 10px; font-size: 12px; }
       .search-container button { padding: 5px 10px; }
       .signin-btn { padding: 4px 8px; font-size: 12px; }
-      .logo-svg { width: 100px; height: 30px; }
-      main { padding: 10px; }
+      .logo-svg { width: 90px; height: 28px; }
+      main { padding: 0 0 16px 0; }
+      #homeView { padding: 8px; }
       .video-grid { grid-template-columns: 1fr; }
-      #watchView { flex-direction: column; }
-      .watch-sidebar { width: 100%; }
+      #watchView { flex-direction: column; gap: 12px; }
+      .watch-sidebar { width: 100%; padding: 0 12px; }
+      .watch-title, .watch-actions { padding-left: 12px; padding-right: 12px; }
+
+      /* ABSOLUTE MOBILE FIXED VIDEO PLAYER */
+      .video-player-container {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 56px; /* Below Header */
+        z-index: 150;
+        border-radius: 0;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH SCREEN (UPDATED LOGO 07) -->
+  <!-- SPLASH SCREEN -->
   <div id="splash-screen">
-    <div class="splash-logo">
-      <svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="5" y="5" width="70" height="70" rx="20" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
-        <path d="M22 23H58L32 57H58" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        <polygon points="46,35 58,42 46,49" fill="#38BDF8"/>
-        <text x="90" y="48" fill="#FFF" font-size="34" font-weight="900">Nex<tspan fill="#A1A1AA">Za</tspan></text>
-        <text x="92" y="64" fill="#38BDF8" font-size="9" font-weight="800" letter-spacing="2">BY STZ IT COM</text>
-      </svg>
+    <div class="splash-img-container">
+      <div class="splash-logo">
+        <svg width="260" height="75" viewBox="0 0 320 95" fill="none">
+          <defs>
+            <linearGradient id="zG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00F0FF"/><stop offset="100%" stop-color="#8B5CF6"/>
+            </linearGradient>
+          </defs>
+          <rect x="5" y="5" width="80" height="80" rx="22" fill="#0F111A" stroke="url(#zG)" stroke-width="2.5"/>
+          <path d="M 26 26 L 64 26 L 34 64 L 64 64" stroke="url(#zG)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="50,38 62,45 50,52" fill="#FFB800"/>
+          <text x="100" y="52" fill="#000000" font-size="40" font-weight="900">Nex<tspan fill="#00F0FF">Za</tspan></text>
+          <text x="102" y="72" fill="#FFB800" font-size="10" font-weight="800" letter-spacing="3">BY STZ IT COM</text>
+        </svg>
+      </div>
     </div>
     <div class="loader-line"><div class="loader-progress"></div></div>
   </div>
@@ -195,13 +207,11 @@
   <header>
     <div class="header-left">
       <span class="menu-icon" onclick="toggleSidebar()">☰</span>
-      <!-- HEADER LOGO (UPDATED LOGO 07) -->
-      <svg class="logo-svg" viewBox="0 0 300 80" fill="none" onclick="showHomeView()">
-        <rect x="5" y="5" width="70" height="70" rx="20" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
-        <path d="M22 23H58L32 57H58" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        <polygon points="46,35 58,42 46,49" fill="#38BDF8"/>
-        <text x="90" y="48" fill="#FFF" font-size="34" font-weight="900">Nex<tspan fill="#A1A1AA">Za</tspan></text>
-        <text x="92" y="64" fill="#38BDF8" font-size="9" font-weight="800" letter-spacing="2">BY STZ IT COM</text>
+      <svg class="logo-svg" viewBox="0 0 300 90" fill="none" onclick="showHomeView()">
+        <rect x="5" y="5" width="75" height="75" rx="20" fill="#0F111A" stroke="#00F0FF" stroke-width="2"/>
+        <path d="M 24 24 L 60 24 L 32 60 L 60 60" stroke="#00F0FF" stroke-width="8" stroke-linecap="round"/>
+        <polygon points="48,35 60,42 48,49" fill="#FFB800"/>
+        <text x="95" y="50" fill="#FFF" font-size="38" font-weight="900">Nex<tspan fill="#00F0FF">Za</tspan></text>
       </svg>
     </div>
 
@@ -224,26 +234,21 @@
   <div class="app-layout">
     <aside id="mainSidebar">
       <a href="javascript:void(0)" onclick="showHomeView(); toggleSidebar();" class="active">🏠 Home</a>
-      <a href="./profile.html">👤 My Profile</a>
-      <a href="./NOTICE.html" target="_blank">📢 Notice</a>
-      <a href="./chat.html" target="_blank">👥 ChatVerse</a>
-      <a href="./video.html">▶️ NexZa</a>
-      <a href="./download.html">📥 Download</a>
-      <a href="#">📄 Assignment</a>
-      <a href="./complain.html" target="_blank">📝 Complain Box</a>
-      <a href="./HELP-LINE.html" target="_blank">📞 Helpline</a>
-      <a href="./feedback.html" target="_blank">💬 Feedback</a>
-      <a href="#">⚙️ Setting</a>
-      <a href="./about.html">ℹ️ About Us</a>
-      <a href="#">🚪 Log Out</a>
+      <a href="#">⚡ Shorts</a>
+      <a href="#">📺 Subscriptions</a>
+      <hr>
+      <a href="#">📁 Library</a>
+      <a href="#">📜 History</a>
+      <a href="#">💻 Your Channel</a>
+      <a href="#">⏱️ Watch Later</a>
+      <hr>
+      <a href="#">⚙️ Settings</a>
     </aside>
 
     <main>
       <div id="homeView">
         <div class="category-tags">
           <div class="tag active">All</div>
-          <div class="tag">Latest <b>TECH</b> News In World</div>
-          <div class="tag">New</div>
           <div class="tag">Computer Science</div>
           <div class="tag">JavaScript</div>
           <div class="tag">Python</div>
@@ -262,7 +267,7 @@
           
           <div class="watch-actions">
             <div class="channel-info">
-              <div class="channel-avatar" id="watchAvatar" style="background:#38BDF8; color:#000;">S</div>
+              <div class="channel-avatar" id="watchAvatar" style="background:#8B5CF6;">S</div>
               <div>
                 <strong id="watchChannel" style="color:#fff; display:block; font-size:14px;">Channel Name</strong>
                 <span style="color:#aaa; font-size:11px;">100K subscribers</span>
@@ -300,31 +305,33 @@
       <span class="close-modal" onclick="closeModal('uploadModal')">&times;</span>
       <h2>Upload New Video (Public)</h2>
       <input type="text" id="videoTitleInput" placeholder="Video Title...">
-      <input type="text" id="youtubeIdInput" placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)...">
+      <input type="text" id="youtubeIdInput" placeholder="YouTube Link or Video ID...">
       <input type="text" id="durationInput" placeholder="Duration (e.g. 10:45)...">
       <button onclick="handlePublishVideo()">Publish Video Publicly</button>
     </div>
   </div>
 
   <script>
-    // ডেভেলপার পাসওয়ার্ড
-    const DEVELOPER_SECRET_KEY = "admiN3187";
+    const DEVELOPER_SECRET_KEY = "admin123";
     let isDeveloperLoggedIn = false;
     let currentUser = null;
 
-    // ডিফল্ট ভিডিও লিস্ট
     const defaultVideos = [
-      { indexId: 1, id: 'dQw4w9WgXcQ', title: 'Full HTML & CSS Crash Course for Beginners 2026', channel: 'STZ Academy', views: '120K views', duration: '15:24' },
-      { indexId: 2, id: 'L_LUpnjgPso', title: 'How to become a CSE Engineer in Bangladesh', channel: 'NexZa Tech', views: '85K views', duration: '28:10' },
-      { indexId: 3, id: 'kqtD5dpn9C8', title: 'Top 5 Programming Languages to Learn in 2026', channel: 'CodeMaster', views: '230K views', duration: '08:45' },
-      { indexId: 4, id: '8hly31xKLI0', title: 'Data Structures & Algorithms Full Course', channel: 'STZ IT COM', views: '50K views', duration: '42:00' }
+      { indexId: 1, id: 'dQw4w9WgXcQ', title: 'Full HTML & CSS Crash Course for Beginners 2026 - Learn Web Development Step by Step Guide', channel: 'STZ Academy', views: '120K views', duration: '15:24' },
+      { indexId: 2, id: 'L_LUpnjgPso', title: 'How to become a CSE Engineer in Bangladesh - Full Guidelines, Roadmaps and Salary Details', channel: 'NexZa Tech', views: '85K views', duration: '28:10' }
     ];
 
-    // LocalStorage থেকে ভিডিও লোড
     let videos = JSON.parse(localStorage.getItem('nexza_videos')) || defaultVideos;
 
     window.addEventListener('DOMContentLoaded', () => {
       renderHomeGrid();
+      
+      const savedUser = localStorage.getItem('nexza_user_name');
+      if (savedUser) {
+        currentUser = savedUser;
+        activateUserUI(savedUser);
+      }
+
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         splash.style.opacity = '0';
@@ -332,7 +339,6 @@
       }, 1500);
     });
 
-    // ৩ লাইনের মেনু (Sidebar Toggle) ফিক্স করা হয়েছে
     function toggleSidebar() {
       const sidebar = document.getElementById('mainSidebar');
       const overlay = document.getElementById('sidebarOverlay');
@@ -340,16 +346,9 @@
       overlay.classList.toggle('active');
     }
 
-    // ভিডিও রেন্ডার করা
-    function renderHomeGrid() {
-      const grid = document.getElementById('videoGrid');
-      grid.innerHTML = '';
-
-      videos.forEach(v => {
-        const card = document.createElement('div');
-        card.className = 'video-card';
-
-        card.innerHTML = `
+    function createVideoCardHTML(v) {
+      return `
+        <div class="video-card">
           <div class="thumbnail-box" style="background-image: url('https://img.youtube.com/vi/${v.id}/hqdefault.jpg');" onclick="loadWatchViewByUniqueId(${v.indexId})">
             <span class="duration">${v.duration}</span>
           </div>
@@ -357,17 +356,19 @@
             <div class="channel-avatar" onclick="loadWatchViewByUniqueId(${v.indexId})">${v.channel.charAt(0)}</div>
             <div class="video-meta" onclick="loadWatchViewByUniqueId(${v.indexId})">
               <h3>${v.title}</h3>
-              <p>${v.channel}</p>
-              <p>${v.views} • Recently</p>
+              <p>${v.channel} • ${v.views}</p>
             </div>
             <button class="dev-delete-btn" title="Delete Video (Developer Only)" onclick="deleteVideoAsDev(${v.indexId})">🗑️</button>
           </div>
-        `;
-        grid.appendChild(card);
-      });
+        </div>
+      `;
     }
 
-    // ডেভেলপার অ্যাক্সেস
+    function renderHomeGrid() {
+      const grid = document.getElementById('videoGrid');
+      grid.innerHTML = videos.map(v => createVideoCardHTML(v)).join('');
+    }
+
     function toggleDeveloperAccess() {
       if (!isDeveloperLoggedIn) {
         const pass = prompt("Enter Developer Secret Password:");
@@ -388,15 +389,13 @@
       }
     }
 
-    // ডেভেলপার ভিডিও ডিলিট ফংশন
     function deleteVideoAsDev(uniqueId) {
       if (!isDeveloperLoggedIn) return;
 
       const targetVideo = videos.find(v => v.indexId === uniqueId);
       if (!targetVideo) return;
 
-      const confirmDelete = confirm(`Developer Action: Confirm deletion of "${targetVideo.title}"?`);
-      if (confirmDelete) {
+      if (confirm(`Developer Action: Confirm deletion of "${targetVideo.title}"?`)) {
         videos = videos.filter(v => v.indexId !== uniqueId);
         localStorage.setItem('nexza_videos', JSON.stringify(videos));
         renderHomeGrid();
@@ -425,23 +424,8 @@
       document.getElementById('watchAvatar').innerText = video.channel.charAt(0);
 
       const sidebar = document.getElementById('watchSidebar');
-      sidebar.innerHTML = '<h3 style="margin-bottom:12px; font-size:15px;">Related Videos</h3>';
-
-      videos.filter(v => v.indexId !== video.indexId).forEach(v => {
-        const sideCard = document.createElement('div');
-        sideCard.className = 'side-video-card';
-        sideCard.onclick = () => loadWatchView(v);
-
-        sideCard.innerHTML = `
-          <div class="side-thumb" style="background-image: url('https://img.youtube.com/vi/${v.id}/hqdefault.jpg');"></div>
-          <div class="side-meta">
-            <h4>${v.title}</h4>
-            <p>${v.channel}</p>
-            <p>${v.views}</p>
-          </div>
-        `;
-        sidebar.appendChild(sideCard);
-      });
+      const otherVideos = videos.filter(v => v.indexId !== video.indexId);
+      sidebar.innerHTML = otherVideos.map(v => createVideoCardHTML(v)).join('');
 
       window.scrollTo(0,0);
     }
@@ -452,26 +436,42 @@
 
     function handleLogin() {
       const name = document.getElementById('usernameInput').value;
+      const email = document.getElementById('emailInput').value;
+
       if (!name) return alert('Please enter your channel name!');
 
       currentUser = name;
+      localStorage.setItem('nexza_user_name', name);
+      if (email) localStorage.setItem('nexza_user_email', email);
+
+      activateUserUI(name);
+      closeModal('loginModal');
+      alert(`Welcome, ${name}! Your channel is now active.`);
+    }
+
+    function activateUserUI(name) {
       document.getElementById('signinBtn').style.display = 'none';
       document.getElementById('uploadBtn').style.display = 'flex';
       
       const avatar = document.getElementById('userAvatar');
       avatar.innerText = name.charAt(0).toUpperCase();
       avatar.style.display = 'flex';
+    }
 
-      closeModal('loginModal');
-      alert(`Welcome, ${name}! Your channel is now active.`);
+    function extractYouTubeID(urlOrId) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = urlOrId.trim().match(regExp);
+      return (match && match[2].length === 11) ? match[2] : urlOrId.trim();
     }
 
     function handlePublishVideo() {
       const title = document.getElementById('videoTitleInput').value;
-      const ytId = document.getElementById('youtubeIdInput').value || 'dQw4w9WgXcQ';
+      const rawInput = document.getElementById('youtubeIdInput').value;
       const duration = document.getElementById('durationInput').value || '05:00';
 
-      if (!title) return alert('Please enter video title!');
+      if (!title || !rawInput) return alert('Please enter video title and YouTube link/ID!');
+
+      const ytId = extractYouTubeID(rawInput);
 
       const newVideo = {
         indexId: Date.now(),
@@ -487,6 +487,11 @@
 
       renderHomeGrid();
       closeModal('uploadModal');
+      
+      document.getElementById('videoTitleInput').value = '';
+      document.getElementById('youtubeIdInput').value = '';
+      document.getElementById('durationInput').value = '';
+      
       alert('Video Published Successfully!');
     }
   </script>
