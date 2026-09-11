@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexChat - WhatsApp Style</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Helvetica, sans-serif; }
+    body { background: #111b21; color: #e9edef; height: 100vh; display: flex; justify-content: center; align-items: center; }
+
+    .app-container { width: 100%; max-width: 450px; height: 100vh; background: #111b21; display: flex; flex-direction: column; border-left: 1px solid #222d34; border-right: 1px solid #222d34; position: relative; }
+
+    /* HEADER */
+    .whatsapp-header { background: #202c33; padding: 12px 16px 4px 16px; display: flex; flex-direction: column; gap: 12px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; }
+    .brand-title { color: #00a884; font-size: 20px; font-weight: bold; }
+    .header-icons { display: flex; gap: 20px; color: #aebac1; font-size: 18px; align-items: center; }
+    .icon-btn { cursor: pointer; background: none; border: none; color: #aebac1; font-size: 18px; }
+
+    /* MENU DROPDOWN */
+    .menu-dropdown { position: absolute; top: 45px; right: 10px; background: #233138; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none; flex-direction: column; width: 150px; z-index: 100; overflow: hidden; }
+    .menu-dropdown a, .menu-dropdown button { padding: 12px 16px; color: #e9edef; background: none; border: none; text-align: left; text-decoration: none; font-size: 14px; cursor: pointer; display: block; width: 100%; }
+    .menu-dropdown a:hover, .menu-dropdown button:hover { background: #182229; }
+
+    /* TABS */
+    .tabs-bar { display: flex; border-bottom: 2px solid #222d34; }
+    .tab-item { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; font-weight: 600; color: #8696a0; cursor: pointer; text-transform: uppercase; }
+    .tab-item.active { color: #00a884; border-bottom: 3px solid #00a884; }
+
+    /* CHAT LIST */
+    .chat-list { flex: 1; overflow-y: auto; background: #111b21; }
+    .chat-item { display: flex; align-items: center; padding: 12px 16px; gap: 14px; cursor: pointer; border-bottom: 1px solid #1f2c33; }
+    .chat-item:hover { background: #202c33; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; background: #6b7c85; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: #fff; flex-shrink: 0; }
+    .chat-details { flex: 1; overflow: hidden; }
+    .chat-top-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .chat-name { font-size: 16px; font-weight: 500; color: #e9edef; }
+    .chat-time { font-size: 12px; color: #8696a0; }
+    .chat-last-msg { font-size: 13px; color: #8696a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* CONVERSATION VIEW */
+    .conversation-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; display: none; flex-direction: column; z-index: 50; }
+    .conv-header { background: #202c33; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { background: none; border: none; color: #aebac1; font-size: 20px; cursor: pointer; }
+    .messages-box { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; background-image: radial-gradient(#1f2c34 1px, transparent 1px); background-size: 15px 15px; }
+    .msg-bubble { max-width: 75%; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; position: relative; }
+    .msg-bubble.sent { background: #005c4b; align-self: flex-end; border-top-right-radius: 0; }
+    .msg-bubble.received { background: #202c33; align-self: flex-start; border-top-left-radius: 0; }
+    .msg-time { font-size: 10px; color: rgba(255,255,255,0.6); text-align: right; margin-top: 4px; }
+
+    .conv-input-bar { background: #202c33; padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+    .conv-input-bar input { flex: 1; background: #2a3942; border: none; padding: 10px 16px; border-radius: 20px; color: #fff; outline: none; font-size: 14px; }
+    .send-btn { background: #00a884; border: none; width: 40px; height: 40px; border-radius: 50%; color: #fff; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+
+    /* MODAL */
+    .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 200; }
+    .modal-box { background: #222d34; padding: 20px; border-radius: 12px; width: 85%; text-align: center; }
+    .modal-box h3 { margin-bottom: 15px; color: #00a884; }
+    .modal-box input { width: 100%; padding: 10px; margin-bottom: 12px; background: #111b21; border: 1px solid #2a3942; color: #fff; border-radius: 6px; outline: none; }
+    .modal-box button { width: 100%; padding: 10px; background: #00a884; border: none; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- HEADER -->
+    <div class="whatsapp-header">
+      <div class="top-bar">
+        <span class="brand-title">NexChat</span>
+        <div class="header-icons">
+          <button class="icon-btn">📷</button>
+          <button class="icon-btn">🔍</button>
+          <!-- 3 DOTS (3 LINE MENU) -->
+          <button class="icon-btn" onclick="toggleMenu()">⋮</button>
+        </div>
+      </div>
+
+      <!-- 3 DOT DROPDOWN MENU -->
+      <div class="menu-dropdown" id="menuDropdown">
+        <a href="index.html">🏠 Go to NexZa</a>
+        <button onclick="openSignIn()">👤 Sign In</button>
+        <button onclick="alert('NexChat v1.0 by STZ IT COM')">ℹ️ Settings</button>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs-bar">
+        <div class="tab-item active">Chats</div>
+        <div class="tab-item">Status</div>
+        <div class="tab-item">Calls</div>
+      </div>
+    </div>
+
+    <!-- CHAT LIST -->
+    <div class="chat-list" id="chatList">
+      <div class="chat-item" onclick="openChat('Shuvo (STZ Dev)', 'S', '#00a884')">
+        <div class="avatar" style="background: #00a884;">S</div>
+        <div class="chat-details">
+          <div class="chat-top-row">
+            <span class="chat-name">Shuvo (STZ Dev)</span>
+            <span class="chat-time">10:45 AM</span>
+          </div>
+          <div class="chat-last-msg">NexChat UI completely WhatsApp styled!</div>
+        </div>
+      </div>
+
+      <div class="chat-item" onclick="openChat('NexZa Official', 'N', '#6b7c85')">
+        <div class="avatar">N</div>
+        <div class="chat-details">
+          <div class="chat-top-row">
+            <span class="chat-name">NexZa Official</span>
+            <span class="chat-time">Yesterday</span>
+          </div>
+          <div class="chat-last-msg">Welcome to STZ IT COM messaging network.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIDE CONVERSATION SCREEN -->
+    <div class="conversation-screen" id="convScreen">
+      <div class="conv-header">
+        <button class="back-btn" onclick="closeChat()">←</button>
+        <div class="avatar" id="convAvatar" style="width: 36px; height: 36px; font-size: 14px;">S</div>
+        <div style="flex:1;">
+          <h4 id="convName" style="font-size: 15px;">User Name</h4>
+          <span style="font-size: 11px; color: #00a884;">online</span>
+        </div>
+        <button class="icon-btn">📞</button>
+        <button class="icon-btn">⋮</button>
+      </div>
+
+      <div class="messages-box" id="messagesBox">
+        <div class="msg-bubble received">
+          Hey! This is full WhatsApp style NexChat interface.
+          <div class="msg-time">10:45 AM</div>
+        </div>
+      </div>
+
+      <div class="conv-input-bar">
+        <input type="text" id="msgInput" placeholder="Message">
+        <button class="send-btn" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+
+    <!-- SIGN IN MODAL -->
+    <div class="modal" id="loginModal">
+      <div class="modal-box">
+        <h3>Sign In to NexChat</h3>
+        <input type="text" id="username" placeholder="Enter Channel/User Name">
+        <button onclick="saveSignIn()">Save & Continue</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menuDropdown');
+      menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    function openSignIn() {
+      toggleMenu();
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function saveSignIn() {
+      const name = document.getElementById('username').value;
+      if(name) {
+        alert('Welcome, ' + name + '!');
+        document.getElementById('loginModal').style.display = 'none';
+      }
+    }
+
+    function openChat(name, avatarText, color) {
+      document.getElementById('convName').innerText = name;
+      document.getElementById('convAvatar').innerText = avatarText;
+      document.getElementById('convAvatar').style.background = color;
+      document.getElementById('convScreen').style.display = 'flex';
+    }
+
+    function closeChat() {
+      document.getElementById('convScreen').style.display = 'none';
+    }
+
+    function sendMsg() {
+      const input = document.getElementById('msgInput');
+      const box = document.getElementById('messagesBox');
+      if (input.value.trim() !== '') {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const bubble = document.createElement('div');
+        bubble.className = 'msg-bubble sent';
+        bubble.innerHTML = `${input.value} <div class="msg-time">${time}</div>`;
+        box.appendChild(bubble);
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+      }
+    }
+  </script>
+</body>
+</html>

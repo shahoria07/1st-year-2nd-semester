@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ChatVerse Community</title>
+  <title>NexZchat Community</title>
   <link rel="icon" href="favicon.png" type="image/png">
   
   <style>
@@ -17,85 +17,154 @@
     body, html {
       height: 100dvh;
       width: 100vw;
-      background-color: #0c141a;
+      background-color: #0b141a;
       color: #e9edef;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    /* HEADER */
+    /* PREMIUM HEADER */
     .chat-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 60px;
+      height: 65px;
       background: #111b21;
       border-bottom: 1px solid #222d34;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 15px;
+      padding: 0 16px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .brand-logo {
-      width: 180px;
+      width: 150px;
       height: auto;
     }
 
     .call-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
+      position: relative;
     }
 
     .header-btn {
       background: #202c33;
-      border: 1px solid #00a884;
+      border: 1px solid rgba(0, 168, 132, 0.4);
       color: #00a884;
-      padding: 8px 10px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 15px;
-      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease-in-out;
     }
 
     .header-btn:hover {
       background: #00a884;
       color: white;
+      transform: scale(1.05);
+      border-color: #00a884;
     }
 
-    /* User Profile Avatar in Header */
     .my-header-avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #00a884;
       cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .my-header-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    /* 3 LINE DROPDOWN MENU */
+    .menu-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: #233138;
+      border: 1px solid #2a3942;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      display: none;
+      flex-direction: column;
+      width: 210px;
+      z-index: 2000;
+      overflow: hidden;
+      padding: 6px 0;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu-dropdown button, .menu-dropdown a {
+      padding: 11px 16px;
+      color: #e9edef;
+      background: none;
+      border: none;
+      text-align: left;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .menu-dropdown button:hover, .menu-dropdown a:hover {
+      background: #182229;
+      color: #00a884;
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: #2a3942;
+      margin: 4px 0;
     }
 
     /* CHAT BODY */
     .chat-body {
       flex: 1;
-      margin-top: 60px;
+      margin-top: 65px;
       margin-bottom: 70px;
-      padding: 15px;
+      padding: 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
+      background-image: radial-gradient(#1f2c34 1.2px, transparent 1.2px);
+      background-size: 18px 18px;
       -webkit-overflow-scrolling: touch;
     }
 
-    /* MESSAGE BUBBLE WITH PROFILE */
+    /* MESSAGE BUBBLE */
     .msg-wrapper {
       display: flex;
-      gap: 8px;
-      max-width: 85%;
+      gap: 10px;
+      max-width: 82%;
     }
 
     .msg-wrapper.received {
@@ -108,38 +177,42 @@
     }
 
     .msg-avatar {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
-      margin-top: 4px;
+      margin-top: 2px;
+      border: 1px solid #222d34;
     }
 
     .message {
-      padding: 8px 12px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
       font-size: 14px;
-      line-height: 1.4;
+      line-height: 1.45;
       word-wrap: break-word;
       position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     .received .message {
       background: #202c33;
-      border-bottom-left-radius: 2px;
+      border-top-left-radius: 2px;
+      color: #e9edef;
     }
 
     .sent .message {
       background: #005c4b;
-      border-bottom-right-radius: 2px;
+      border-top-right-radius: 2px;
+      color: #e9edef;
     }
 
     .sender-name {
       font-size: 11px;
-      font-weight: bold;
+      font-weight: 700;
       color: #00a884;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       display: block;
     }
 
@@ -151,31 +224,32 @@
     .chat-img {
       max-width: 100%;
       border-radius: 8px;
-      margin-top: 5px;
+      margin-top: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
     .chat-file-link {
-      color: #DEE94B;
+      color: #dee94b;
       text-decoration: underline;
       display: inline-block;
       margin-top: 4px;
-      font-weight: bold;
+      font-weight: 600;
     }
 
-    /* FOOTER */
+    /* FOOTER CONTROL */
     .chat-footer {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      min-height: 60px;
+      min-height: 65px;
       background: #111b21;
       border-top: 1px solid #222d34;
       display: flex;
       align-items: center;
-      padding: 8px 8px;
+      padding: 8px 12px;
       padding-bottom: calc(8px + env(safe-area-inset-bottom));
-      gap: 4px;
+      gap: 6px;
       z-index: 1000;
     }
 
@@ -183,10 +257,15 @@
       background: none;
       border: none;
       color: #8696a0;
-      font-size: 18px;
+      font-size: 19px;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
       flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    .attach-btn:hover {
+      color: #00a884;
     }
 
     .chat-input {
@@ -196,8 +275,8 @@
       border: none;
       outline: none;
       color: #fff;
-      padding: 10px 12px;
-      border-radius: 20px;
+      padding: 11px 16px;
+      border-radius: 22px;
       font-size: 14px;
     }
 
@@ -205,19 +284,28 @@
       background: #00a884;
       border: none;
       color: white;
-      padding: 9px 12px;
-      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       font-weight: bold;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 15px;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #008f6f;
     }
 
     input[type="file"] {
       display: none;
     }
 
-    /* PROFILE SETUP MODAL POPUP */
+    /* PROFILE MODAL POPUP */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -225,56 +313,61 @@
       width: 100vw;
       height: 100vh;
       background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 2000;
+      z-index: 3000;
     }
 
     .modal-box {
       background: #111b21;
       border: 1px solid #222d34;
-      padding: 20px;
-      border-radius: 12px;
+      padding: 24px;
+      border-radius: 16px;
       width: 90%;
-      max-width: 350px;
+      max-width: 360px;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     }
 
     .modal-box h3 {
       margin-bottom: 15px;
       color: #00a884;
+      font-size: 18px;
     }
 
     .modal-avatar-preview {
-      width: 80px;
-      height: 80px;
+      width: 85px;
+      height: 85px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 10px;
-      border: 2px solid #00a884;
+      margin-bottom: 12px;
+      border: 3px solid #00a884;
     }
 
     .modal-input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #2a3942;
       border: none;
       color: #fff;
       border-radius: 8px;
       margin-bottom: 15px;
       outline: none;
+      font-size: 14px;
     }
 
     .modal-save-btn {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #00a884;
       border: none;
       color: white;
       font-weight: bold;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -283,10 +376,10 @@
   <!-- PROFILE MODAL FOR FIRST TIME VISITORS -->
   <div class="modal-overlay" id="profileModal">
     <div class="modal-box">
-      <h3>Setup Profile</h3>
+      <h3>Setup NexZchat Profile</h3>
       <img id="modalAvatarPreview" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="modal-avatar-preview">
       <br>
-      <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 13px;">Change Profile Picture</label>
+      <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 13px; font-weight: 500;">Change Profile Picture</label>
       <input type="file" id="profileImgInput" accept="image/*" onchange="previewProfilePic(this)">
       
       <input type="text" id="userNameInput" class="modal-input" placeholder="Enter your name..." style="margin-top: 15px;">
@@ -296,39 +389,59 @@
 
   <!-- TOP HEADER -->
   <header class="chat-header">
-    <img id="myHeaderPic" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="my-header-avatar" onclick="openProfileModal()" title="Edit Profile">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" class="brand-logo">
-      <defs>
-        <linearGradient id="cvGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#00F2FE" />
-          <stop offset="100%" stop-color="#4FACFE" />
-        </linearGradient>
-        <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#FFFFFF" />
-          <stop offset="100%" stop-color="#DEE94B" />
-        </linearGradient>
-      </defs>
-      <g transform="translate(10, 10)">
-        <circle cx="50" cy="50" r="42" fill="none" stroke="url(#cvGradient)" stroke-width="4" stroke-dasharray="180 60" transform="rotate(-45 50 50)"/>
-        <path d="M 25 35 C 25 20, 75 20, 75 35 C 75 50, 55 50, 45 60 C 42 62, 38 65, 32 68 C 35 60, 25 52, 25 35 Z" fill="url(#cvGradient)" />
-        <circle cx="40" cy="36" r="4" fill="#0F172A" />
-        <circle cx="50" cy="36" r="4" fill="#0F172A" />
-        <circle cx="60" cy="36" r="4" fill="#0F172A" />
-        <circle cx="85" cy="20" r="6" fill="#DEE94B" />
-      </g>
-      <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">Chat<tspan fill="#4FACFE">Verse</tspan></text>
-      <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">CONNECT THE WORLD</text>
-    </svg>
+    <div class="header-left">
+      <img id="myHeaderPic" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="my-header-avatar" onclick="openProfileModal()" title="Edit Profile">
+      
+      <!-- NexZchat BRAND LOGO -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" class="brand-logo">
+        <defs>
+          <linearGradient id="nexzGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00A884" />
+            <stop offset="100%" stop-color="#00F2FE" />
+          </linearGradient>
+          <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="100%" stop-color="#DEE94B" />
+          </linearGradient>
+        </defs>
+        <g transform="translate(10, 10)">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="url(#nexzGradient)" stroke-width="4" stroke-dasharray="180 60" transform="rotate(-45 50 50)"/>
+          <path d="M 25 35 C 25 20, 75 20, 75 35 C 75 50, 55 50, 45 60 C 42 62, 38 65, 32 68 C 35 60, 25 52, 25 35 Z" fill="url(#nexzGradient)" />
+          <circle cx="40" cy="36" r="4" fill="#0B141A" />
+          <circle cx="50" cy="36" r="4" fill="#0B141A" />
+          <circle cx="60" cy="36" r="4" fill="#0B141A" />
+          <circle cx="85" cy="20" r="6" fill="#DEE94B" />
+        </g>
+        <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">NexZ<tspan fill="#00A884">chat</tspan></text>
+        <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">CONNECT THE WORLD</text>
+      </svg>
+    </div>
 
     <div class="call-actions">
       <button class="header-btn" onclick="startVoiceCall()" title="Voice Call">📞</button>
       <button class="header-btn" onclick="startVideoCall()" title="Video Call">📹</button>
+      
+      <!-- 3 LINE / 3 DOT MENU BUTTON -->
+      <button class="header-btn" onclick="toggleOptionsMenu(event)" title="More Options">⋮</button>
+
+      <!-- DROPDOWN OPTIONS LIST -->
+      <div class="menu-dropdown" id="optionsMenu">
+        <a href="./index.html">🏠 Home</a>
+        <button onclick="openProfileModal()">👤 Edit Profile</button>
+        <button onclick="createGroup()">👥 New Group</button>
+        <button onclick="viewMedia()">🖼️ Media & Files</button>
+        <button onclick="clearChat()">🗑️ Clear Chat</button>
+        <div class="menu-divider"></div>
+        <button onclick="toggleTheme()">🌙 Switch Theme</button>
+        <button onclick="openSettings()">⚙️ Settings</button>
+        <div class="menu-divider"></div>
+        <button onclick="appInfo()">ℹ️ About NexZchat</button>
+      </div>
     </div>
   </header>
 
   <!-- CHAT MESSAGES CONTAINER -->
-  <main class="chat-body" id="chatContainer"></main>
+  <main class="chat-body" id="chatContainer" onclick="closeOptionsMenu()"></main>
 
   <!-- BOTTOM INPUT BAR -->
   <footer class="chat-footer">
@@ -356,7 +469,7 @@
       databaseURL: "https://chatverse-5905d-default-rtdb.firebaseio.com",
       projectId: "chatverse-5905d",
       storageBucket: "chatverse-5905d.firebasestorage.app",
-      messagingSenderId: "692B37148566",
+      messagingSenderId: "692B37148565",
       appId: "1:592037148565:web:b4cee7044d055591ea89c",
       measurementId: "G-VXVCV8R5JP"
     };
@@ -365,19 +478,17 @@
     const db = getDatabase(app);
     const messagesRef = ref(db, "messages");
 
-    // Local Storage for User Info
-    let myUserId = localStorage.getItem("chatVerseUserId");
+    let myUserId = localStorage.getItem("nexZchatUserId");
     if (!myUserId) {
       myUserId = "user_" + Math.random().toString(36).substring(2, 9);
-      localStorage.setItem("chatVerseUserId", myUserId);
+      localStorage.setItem("nexZchatUserId", myUserId);
     }
 
-    let myName = localStorage.getItem("chatVerseUserName") || "";
-    let myPic = localStorage.getItem("chatVerseUserPic") || `https://api.dicebear.com/7.x/bottts/svg?seed=${myUserId}`;
+    let myName = localStorage.getItem("nexZchatUserName") || "";
+    let myPic = localStorage.getItem("nexZchatUserPic") || `https://api.dicebear.com/7.x/bottts/svg?seed=${myUserId}`;
 
     const chatContainer = document.getElementById("chatContainer");
 
-    // Show Profile Modal if Name not set
     if (!myName) {
       document.getElementById("profileModal").style.display = "flex";
     } else {
@@ -385,13 +496,56 @@
       document.getElementById("myHeaderPic").src = myPic;
     }
 
-    // Save Profile
+    /* DROPDOWN MENU HANDLERS */
+    window.toggleOptionsMenu = function(event) {
+      event.stopPropagation();
+      const menu = document.getElementById("optionsMenu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    window.closeOptionsMenu = function() {
+      document.getElementById("optionsMenu").style.display = "none";
+    }
+
+    window.createGroup = function() {
+      closeOptionsMenu();
+      alert("👥 Group Chat feature is coming soon!");
+    }
+
+    window.viewMedia = function() {
+      closeOptionsMenu();
+      alert("🖼️ Shared Media & Files gallery opening...");
+    }
+
+    window.clearChat = function() {
+      closeOptionsMenu();
+      if(confirm("Are you sure you want to clear your local view?")) {
+        chatContainer.innerHTML = "";
+      }
+    }
+
+    window.toggleTheme = function() {
+      closeOptionsMenu();
+      alert("🌙 Theme toggled!");
+    }
+
+    window.openSettings = function() {
+      closeOptionsMenu();
+      alert("⚙️ Settings opened!");
+    }
+
+    window.appInfo = function() {
+      closeOptionsMenu();
+      alert("ℹ️ NexZchat v2.0 - Powered by STZ IT COM");
+    }
+
+    /* PROFILE HANDLERS */
     window.saveProfile = function() {
       const nameInput = document.getElementById("userNameInput").value.trim();
       if (nameInput) {
         myName = nameInput;
-        localStorage.setItem("chatVerseUserName", myName);
-        localStorage.setItem("chatVerseUserPic", myPic);
+        localStorage.setItem("nexZchatUserName", myName);
+        localStorage.setItem("nexZchatUserPic", myPic);
         document.getElementById("myHeaderPic").src = myPic;
         document.getElementById("profileModal").style.display = "none";
       } else {
@@ -400,6 +554,7 @@
     }
 
     window.openProfileModal = function() {
+      closeOptionsMenu();
       document.getElementById("userNameInput").value = myName;
       document.getElementById("profileModal").style.display = "flex";
     }
@@ -415,7 +570,7 @@
       }
     }
 
-    // 1. Send Text Message
+    /* MESSAGING SYSTEM */
     window.sendMessage = function() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
@@ -432,14 +587,12 @@
       }
     }
 
-    // 2. Receive Realtime Messages
     onChildAdded(messagesRef, (snapshot) => {
       const data = snapshot.val();
       const messageType = data.senderId === myUserId ? "sent" : "received";
       appendMessage(data, messageType);
     });
 
-    // 3. Send Image
     window.sendImage = function(input) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -451,7 +604,6 @@
       }
     }
 
-    // 4. Send PDF
     window.sendPDF = function(input) {
       if (input.files && input.files[0]) {
         const file = input.files[0];
@@ -461,13 +613,12 @@
       }
     }
 
-    // 5. Voice Record
     let isRecording = false;
     window.toggleVoiceRecord = function() {
       const recBtn = document.getElementById("recordBtn");
       if (!isRecording) {
         isRecording = true;
-        recBtn.style.color = "red";
+        recBtn.style.color = "#ff4b4b";
         alert("🎤 Recording Started... Click again to stop and send.");
       } else {
         isRecording = false;
@@ -476,7 +627,6 @@
       }
     }
 
-    // 6. Share Location
     window.requestUserLocation = function() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -495,7 +645,6 @@
     window.startVoiceCall = () => alert("📞 Voice Call initiated!");
     window.startVideoCall = () => alert("📹 Video Call initiated!");
 
-    // Common Message Builder Helper
     function appendMessage(data, type) {
       const wrapper = document.createElement("div");
       wrapper.className = `msg-wrapper ${type}`;
