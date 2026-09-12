@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>NexZchat Community</title>
+  <title>NexZmine Community</title>
   <link rel="icon" href="favicon.png" type="image/png">
   
   <style>
@@ -24,6 +24,50 @@
       flex-direction: column;
     }
 
+    /* FACEBOOK STYLE SPLASH / LOADING SCREEN */
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #0b141a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .splash-logo {
+      width: 140px;
+      height: auto;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .splash-footer {
+      position: absolute;
+      bottom: 40px;
+      text-align: center;
+      color: #8696a0;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .splash-footer strong {
+      color: #00a884;
+      display: block;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
     /* PREMIUM HEADER */
     .chat-header {
       position: fixed;
@@ -36,7 +80,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 16px;
+      padding: 0 12px;
       z-index: 1000;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
@@ -44,12 +88,16 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 0px;
     }
 
-    .brand-logo {
-      width: 150px;
-      height: auto;
+    /* LOGO IN HEADER */
+    .brand-logo-img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      cursor: pointer;
+      display: block;
     }
 
     .call-actions {
@@ -373,10 +421,19 @@
 </head>
 <body>
 
+  <!-- FIRST-LOAD SPLASH SCREEN (LIKE FACEBOOK) -->
+  <div id="splashScreen">
+    <img src="./NexZminrr.jpg" alt="NexZmine Logo" class="splash-logo">
+    <div class="splash-footer">
+      from
+      <strong>sTz It Co</strong>
+    </div>
+  </div>
+
   <!-- PROFILE MODAL FOR FIRST TIME VISITORS -->
-  <div class="modal-overlay" id="profileModal">
+  <div class="modal-overlay" id="profileModal" style="display: none;">
     <div class="modal-box">
-      <h3>Setup NexZchat Profile</h3>
+      <h3>Setup Profile</h3>
       <img id="modalAvatarPreview" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="modal-avatar-preview">
       <br>
       <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 13px; font-weight: 500;">Change Profile Picture</label>
@@ -392,31 +449,12 @@
     <div class="header-left">
       <img id="myHeaderPic" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="my-header-avatar" onclick="openProfileModal()" title="Edit Profile">
       
-      <!-- NexZchat BRAND LOGO -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" class="brand-logo">
-        <defs>
-          <linearGradient id="nexzGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#00A884" />
-            <stop offset="100%" stop-color="#00F2FE" />
-          </linearGradient>
-          <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#FFFFFF" />
-            <stop offset="100%" stop-color="#DEE94B" />
-          </linearGradient>
-        </defs>
-        <g transform="translate(10, 10)">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="url(#nexzGradient)" stroke-width="4" stroke-dasharray="180 60" transform="rotate(-45 50 50)"/>
-          <path d="M 25 35 C 25 20, 75 20, 75 35 C 75 50, 55 50, 45 60 C 42 62, 38 65, 32 68 C 35 60, 25 52, 25 35 Z" fill="url(#nexzGradient)" />
-          <circle cx="40" cy="36" r="4" fill="#0B141A" />
-          <circle cx="50" cy="36" r="4" fill="#0B141A" />
-          <circle cx="60" cy="36" r="4" fill="#0B141A" />
-          <circle cx="85" cy="20" r="6" fill="#DEE94B" />
-        </g>
-        <text x="125" y="68" font-family="'Segoe UI', sans-serif" font-weight="800" font-size="42" fill="url(#textGrad)">NexZ<tspan fill="#00A884">chat</tspan></text>
-        <text x="128" y="90" font-family="'Segoe UI', sans-serif" font-weight="500" font-size="12" fill="#94A3B8" letter-spacing="3">CONNECT THE WORLD</text>
-      </svg>
-    </div>
-
+      <!-- LOGO IN HEADER -->
+       
+      <a href="./index.html">
+        <img src="./NexZminrr.jpg" alt="NexZmine Logo" class="brand-logo-img">
+      </a>
+    </div><b>NexZmine</b>
     <div class="call-actions">
       <button class="header-btn" onclick="startVoiceCall()" title="Voice Call">📞</button>
       <button class="header-btn" onclick="startVideoCall()" title="Video Call">📹</button>
@@ -435,7 +473,7 @@
         <button onclick="toggleTheme()">🌙 Switch Theme</button>
         <button onclick="openSettings()">⚙️ Settings</button>
         <div class="menu-divider"></div>
-        <button onclick="appInfo()">ℹ️ About NexZchat</button>
+        <button onclick="appInfo()">ℹ️ About NexZmine</button>
       </div>
     </div>
   </header>
@@ -457,6 +495,17 @@
     <input type="text" id="messageInput" class="chat-input" placeholder="Type a message..." autocomplete="off">
     <button class="send-btn" onclick="sendMessage()">➤</button>
   </footer>
+
+  <!-- SPLASH SCREEN HIDE SCRIPT -->
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const splash = document.getElementById("splashScreen");
+        splash.style.opacity = "0";
+        splash.style.visibility = "hidden";
+      }, 1500); // 1.5 seconds splash display
+    });
+  </script>
 
   <!-- FIREBASE MODULE -->
   <script type="module">
@@ -489,12 +538,13 @@
 
     const chatContainer = document.getElementById("chatContainer");
 
-    if (!myName) {
-      document.getElementById("profileModal").style.display = "flex";
-    } else {
-      document.getElementById("profileModal").style.display = "none";
-      document.getElementById("myHeaderPic").src = myPic;
-    }
+    setTimeout(() => {
+      if (!myName) {
+        document.getElementById("profileModal").style.display = "flex";
+      } else {
+        document.getElementById("myHeaderPic").src = myPic;
+      }
+    }, 1600);
 
     /* DROPDOWN MENU HANDLERS */
     window.toggleOptionsMenu = function(event) {
@@ -536,7 +586,7 @@
 
     window.appInfo = function() {
       closeOptionsMenu();
-      alert("ℹ️ NexZchat v2.0 - Powered by STZ IT COM");
+      alert("ℹ️ NexZmine v2.0 - Powered by sTz It Co");
     }
 
     /* PROFILE HANDLERS */
