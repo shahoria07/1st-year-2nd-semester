@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>NexZmine Community</title>
   <link rel="icon" href="favicon.png" type="image/png">
   
@@ -12,6 +12,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body, html {
@@ -24,48 +25,56 @@
       flex-direction: column;
     }
 
-    /* FACEBOOK STYLE SPLASH / LOADING SCREEN */
+    /* FACEBOOK STYLE SPLASH / LOADING SCREEN (MOBILE RESPONSIVE) */
     #splashScreen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background-color: #0b141a;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
+      padding: 60px 20px calc(30px + env(safe-area-inset-bottom)) 20px;
       z-index: 9999;
       transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
+    .splash-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .splash-logo {
-      width: 140px;
+      width: 110px;
+      max-width: 35vw;
       height: auto;
       animation: pulse 1.5s infinite ease-in-out;
     }
 
     .splash-footer {
-      position: absolute;
-      bottom: 40px;
       text-align: center;
       color: #8696a0;
-      font-size: 12px;
-      letter-spacing: 1px;
+      font-size: 13px;
+      letter-spacing: 0.8px;
     }
 
     .splash-footer strong {
       color: #00a884;
       display: block;
-      font-size: 14px;
-      margin-top: 2px;
+      font-size: 15px;
+      margin-top: 3px;
+      font-weight: 700;
     }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
+      0% { transform: scale(0.95); opacity: 0.85; }
       50% { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+      100% { transform: scale(0.95); opacity: 0.85; }
     }
 
     /* PREMIUM HEADER */
@@ -74,13 +83,14 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 65px;
+      height: 60px;
       background: #111b21;
       border-bottom: 1px solid #222d34;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 12px;
+      padding-top: env(safe-area-inset-top);
       z-index: 1000;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
@@ -88,65 +98,75 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 0px;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #e9edef;
     }
 
     /* LOGO IN HEADER */
     .brand-logo-img {
-      height: 42px;
+      height: 36px;
       width: auto;
       object-fit: contain;
-      cursor: pointer;
       display: block;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e9edef;
+      white-space: nowrap;
     }
 
     .call-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       position: relative;
     }
 
     .header-btn {
       background: #202c33;
-      border: 1px solid rgba(0, 168, 132, 0.4);
+      border: 1px solid rgba(0, 168, 132, 0.3);
       color: #00a884;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease-in-out;
     }
 
-    .header-btn:hover {
+    .header-btn:active {
       background: #00a884;
       color: white;
-      transform: scale(1.05);
-      border-color: #00a884;
+      transform: scale(0.95);
     }
 
     .my-header-avatar {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #00a884;
       cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .my-header-avatar:hover {
-      transform: scale(1.05);
+      flex-shrink: 0;
     }
 
     /* 3 LINE DROPDOWN MENU */
     .menu-dropdown {
       position: absolute;
-      top: 50px;
+      top: 45px;
       right: 0;
       background: #233138;
       border: 1px solid #2a3942;
@@ -154,7 +174,7 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.6);
       display: none;
       flex-direction: column;
-      width: 210px;
+      width: 190px;
       z-index: 2000;
       overflow: hidden;
       padding: 6px 0;
@@ -162,27 +182,26 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
+      from { opacity: 0; transform: translateY(-8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .menu-dropdown button, .menu-dropdown a {
-      padding: 11px 16px;
+      padding: 10px 14px;
       color: #e9edef;
       background: none;
       border: none;
       text-align: left;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       width: 100%;
-      transition: background 0.2s;
     }
 
-    .menu-dropdown button:hover, .menu-dropdown a:hover {
+    .menu-dropdown button:active, .menu-dropdown a:active {
       background: #182229;
       color: #00a884;
     }
@@ -196,23 +215,23 @@
     /* CHAT BODY */
     .chat-body {
       flex: 1;
-      margin-top: 65px;
-      margin-bottom: 70px;
-      padding: 16px;
+      margin-top: 60px;
+      margin-bottom: 62px;
+      padding: 12px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       background-image: radial-gradient(#1f2c34 1.2px, transparent 1.2px);
-      background-size: 18px 18px;
+      background-size: 16px 16px;
       -webkit-overflow-scrolling: touch;
     }
 
     /* MESSAGE BUBBLE */
     .msg-wrapper {
       display: flex;
-      gap: 10px;
-      max-width: 82%;
+      gap: 8px;
+      max-width: 86%;
     }
 
     .msg-wrapper.received {
@@ -225,8 +244,8 @@
     }
 
     .msg-avatar {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
@@ -235,13 +254,13 @@
     }
 
     .message {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 14px;
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 13.5px;
+      line-height: 1.4;
       word-wrap: break-word;
       position: relative;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
     .received .message {
@@ -257,10 +276,10 @@
     }
 
     .sender-name {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #00a884;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: block;
     }
 
@@ -272,7 +291,7 @@
     .chat-img {
       max-width: 100%;
       border-radius: 8px;
-      margin-top: 6px;
+      margin-top: 5px;
       border: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -282,6 +301,7 @@
       display: inline-block;
       margin-top: 4px;
       font-weight: 600;
+      font-size: 13px;
     }
 
     /* FOOTER CONTROL */
@@ -290,14 +310,14 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      min-height: 65px;
+      min-height: 60px;
       background: #111b21;
       border-top: 1px solid #222d34;
       display: flex;
       align-items: center;
-      padding: 8px 12px;
-      padding-bottom: calc(8px + env(safe-area-inset-bottom));
-      gap: 6px;
+      padding: 6px 8px;
+      padding-bottom: calc(6px + env(safe-area-inset-bottom));
+      gap: 4px;
       z-index: 1000;
     }
 
@@ -305,15 +325,10 @@
       background: none;
       border: none;
       color: #8696a0;
-      font-size: 19px;
+      font-size: 18px;
       cursor: pointer;
-      padding: 6px;
+      padding: 5px;
       flex-shrink: 0;
-      transition: color 0.2s;
-    }
-
-    .attach-btn:hover {
-      color: #00a884;
     }
 
     .chat-input {
@@ -323,30 +338,25 @@
       border: none;
       outline: none;
       color: #fff;
-      padding: 11px 16px;
-      border-radius: 22px;
-      font-size: 14px;
+      padding: 9px 14px;
+      border-radius: 20px;
+      font-size: 13.5px;
     }
 
     .send-btn {
       background: #00a884;
       border: none;
       color: white;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
-    }
-
-    .send-btn:hover {
-      background: #008f6f;
     }
 
     input[type="file"] {
@@ -366,64 +376,68 @@
       justify-content: center;
       align-items: center;
       z-index: 3000;
+      padding: 16px;
     }
 
     .modal-box {
       background: #111b21;
       border: 1px solid #222d34;
-      padding: 24px;
+      padding: 20px;
       border-radius: 16px;
-      width: 90%;
-      max-width: 360px;
+      width: 100%;
+      max-width: 320px;
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     }
 
     .modal-box h3 {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       color: #00a884;
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .modal-avatar-preview {
-      width: 85px;
-      height: 85px;
+      width: 75px;
+      height: 75px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 3px solid #00a884;
     }
 
     .modal-input {
       width: 100%;
-      padding: 12px;
+      padding: 10px 12px;
       background: #2a3942;
       border: none;
       color: #fff;
       border-radius: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       outline: none;
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .modal-save-btn {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       background: #00a884;
       border: none;
       color: white;
       font-weight: bold;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13.5px;
     }
   </style>
 </head>
 <body>
 
-  <!-- FIRST-LOAD SPLASH SCREEN (LIKE FACEBOOK) -->
+  <!-- FIRST-LOAD SPLASH SCREEN (RESPONSIVE FACEBOOK STYLE) -->
   <div id="splashScreen">
-    <img src="./NexZminrr.jpg" alt="NexZmine Logo" class="splash-logo">
+    <div></div> <!-- Empty top spacer -->
+    <div class="splash-center">
+      <img src="./NexZminrr.jpg" alt="NexZmine Logo" class="splash-logo">
+    </div>
     <div class="splash-footer">
       from
       <strong>sTz It Co</strong>
@@ -436,10 +450,10 @@
       <h3>Setup Profile</h3>
       <img id="modalAvatarPreview" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="modal-avatar-preview">
       <br>
-      <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 13px; font-weight: 500;">Change Profile Picture</label>
+      <label for="profileImgInput" style="color: #53bdeb; cursor: pointer; font-size: 12px; font-weight: 500;">Change Profile Picture</label>
       <input type="file" id="profileImgInput" accept="image/*" onchange="previewProfilePic(this)">
       
-      <input type="text" id="userNameInput" class="modal-input" placeholder="Enter your name..." style="margin-top: 15px;">
+      <input type="text" id="userNameInput" class="modal-input" placeholder="Enter your name..." style="margin-top: 12px;">
       <button class="modal-save-btn" onclick="saveProfile()">Start Chatting</button>
     </div>
   </div>
@@ -449,12 +463,13 @@
     <div class="header-left">
       <img id="myHeaderPic" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="my-header-avatar" onclick="openProfileModal()" title="Edit Profile">
       
-      <!-- LOGO IN HEADER -->
-       
-      <a href="./index.html">
+      <!-- LOGO & BRAND NAME PROPERLY ALIGNED -->
+      <a href="./index.html" class="brand-container">
         <img src="./NexZminrr.jpg" alt="NexZmine Logo" class="brand-logo-img">
+        <span class="brand-name">NexZmine</span>
       </a>
-    </div><b>NexZmine</b>
+    </div>
+
     <div class="call-actions">
       <button class="header-btn" onclick="startVoiceCall()" title="Voice Call">📞</button>
       <button class="header-btn" onclick="startVideoCall()" title="Video Call">📹</button>
@@ -503,7 +518,7 @@
         const splash = document.getElementById("splashScreen");
         splash.style.opacity = "0";
         splash.style.visibility = "hidden";
-      }, 1500); // 1.5 seconds splash display
+      }, 1500);
     });
   </script>
 
