@@ -25,37 +25,37 @@
       flex-direction: column;
     }
 
-    /* FACEBOOK STYLE SPLASH / LOADING SCREEN (MOBILE RESPONSIVE) */
-    #splashScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100dvh;
-      background-color: #0b141a;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 60px 20px calc(30px + env(safe-area-inset-bottom)) 20px;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
+   /* FACEBOOK STYLE SPLASH / LOADING SCREEN (MOBILE RESPONSIVE) */
+#splashScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background-color: #0b141a;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 20px calc(30px + env(safe-area-inset-bottom)) 20px;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
 
-    .splash-center {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.splash-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .splash-logo {
-      width: 110px;
-      max-width: 35vw;
-      height: auto;
-      animation: pulse 1.5s infinite ease-in-out;
-    }
-
+/* লোগোর সাইজ এখানে বাড়ানো হয়েছে */
+.splash-logo {
+  width: 180px; /* আগে ছিল 110px */
+  max-width: 55vw; /* আগে ছিল 35vw */
+  height: auto;
+  animation: pulse 1.5s infinite ease-in-out;
+}
     .splash-footer {
       text-align: center;
       color: #8696a0;
